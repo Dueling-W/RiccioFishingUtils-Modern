@@ -23,3 +23,4 @@
 
 ### Other:
 - Added a star to the health bar whenever the mob is shurikened
+- Made party finder join requests more noticeable

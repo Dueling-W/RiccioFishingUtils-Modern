@@ -192,19 +192,32 @@ object Party : RegisteredEvent {
     }
 
     fun promptInvite(username: String) {
-        val text = TextUtils.rfupfLiteral(
-            "$username ${TextColor.GOLD}would like to join your party ", TextStyle(
+        val text = Component.literal("${TextColor.CYAN}${TextEffects.STRIKE}-----------------------------------------------------\n")
+        text.append(
+            TextUtils.rfupfLiteral(
+            "$username ${TextColor.GOLD}would like to join your party!", TextStyle(
                 TextColor.YELLOW,
                 TextEffects.BOLD
+                )
             )
         )
         text.append(
-            Component.literal("§a[Accept]")
+            Component.literal("\n${TextColor.LIGHT_GREEN}${TextEffects.BOLD}          [Accept]")
                 .setStyle(
                     Style.EMPTY
                         .withClickEvent(ClickEvent.RunCommand("party $username"))
                         .withHoverEvent(HoverEvent.ShowText(Component.literal("/party $username")))
                 )
+        )
+        text.append(
+            Component.literal("${TextColor.LIGHT_RED}${TextEffects.BOLD} [Deny]")
+                .setStyle(
+                    Style.EMPTY
+                        .withHoverEvent(HoverEvent.ShowText(Component.literal("This does nothing :dog:")))
+                )
+        )
+        text.append(
+            Component.literal("\n${TextColor.CYAN}${TextEffects.STRIKE}-----------------------------------------------------")
         )
         Chat.sendMessage(text as Component)
     }
