@@ -14,7 +14,7 @@ import cloud.glitchdev.rfu.utils.World
 
 @RFUFeature
 object CakeExpiredAlert : Feature {
-    val CAKE_EATEN_REGEX = """(?:Big )?Yum! You (?:gain|refresh) (.+) for 48 hours!""".toRegex()
+    val CAKE_EATEN_REGEX = """(?:Big )?Yum! You (?:gain|refresh) \+\d+. (.+) for 48 hours!""".toRegex()
     private val lastOutdated : HashSet<CakesEntry.Cake> = hashSetOf()
 
     override fun onInitialize() {
