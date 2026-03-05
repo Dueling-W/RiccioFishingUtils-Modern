@@ -108,6 +108,7 @@ object MobManager : RegisteredEvent {
 
             val candidates = world.getEntities(nametag, searchBox) { candidate ->
                 if (candidate !is LivingEntity || candidate is ArmorStand) return@getEntities false
+                if (candidate.type != sbEntity.modelEntity.type) return@getEntities false
                 if (candidate is Player && getPlayerNames().contains(candidate.name.toUnformattedString())) return@getEntities false
 
                 val existingLink = sbEntities[candidate.id]
