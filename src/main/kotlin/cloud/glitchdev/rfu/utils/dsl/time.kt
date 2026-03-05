@@ -20,13 +20,20 @@ fun kotlin.time.Instant.toFormattedDate() : String {
     return this.toJavaInstant().toFormattedDate()
 }
 
-fun Duration.toReadableString(): String {
-    return toComponents { days, hours, minutes, seconds, _ ->
+fun Duration.toReadableString(ms: Boolean = false): String {
+    return toComponents { days, hours, minutes, seconds, nanoseconds ->
         buildString {
             if (days > 0) append("${days}d ")
             if (hours > 0) append("${hours}h ")
             if (minutes > 0) append("${minutes}m ")
-            if (seconds > 0 || isEmpty()) append("${seconds}s")
+            if (seconds > 0 || isEmpty()) {
+                if (!ms || minutes > 1) {
+                    append("${seconds}s")
+                } else {
+                    val centiseconds = (nanoseconds / 10_000_000).toString().padStart(2, '0')
+                    append("$seconds.${centiseconds}s")
+                }
+            }
         }.trim()
     }
 }

@@ -37,6 +37,11 @@ object GeneralFishing : Category("General Fishing") {
         description = Literal("Sends an alert whenever a rare SC is found.")
     }
 
+    var timeToKill by boolean(true) {
+        name = Literal("Time to kill")
+        description = Literal("Sends a message after killing a rare Sea Creature saying how long it took.")
+    }
+
     var rarePartyMessages by observable(boolean(false) {
         name = Literal("Party SC messages")
         description = Literal("Sends a party message whenever you catch a rare sea creature.")
