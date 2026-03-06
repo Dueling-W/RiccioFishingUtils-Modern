@@ -5,6 +5,7 @@ import cloud.glitchdev.rfu.events.AutoRegister
 import cloud.glitchdev.rfu.events.RegisteredEvent
 import cloud.glitchdev.rfu.events.managers.ChatEvents.registerGameEvent
 import cloud.glitchdev.rfu.utils.dsl.toExactRegex
+import gg.essential.universal.utils.toUnformattedString
 import net.minecraft.core.component.DataComponents
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EquipmentSlot
@@ -19,6 +20,7 @@ object DeployableManager : RegisteredEvent {
         private set
     var activeFlareType: FlareType = FlareType.NONE
         private set
+    var activeUmberellaTime : Long? = null
 
     enum class FlareType(val bonus: String, val texture: String) {
         SOS("+125%", "ewogICJ0aW1lc3RhbXAiIDogMTY2MjY4Mjc3NjUxNiwKICAicHJvZmlsZUlkIiA6ICI4YjgyM2E1YmU0Njk0YjhiOTE0NmE5MWRhMjk4ZTViNSIsCiAgInByb2ZpbGVOYW1lIiA6ICJTZXBoaXRpcyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9jMDA2MmNjOThlYmRhNzJhNmE0Yjg5NzgzYWRjZWYyODE1YjQ4M2EwMWQ3M2VhODdiM2RmNzYwNzJhODlkMTNiIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="),
@@ -26,6 +28,9 @@ object DeployableManager : RegisteredEvent {
         UNDEFINED("", ""),
         NONE("", "")
     }
+
+    private val umberellaRegex = """Umberella (\d+)s""".toRegex()
+    private val seenUmberellas = HashSet<Int>()
 
     override fun register() {
         registerJoinEvent {
@@ -37,7 +42,16 @@ object DeployableManager : RegisteredEvent {
         }
     }
 
-    fun checkEntity(entity: Entity): Boolean {
+    fun checkUmberella(entity : ArmorStand) : Long? {
+        if(seenUmberellas.contains(entity.id)) return null
+        if (!entity.hasCustomName()) return null
+        val name = entity.name.toUnformattedString()
+        val result = umberellaRegex.find(name) ?: return null
+        val time = result.groupValues.getOrNull(1)?.toLongOrNull() ?: return null
+        return time
+    }
+
+    fun checkFlare(entity: Entity): Boolean {
         if(entity !is ArmorStand) {
             if(entity is FireworkRocketEntity) {
                 activeFlareType = FlareType.UNDEFINED
@@ -73,5 +87,10 @@ object DeployableManager : RegisteredEvent {
         seenFlares.clear()
         activeFlareEndTime = null
         activeFlareType = FlareType.NONE
+    }
+
+    fun resetUmberella() {
+        seenUmberellas.clear()
+        activeUmberellaTime = null
     }
 }

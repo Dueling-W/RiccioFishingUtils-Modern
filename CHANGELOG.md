@@ -13,6 +13,7 @@
 - Added /wc command to re-send messages on different chats
 - Added time to kill rare sea creatures
 - Added an alert whenever someone dies to jawbus
+- Added an Umberella Timer / Expired Alert
 
 ### Fixes:
 - Made flare alert not proc when a firework is active

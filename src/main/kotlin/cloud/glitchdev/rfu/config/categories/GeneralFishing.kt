@@ -235,6 +235,16 @@ object GeneralFishing : Category("General Fishing") {
         description = Literal("Sends an alert in your screen when the flare expires.")
     }
 
+    var umberellaTimerDisplay by boolean(true) {
+        name = Literal("Umberella Timer")
+        description = Literal("Enables the umberella Timer display")
+    }
+
+    var umberellaAlert by boolean(true) {
+        name = Literal("Expiration Alert")
+        description = Literal("Sends an alert in your screen when the umberella expires.")
+    }
+
     init {
         dualSeparator {
             title = "Double Hook"
