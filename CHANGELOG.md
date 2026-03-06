@@ -1,4 +1,4 @@
-# v1.4.0 - ???
+# v1.4.0 - Catch & Clarity
 
 ### Features:
 - Added Fishing Xp/h display (works like Sc/h but tracks fishing XP gained per hour from the action bar)
