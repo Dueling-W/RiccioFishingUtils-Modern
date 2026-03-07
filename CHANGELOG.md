@@ -12,6 +12,7 @@
 - Moved Rare Sea Creatures settings to its own category  
 
 ### Fixes:
+- Fixed jawbus hard mode not saving before the funny
 
 ### Back-end:
 - DeployableManager now owns its own scanning behind a generic `DeployableType` interface
