@@ -29,7 +29,7 @@ object RareScSettings : Category("Rare SCs") {
         reloadScreen()
     }
 
-    var rareScSound by observable(boolean(false) {
+    var rareScSound by observable(boolean(true) {
         name = Literal("Rare Sc Sound")
         description = Literal("Plays a sound whenever a rare SC is found.")
         condition = { detectionAlert }

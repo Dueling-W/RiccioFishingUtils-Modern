@@ -175,7 +175,7 @@ object GeneralFishing : Category("General Fishing") {
         condition = { deployableDisplay }
     }
 
-    var deployableExpiredSound by observable(boolean(false) {
+    var deployableExpiredSound by observable(boolean(true) {
         name = Literal("Expired Sound")
         description = Literal("Plays a sound whenever a deployable expires.")
         condition = { detectionAlert }
