@@ -6,6 +6,7 @@ import cloud.glitchdev.rfu.config.categories.DevSettings
 import cloud.glitchdev.rfu.config.categories.GeneralFishing
 import cloud.glitchdev.rfu.config.categories.LavaFishing
 import cloud.glitchdev.rfu.config.categories.OtherSettings
+import cloud.glitchdev.rfu.config.categories.RareScSettings
 import cloud.glitchdev.rfu.config.migration.ConfigMigration
 import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.network.VersionHttp.isOutdated
@@ -110,6 +111,7 @@ object RFUSettings : ConfigKt("rfu/settings") {
         }
 
         category(GeneralFishing)
+        category(RareScSettings)
         category(LavaFishing)
         category(OtherSettings)
         category(BackendSettings)

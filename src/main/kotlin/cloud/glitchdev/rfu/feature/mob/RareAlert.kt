@@ -1,7 +1,7 @@
 package cloud.glitchdev.rfu.feature.mob
 
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
-import cloud.glitchdev.rfu.config.categories.GeneralFishing.RARE_SC_REGEX
+import cloud.glitchdev.rfu.config.categories.RareScSettings
+import cloud.glitchdev.rfu.config.categories.RareScSettings.RARE_SC_REGEX
 import cloud.glitchdev.rfu.events.managers.MobEvents.registerMobDetectEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
@@ -14,7 +14,7 @@ object RareAlert : Feature {
 
     override fun onInitialize() {
         registerMobDetectEvent { entities ->
-            if(!GeneralFishing.detectionAlert) return@registerMobDetectEvent
+            if(!RareScSettings.detectionAlert) return@registerMobDetectEvent
             val entities = entities.filter { RARE_SC_REGEX.matches(it.sbName) }.toSet()
             val newEntities = entities.minus(lastEntities)
             lastEntities = entities

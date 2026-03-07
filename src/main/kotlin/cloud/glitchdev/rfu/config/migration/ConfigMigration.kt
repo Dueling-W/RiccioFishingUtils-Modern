@@ -69,6 +69,17 @@ object ConfigMigration {
             if (umberellaAlert?.asBoolean == true) arr.add("UMBERELLA")
             cat.add("deployableAlertTypes", arr)
         }
+
+        val newCat = getOrCreateCategory(json, "Rare SCs")
+        val rareScKeys = listOf(
+            "rareSC", "lootshareRange", "detectionAlert", "timeToKill",
+            "rarePartyMessages", "rarePartyMessage", "dhText",
+            "bossHealthBars", "healthBarMobs", "boostPollingRate", "coloredShurikenBar"
+        )
+        rareScKeys.forEach { key ->
+            val value = deleteKey(json, "General Fishing", key)
+            if (value != null && !newCat.has(key)) newCat.add(key, value)
+        }
     }
 
     private fun deleteKey(json: JsonObject, category: String, key: String): JsonElement? {
@@ -80,6 +91,10 @@ object ConfigMigration {
 
     private fun getCategory(json: JsonObject, name: String): JsonObject? {
         return json[name]?.asJsonObject
+    }
+
+    private fun getOrCreateCategory(json: JsonObject, name: String): JsonObject {
+        return json[name]?.asJsonObject ?: JsonObject().also { json.add(name, it) }
     }
 
     private fun stripJsoncComments(text: String): String {

@@ -1,7 +1,7 @@
 package cloud.glitchdev.rfu.feature.fishing
 
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
-import cloud.glitchdev.rfu.config.categories.GeneralFishing.RARE_SC_REGEX
+import cloud.glitchdev.rfu.config.categories.RareScSettings
+import cloud.glitchdev.rfu.config.categories.RareScSettings.RARE_SC_REGEX
 import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
@@ -14,7 +14,7 @@ import kotlin.time.Clock
 object RareScPartyMessage : Feature {
     override fun onInitialize() {
         registerSeaCreatureCatchEvent(-10) { seaCreature, isDoubleHook ->
-            if(!GeneralFishing.rarePartyMessages) return@registerSeaCreatureCatchEvent
+            if(!RareScSettings.rarePartyMessages) return@registerSeaCreatureCatchEvent
 
             if(RARE_SC_REGEX.matches(seaCreature.scName)) {
                 val history = CatchTracker.catchHistory.getOrAdd(seaCreature)
@@ -24,12 +24,12 @@ object RareScPartyMessage : Feature {
                     "First Catch!"
                 }
 
-                val messageString = GeneralFishing.rarePartyMessage
+                val messageString = RareScSettings.rarePartyMessage
                     .replace("{name}", seaCreature.scName)
                     .replace("{total}", (history.total).toString())
                     .replace("{count}", (history.count + 1).toString())
                     .replace("{time}", timeSinceLast)
-                    .replace("{dh}", if(isDoubleHook) GeneralFishing.dhText else "")
+                    .replace("{dh}", if(isDoubleHook) RareScSettings.dhText else "")
 
                 Chat.sendPartyMessage(messageString)
             }

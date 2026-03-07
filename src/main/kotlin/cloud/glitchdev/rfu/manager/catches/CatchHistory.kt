@@ -1,6 +1,6 @@
 package cloud.glitchdev.rfu.manager.catches
 
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
+import cloud.glitchdev.rfu.config.categories.RareScSettings
 import cloud.glitchdev.rfu.constants.SeaCreatures
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -45,7 +45,7 @@ class CatchHistory {
             }
         }
 
-        if(GeneralFishing.rareSC.contains(sc)) {
+        if(RareScSettings.rareSC.contains(sc)) {
             currentRecord.history.add(currentRecord.count)
         }
         currentRecord.time = Clock.System.now()

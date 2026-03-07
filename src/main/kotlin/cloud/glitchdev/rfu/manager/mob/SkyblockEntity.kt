@@ -1,7 +1,7 @@
 package cloud.glitchdev.rfu.manager.mob
 
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
-import cloud.glitchdev.rfu.config.categories.GeneralFishing.RARE_SC_REGEX
+import cloud.glitchdev.rfu.config.categories.RareScSettings
+import cloud.glitchdev.rfu.config.categories.RareScSettings.RARE_SC_REGEX
 import cloud.glitchdev.rfu.events.managers.RenderEvents
 import cloud.glitchdev.rfu.events.managers.RenderEvents.registerRenderEvent
 import cloud.glitchdev.rfu.utils.RFULogger
@@ -69,7 +69,7 @@ class SkyblockEntity(
 
     fun registerLsRange() {
         registerRenderer { context, entity ->
-            if (GeneralFishing.lootshareRange && RARE_SC_REGEX.matches(sbName)) {
+            if (RareScSettings.lootshareRange && RARE_SC_REGEX.matches(sbName)) {
                 renderSphereOnMob(entity, 30f, Color.WHITE, false, context)
             }
         }

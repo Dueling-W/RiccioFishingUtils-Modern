@@ -1,6 +1,6 @@
 package cloud.glitchdev.rfu.gui.hud.elements.bossbar
 
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
+import cloud.glitchdev.rfu.config.categories.RareScSettings
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.manager.mob.SkyblockEntity
 import cloud.glitchdev.rfu.utils.dsl.parseHealthValue
@@ -46,7 +46,7 @@ class BossHealthBar(
         val isShurikened = entity?.isShurikened ?: false
         val healthPercentage = health.parseHealthValue().toFloat() / maxHealth.parseHealthValue().toFloat() * 100
         val themeColor = when {
-            isShurikened && GeneralFishing.coloredShurikenBar -> UIScheme.barShuriken
+            isShurikened && RareScSettings.coloredShurikenBar -> UIScheme.barShuriken
             healthPercentage > 50 -> UIScheme.barHighHP
             healthPercentage > 25 -> UIScheme.barMediumHP
             healthPercentage > 0 -> UIScheme.barLowHP
