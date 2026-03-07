@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu
 
 import cloud.glitchdev.rfu.config.RFUSettings
 import cloud.glitchdev.rfu.config.categories.DevSettings
+import cloud.glitchdev.rfu.config.migration.ConfigMigration
 import net.fabricmc.api.ClientModInitializer
 import net.minecraft.client.Minecraft
 import cloud.glitchdev.rfu.generated.RFULoader
@@ -23,6 +24,11 @@ object RiccioFishingUtils : ClientModInitializer {
 
     val mc: Minecraft = Minecraft.getInstance()
     val configurator = Configurator(MOD_ID)
+
+    init {
+        ConfigMigration.runMigrations(CONFIG_DIR.resolve("rfu/settings.jsonc"))
+    }
+
     val settings = RFUSettings.register(configurator)
 
     override fun onInitializeClient() {

@@ -6,6 +6,7 @@ import cloud.glitchdev.rfu.config.categories.DevSettings
 import cloud.glitchdev.rfu.config.categories.GeneralFishing
 import cloud.glitchdev.rfu.config.categories.LavaFishing
 import cloud.glitchdev.rfu.config.categories.OtherSettings
+import cloud.glitchdev.rfu.config.migration.ConfigMigration
 import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.network.VersionHttp.isOutdated
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
@@ -113,5 +114,11 @@ object RFUSettings : ConfigKt("rfu/settings") {
         category(OtherSettings)
         category(BackendSettings)
         category(DevSettings)
+    }
+
+    var rfuConfigVersion by int(ConfigMigration.CURRENT_VERSION) {
+        name = Literal("Config Version")
+        description = Literal("Internal version used for config migrations.")
+        condition = { false }
     }
 }

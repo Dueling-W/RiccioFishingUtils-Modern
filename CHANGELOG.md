@@ -4,10 +4,11 @@
 
 ### Changes:
 - Merged Flare Timer and Umberella Timer into a single unified Deployables HUD with a per-type toggle; 
-
+  
 ### Fixes:
 
 ### Back-end:
 - DeployableManager now owns its own scanning behind a generic `DeployableType` interface
+- Added settings migration manager that is able to migrate settings upon updates.
 
 ### Other:
