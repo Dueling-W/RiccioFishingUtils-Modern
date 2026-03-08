@@ -10,6 +10,7 @@ class DropHistory {
 
     fun getOrAdd(drop : RareDrops): DropEntry {
         // Gson bypasses Kotlin null-safety and can insert nulls into non-nullable lists
+        @Suppress("SENSELESS_COMPARISON")
         if (drops == null) drops = mutableListOf()
         @Suppress("UNCHECKED_CAST")
         drops = (drops as MutableList<DropEntry?>).filterNotNull().toMutableList()
@@ -37,6 +38,7 @@ class DropHistory {
 
     fun getOrAdd(drop : Dyes): DyeDropEntry {
         // dyeDrops can be null when loaded from an old save by Gson
+        @Suppress("SENSELESS_COMPARISON")
         if (dyeDrops == null) dyeDrops = mutableListOf()
         // Gson bypasses Kotlin null-safety and can insert nulls into non-nullable lists
         @Suppress("UNCHECKED_CAST")
@@ -54,6 +56,7 @@ class DropHistory {
     }
 
     fun registerDrop(drop : Dyes, magicFind: Int? = null) {
+        @Suppress("SENSELESS_COMPARISON")
         if (dyeDrops == null) dyeDrops = mutableListOf()
         val dropEntry = getOrAdd(drop)
 
