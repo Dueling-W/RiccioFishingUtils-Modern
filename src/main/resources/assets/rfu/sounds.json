@@ -41,5 +41,15 @@
         "pitch": 0.5
       }
     ]
+  },
+  "achievement": {
+    "category": "player",
+    "subtitle": "Achievement Won",
+    "sounds": [
+      {
+        "name": "ui.toast.challenge_complete",
+        "type": "event"
+      }
+    ]
   }
 }

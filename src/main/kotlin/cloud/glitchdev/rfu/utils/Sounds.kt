@@ -17,6 +17,7 @@ object Sounds : InstantRegisteredEvent {
         registerSound("death")
         registerSound("deployable_expired")
         registerSound("failed_cast")
+        registerSound("achievement")
     }
 
     fun playSound(id: String, pitch: Float = 1f, volume: Float = 1f) {
