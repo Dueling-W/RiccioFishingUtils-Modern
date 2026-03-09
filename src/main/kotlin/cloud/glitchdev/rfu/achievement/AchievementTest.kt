@@ -2,8 +2,10 @@ package cloud.glitchdev.rfu.achievement
 
 import cloud.glitchdev.rfu.achievement.types.StageAchievement
 import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
+import cloud.glitchdev.rfu.gui.window.AchievementWindow
 import cloud.glitchdev.rfu.utils.command.AbstractCommand
 import cloud.glitchdev.rfu.utils.command.Command
+import cloud.glitchdev.rfu.utils.gui.Gui
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
@@ -48,6 +50,30 @@ object StageTestAchievement : StageAchievement() {
 }
 
 @Achievement
+object FishingTestAchievement : BaseAchievement() {
+    override val id = "test_fishing"
+    override val name = "Novice Fisherman"
+    override val description = "Testing fishing category display."
+    override val type = AchievementType.NORMAL
+    override val difficulty = AchievementDifficulty.EASY
+    override val category = AchievementCategory.FISHING
+
+    override fun setupListeners() {}
+}
+
+@Achievement
+object CombatTestAchievement : BaseAchievement() {
+    override val id = "test_combat"
+    override val name = "Warrior Spirit"
+    override val description = "Testing combat category display."
+    override val type = AchievementType.SECRET
+    override val difficulty = AchievementDifficulty.HARD
+    override val category = AchievementCategory.COMBAT
+
+    override fun setupListeners() {}
+}
+
+@Achievement
 object CollectionAchievement : BaseAchievement() {
     override val id = "collection_explorer"
     override val name = "Marine Biologist"
@@ -58,6 +84,9 @@ object CollectionAchievement : BaseAchievement() {
 
     private val caughtSeaCreatures = mutableSetOf<String>()
     private val targetCount = 5
+
+    override val currentProgress: Int get() = caughtSeaCreatures.size
+    override val targetProgress: Int get() = targetCount
 
     override fun setupListeners() {
         activeListeners.add(registerSeaCreatureCatchEvent { sc, _ ->
@@ -92,6 +121,23 @@ object CollectionAchievement : BaseAchievement() {
     }
 }
 
+@Achievement
+object CounterTestAchievement : cloud.glitchdev.rfu.achievement.types.NumericAchievement() {
+    override val id = "test_counter"
+    override val name = "Fish Counter"
+    override val description = "Catch 10 fish to test numeric progression."
+    override val type = AchievementType.NORMAL
+    override val difficulty = AchievementDifficulty.EASY
+    override val category = AchievementCategory.FISHING
+    override val targetCount = 10
+
+    override fun setupListeners() {}
+    
+    fun add() {
+        addProgress(1)
+    }
+}
+
 @Command
 object AchievementTestCommand : AbstractCommand("rfutest") {
     override val description = "Commands for testing the achievement system"
@@ -100,12 +146,19 @@ object AchievementTestCommand : AbstractCommand("rfutest") {
         builder.then(
             lit("achievements")
                 .then(
+                    lit("open")
+                        .executes { _ ->
+                            Gui.openGui(AchievementWindow)
+                            1
+                        }
+                )
+                .then(
                     lit("list")
                         .executes { context ->
                             val achievements = AchievementProvider.getVisibleAchievements()
                             context.source.sendFeedback(Component.literal("§6--- Registered Achievements ---"))
                             achievements.forEach { ach ->
-                                val status = if (ach.isCompleted) "§a[COMPLETED]" else "§e[PROGRESS: ${(ach.progress * 100).toInt()}%]"
+                                val status = if (ach.isCompleted) "§a[COMPLETED]" else "§e[PROGRESS: ${ach.currentProgress}/${ach.targetProgress} (${(ach.progress * 100).toInt()}%)]"
                                 context.source.sendFeedback(Component.literal("§7- §f${ach.name} §7(${ach.id}) $status §8| Difficulty: ${ach.difficulty} §8| Category: ${ach.category}"))
                             }
                             1
@@ -124,6 +177,14 @@ object AchievementTestCommand : AbstractCommand("rfutest") {
                         .executes { context ->
                             StageTestAchievement.progress()
                             context.source.sendFeedback(Component.literal("§aProgressed Stage achievement! Current stage: ${StageTestAchievement.currentStage}/${StageTestAchievement.targetStage}"))
+                            1
+                        }
+                )
+                .then(
+                    lit("progress_counter")
+                        .executes { context ->
+                            CounterTestAchievement.add()
+                            context.source.sendFeedback(Component.literal("§aProgressed Counter achievement! Progress: ${CounterTestAchievement.currentProgress}/${CounterTestAchievement.targetCount}"))
                             1
                         }
                 )

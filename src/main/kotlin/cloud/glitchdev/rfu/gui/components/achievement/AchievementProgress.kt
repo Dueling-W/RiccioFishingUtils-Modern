@@ -3,7 +3,6 @@ package cloud.glitchdev.rfu.gui.components.achievement
 import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
 import cloud.glitchdev.rfu.gui.UIScheme
-import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIText
@@ -21,7 +20,7 @@ import java.awt.Color
 
 class AchievementProgress(
     val achievement: IAchievement
-) : UIComponent() {
+) : UIContainer() {
     init {
         val textContainer = UIContainer().constrain {
             x = CenterConstraint()

@@ -39,6 +39,10 @@ object AchievementWindow : BaseWindow() {
         }
     }
 
+    override fun onOpenWindow() {
+        refreshAchievements()
+    }
+
     fun create() {
         val background = UIRoundedRectangle(5f).constrain {
             x = CenterConstraint()

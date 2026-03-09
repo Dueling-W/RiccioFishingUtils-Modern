@@ -15,6 +15,7 @@ abstract class BaseWindow(drawDefaultBackground : Boolean = false) : WindowScree
     }
 
     open fun onWindowClose() {}
+    open fun onOpenWindow() {}
 
     fun closeScreen() {
         mc.schedule {
