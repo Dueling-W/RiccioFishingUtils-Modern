@@ -1,8 +1,10 @@
 package cloud.glitchdev.rfu.achievement
 
 import cloud.glitchdev.rfu.achievement.types.StageAchievement
+import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
 import cloud.glitchdev.rfu.utils.command.AbstractCommand
 import cloud.glitchdev.rfu.utils.command.Command
+import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.network.chat.Component
@@ -14,6 +16,7 @@ object StandaloneTestAchievement : BaseAchievement() {
     override val description = "A simple achievement for testing purposes."
     override val type = AchievementType.NORMAL
     override val difficulty = AchievementDifficulty.EASY
+    override val category = AchievementCategory.GENERAL
 
     override fun setupListeners() {
         // In a real scenario, you'd register an event listener here
@@ -32,6 +35,7 @@ object StageTestAchievement : StageAchievement() {
     override val description = "Complete all 3 stages to earn this achievement."
     override val type = AchievementType.NORMAL
     override val difficulty = AchievementDifficulty.MEDIUM
+    override val category = AchievementCategory.GENERAL
     override val targetStage = 3
 
     override fun setupListeners() {
@@ -40,6 +44,51 @@ object StageTestAchievement : StageAchievement() {
     
     fun progress() {
         advanceStage()
+    }
+}
+
+@Achievement
+object CollectionAchievement : BaseAchievement() {
+    override val id = "collection_explorer"
+    override val name = "Marine Biologist"
+    override val description = "Catch 5 unique sea creatures."
+    override val type = AchievementType.NORMAL
+    override val difficulty = AchievementDifficulty.MEDIUM
+    override val category = AchievementCategory.COLLECTION
+
+    private val caughtSeaCreatures = mutableSetOf<String>()
+    private val targetCount = 5
+
+    override fun setupListeners() {
+        activeListeners.add(registerSeaCreatureCatchEvent { sc, _ ->
+            if (caughtSeaCreatures.add(sc.name)) {
+                updateProgress()
+            }
+        })
+    }
+
+    private fun updateProgress() {
+        _progress = caughtSeaCreatures.size.toFloat() / targetCount.toFloat()
+        if (caughtSeaCreatures.size >= targetCount) {
+            complete()
+        }
+    }
+
+    override fun loadState(progressData: Map<String, Any>) {
+        super.loadState(progressData)
+        val savedCatches = progressData["caughtIds"] as? List<*>
+        savedCatches?.forEach { id ->
+            if (id is String) {
+                caughtSeaCreatures.add(id)
+            }
+        }
+        updateProgress()
+    }
+
+    override fun saveState(): Map<String, Any> {
+        val state = super.saveState().toMutableMap()
+        state["caughtIds"] = caughtSeaCreatures.toList()
+        return state
     }
 }
 
@@ -57,7 +106,7 @@ object AchievementTestCommand : AbstractCommand("rfutest") {
                             context.source.sendFeedback(Component.literal("§6--- Registered Achievements ---"))
                             achievements.forEach { ach ->
                                 val status = if (ach.isCompleted) "§a[COMPLETED]" else "§e[PROGRESS: ${(ach.progress * 100).toInt()}%]"
-                                context.source.sendFeedback(Component.literal("§7- §f${ach.name} §7(${ach.id}) $status §8| Difficulty: ${ach.difficulty}"))
+                                context.source.sendFeedback(Component.literal("§7- §f${ach.name} §7(${ach.id}) $status §8| Difficulty: ${ach.difficulty} §8| Category: ${ach.category}"))
                             }
                             1
                         }
@@ -77,6 +126,23 @@ object AchievementTestCommand : AbstractCommand("rfutest") {
                             context.source.sendFeedback(Component.literal("§aProgressed Stage achievement! Current stage: ${StageTestAchievement.currentStage}/${StageTestAchievement.targetStage}"))
                             1
                         }
+                )
+                .then(
+                    lit("trigger_catch")
+                        .then(
+                            arg("sc_index", IntegerArgumentType.integer())
+                                .executes { context ->
+                                    val index = IntegerArgumentType.getInteger(context, "sc_index")
+                                    val sc = cloud.glitchdev.rfu.constants.SeaCreatures.entries.getOrNull(index)
+                                    if (sc != null) {
+                                        cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.runTasks(sc, false)
+                                        context.source.sendFeedback(Component.literal("§aTriggered catch for ${sc.scName}!"))
+                                    } else {
+                                        context.source.sendFeedback(Component.literal("§cInvalid sea creature index!"))
+                                    }
+                                    1
+                                }
+                        )
                 )
                 .then(
                     lit("save")

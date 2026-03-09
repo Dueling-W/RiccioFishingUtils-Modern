@@ -6,6 +6,7 @@ interface IAchievement {
     val description: String
     val type: AchievementType
     val difficulty: AchievementDifficulty
+    val category: AchievementCategory
     val isCompleted: Boolean
     val progress: Float // 0.0 to 1.0
 }
