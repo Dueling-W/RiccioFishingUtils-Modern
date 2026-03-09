@@ -22,6 +22,12 @@ class FeatureProcessor(
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val specs = listOf(
             GeneratorSpec(
+                annotation = "cloud.glitchdev.rfu.achievement.Achievement",
+                loaderFuncName = "registerAchievements",
+                methodToCall = "init",
+                requiredSuperType = "cloud.glitchdev.rfu.achievement.BaseAchievement"
+            ),
+            GeneratorSpec(
                 annotation = "cloud.glitchdev.rfu.feature.RFUFeature",
                 loaderFuncName = "loadFeatures",
                 methodToCall = "onInitialize",

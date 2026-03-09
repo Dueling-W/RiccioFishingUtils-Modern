@@ -13,16 +13,56 @@ client-side mod built using Fabric and Kotlin.
 * **Libraries:**
     * **UniversalCraft / Elementa:** For UI/rendering (EssentialGG libs).
     * **ResourcefulConfig:** For configuration management.
-    * **KSP (Kotlin Symbol Processing):** Used for code generation (likely for feature auto-discovery).
+    * **KSP (Kotlin Symbol Processing):** Used for code generation for feature, event, HUD, command, and achievement auto-discovery.
 
 ## Project Structure
 
 * `src/main`: Shared source code.
+* `src/main/kotlin/cloud/glitchdev/rfu/achievement`: Achievement system core.
+* `src/main/kotlin/cloud/glitchdev/rfu/data`: Data models and persistence.
 * `versions/`: Version-specific overrides/configurations managed by Stonecutter.
 * `processor/`: KSP processor module.
 * `build.gradle.kts`: Main build script.
 
 ## Coding Conventions & Architecture
+
+### Achievements
+
+The mod features a robust achievement system with automatic registration and persistence.
+
+* **Base Class:** Implement `BaseAchievement`, `NumericAchievement` (for counting), or `StageAchievement` (for multi-step tasks).
+* **Annotation:** Annotate the class/object with `@Achievement`.
+* **Required Fields:** `id`, `name`, `description`, `type` (NORMAL, SECRET, HIDDEN), and `difficulty` (EASY to IMPOSSIBLE).
+* **Logic:** Define triggers in `setupListeners()`. Use `complete()`, `addProgress()`, or `advanceStage()` to update state.
+* **Verification Stop:** The system automatically prevents re-registering listeners for already completed achievements.
+
+**Example:**
+
+```kotlin
+@Achievement
+object MyAchievement : NumericAchievement() {
+    override val id = "my_achievement"
+    override val name = "Example"
+    override val description = "Collect 10 items."
+    override val type = AchievementType.NORMAL
+    override val difficulty = AchievementDifficulty.EASY
+    override val targetCount = 10
+
+    override fun setupListeners() {
+        activeListeners.add(registerSomeEvent { 
+            addProgress(1)
+        })
+    }
+}
+```
+
+### Data Persistence
+
+Preferred way to save data is using the `JsonFile` utility.
+
+* **Usage:** Create a data class for your state and wrap it in a `JsonFile` instance.
+* **Location:** `cloud.glitchdev.rfu.utils.JsonFile`.
+* **Registration:** Ensure complex data types (like `Instant`) are handled in the `JsonFile`'s GsonBuilder if needed.
 
 ### Features
 
