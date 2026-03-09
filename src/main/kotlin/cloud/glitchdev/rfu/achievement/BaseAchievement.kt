@@ -36,7 +36,6 @@ abstract class BaseAchievement : IAchievement {
         if (_isCompleted) return
         _isCompleted = true
         unregisterAllListeners()
-        AchievementManager.saveAll()
         AchievementProvider.fireAchievementUnlocked(this)
     }
 

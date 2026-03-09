@@ -2,15 +2,27 @@ package cloud.glitchdev.rfu.achievement
 
 import cloud.glitchdev.rfu.data.achievements.AchievementHandler
 import cloud.glitchdev.rfu.data.achievements.AchievementsData
-import cloud.glitchdev.rfu.events.managers.ShutdownEvents
+import cloud.glitchdev.rfu.events.AutoRegister
+import cloud.glitchdev.rfu.events.RegisteredEvent
+import cloud.glitchdev.rfu.events.managers.ConnectionEvents.registerJoinEvent
+import cloud.glitchdev.rfu.events.managers.ShutdownEvents.registerShutdownEvent
 
-object AchievementManager {
+@AutoRegister
+object AchievementManager : RegisteredEvent {
     private val registry = HashMap<String, BaseAchievement>()
-    private var isInitialized = false
+
+    override fun register() {
+        registerJoinEvent {
+            saveAll()
+        }
+
+        registerShutdownEvent {
+            saveAll()
+        }
+    }
 
     fun register(achievement: BaseAchievement) {
         registry[achievement.id] = achievement
-        initLifecycle()
     }
     
     fun getRegistry(): Map<String, BaseAchievement> = registry
@@ -28,13 +40,5 @@ object AchievementManager {
             )
         }
         AchievementHandler.saveAll(allData)
-    }
-    
-    private fun initLifecycle() {
-        if (isInitialized) return
-        isInitialized = true
-        ShutdownEvents.registerShutdownEvent {
-            saveAll()
-        }
     }
 }

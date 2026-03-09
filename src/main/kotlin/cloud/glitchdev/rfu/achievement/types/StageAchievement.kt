@@ -1,7 +1,6 @@
 package cloud.glitchdev.rfu.achievement.types
 
 import cloud.glitchdev.rfu.achievement.BaseAchievement
-import cloud.glitchdev.rfu.achievement.AchievementManager
 
 abstract class StageAchievement : BaseAchievement() {
     abstract val targetStage: Int
@@ -13,8 +12,6 @@ abstract class StageAchievement : BaseAchievement() {
             
             if (field >= targetStage) {
                 complete()
-            } else {
-                AchievementManager.saveAll()
             }
         }
         
