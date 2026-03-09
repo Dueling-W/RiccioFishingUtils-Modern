@@ -8,10 +8,10 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
     abstract override val targetStage: Int
     override val targetProgress: Int get() = targetStage
     
-    override var currentStage: Int = 0
+    override var currentStage: Int = 1
         protected set(value) {
             field = value
-            _progress = if (targetStage > 0) value.toFloat() / targetStage.toFloat() else 1.0f
+            _progress = if (targetStage > 1) (value - 1).toFloat() / (targetStage - 1).toFloat() else 1.0f
             
             if (field >= targetStage) {
                 complete()
@@ -27,8 +27,8 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
 
     override fun loadState(progressData: Map<String, Any>) {
         super.loadState(progressData)
-        val savedStage = (progressData["currentStage"] as? Number)?.toInt() ?: 0
-        currentStage = savedStage
+        val savedStage = (progressData["currentStage"] as? Number)?.toInt() ?: 1
+        currentStage = savedStage.coerceAtLeast(1)
     }
 
     override fun saveState(): Map<String, Any> {
