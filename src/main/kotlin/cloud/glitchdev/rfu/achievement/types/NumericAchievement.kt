@@ -4,6 +4,7 @@ import cloud.glitchdev.rfu.achievement.BaseAchievement
 
 abstract class NumericAchievement : BaseAchievement() {
     abstract val targetCount: Int
+    override val targetProgress: Int get() = targetCount
     
     var currentCount: Int = 0
         protected set(value) {
@@ -13,6 +14,7 @@ abstract class NumericAchievement : BaseAchievement() {
                 complete()
             }
         }
+    override val currentProgress: Int get() = currentCount
 
     fun addProgress(amount: Int = 1) {
         if (isCompleted) return

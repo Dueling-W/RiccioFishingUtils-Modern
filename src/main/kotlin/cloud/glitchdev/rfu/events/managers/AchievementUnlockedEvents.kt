@@ -1,6 +1,6 @@
 package cloud.glitchdev.rfu.events.managers
 
-import cloud.glitchdev.rfu.achievement.IAchievement
+import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.events.AbstractEventManager
 
 object AchievementUnlockedEvents : AbstractEventManager<(IAchievement) -> Unit, AchievementUnlockedEvents.AchievementUnlockedEvent>() {

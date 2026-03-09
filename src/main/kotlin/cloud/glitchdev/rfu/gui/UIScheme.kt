@@ -28,6 +28,15 @@ object UIScheme {
 
     val diedColor = Color(120, 7, 7)
 
+    val achievementBgColor = Color(26, 83, 113)
+    val achievementBgColorOpaque = increaseOpacity(achievementBgColor, 127)
+    val achievementCompleteTextColor = Color(85, 255, 85)
+    val easyDifficultyColor = Color(85, 255, 85)
+    val mediumDifficultyColor = Color(255, 255, 85)
+    val hardDifficultyColor = Color(255, 85, 85)
+    val veryHardDifficultyColor = Color(120, 7, 7)
+    val impossibleDifficultyColor = Color(60, 0, 0)
+
     const val HOVER_EFFECT_DURATION = 0.1f
 
     fun increaseOpacity(baseColor : Color, amount: Int) : Color {

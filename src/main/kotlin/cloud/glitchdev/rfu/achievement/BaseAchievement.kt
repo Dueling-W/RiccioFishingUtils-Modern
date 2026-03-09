@@ -1,5 +1,6 @@
 package cloud.glitchdev.rfu.achievement
 
+import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.data.achievements.AchievementHandler
 import cloud.glitchdev.rfu.events.AbstractEventManager
 
