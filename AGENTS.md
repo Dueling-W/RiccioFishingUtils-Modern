@@ -38,6 +38,7 @@ inside the `cloud.glitchdev.rfu.achievement.achievements` package. Choose the ap
 1.  **`BaseAchievement`**: For simple, one-time tasks or custom logic.
 2.  **`NumericAchievement`**: For counting tasks (e.g., "Catch 100 fish").
 3.  **`StageAchievement`**: For multi-step tasks (e.g., "Catch Fish A, then Fish B, then Fish C").
+4.  **`NumericStageAchievement`**: For multi-step tasks that require a specific count per stage (e.g., "Catch 2 Magma Slugs, then 2 Moogmas...").
 
 #### Required Fields
 
@@ -47,8 +48,8 @@ Each achievement MUST define:
 *   **`name`**: Display name.
 *   **`description`**: Display description.
 *   **`type`**: `AchievementType` (NORMAL, SECRET, HIDDEN).
-*   **`difficulty`**: `AchievementDifficulty` (EASY to IMPOSSIBLE).
-*   **`category`**: `AchievementCategory` (GENERAL, FISHING, COMBAT, etc.).
+*   **`difficulty`**: `AchievementDifficulty` (EASY, MEDIUM, HARD, VERY_HARD, IMPOSSIBLE).
+*   **`category`**: `AchievementCategory` (GENERAL, ISLE, SPECIAL).
 
 #### Progress Tracking
 
@@ -56,7 +57,8 @@ For progression to display correctly in the `AchievementWindow`:
 
 *   **`NumericAchievement`**: Automatically uses `currentCount` and `targetCount`. Call `addProgress(amount)` to update.
 *   **`StageAchievement`**: Automatically uses `currentStage` (starts at 1) and `targetStage`. Call `advanceStage()` to update.
-Use addStageInfo() to add multiple names/descriptions. Achievement is completed when `currentStage > targetStage`
+Use `addStageInfo()` to add names, descriptions, and optional difficulty per stage. Achievement is completed when `currentStage == targetStage`.
+*   **`NumericStageAchievement`**: Requires implementing `getTargetCountForStage(stage: Int): Int`. Progress is tracked per stage via `addProgress()`. Achievement is completed when `currentStage > targetStage`.
 *   **`BaseAchievement`**: If you want to show numerical progress (e.g., "2/5"), override:
     ```kotlin
     override val currentProgress: Int get() = myValue
