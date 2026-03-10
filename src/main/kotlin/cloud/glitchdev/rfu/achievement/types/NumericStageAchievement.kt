@@ -1,5 +1,7 @@
 package cloud.glitchdev.rfu.achievement.types
 
+import cloud.glitchdev.rfu.achievement.AchievementProvider
+
 abstract class NumericStageAchievement : StageAchievement() {
     abstract fun getTargetCountForStage(stage: Int): Int
 
@@ -17,6 +19,8 @@ abstract class NumericStageAchievement : StageAchievement() {
             field = value
             if (field >= targetCount) {
                 advanceStage()
+            } else {
+                AchievementProvider.fireAchievementUpdated(this)
             }
         }
 

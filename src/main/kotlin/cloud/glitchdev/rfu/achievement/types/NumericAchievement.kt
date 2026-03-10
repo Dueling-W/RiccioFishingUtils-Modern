@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.achievement.types
 
 import cloud.glitchdev.rfu.achievement.BaseAchievement
+import cloud.glitchdev.rfu.achievement.AchievementProvider
 
 abstract class NumericAchievement : BaseAchievement() {
     abstract val targetCount: Int
@@ -12,6 +13,8 @@ abstract class NumericAchievement : BaseAchievement() {
             _progress = if (targetCount > 0) value.toFloat() / targetCount.toFloat() else 1.0f
             if (field >= targetCount) {
                 complete()
+            } else {
+                AchievementProvider.fireAchievementUpdated(this)
             }
         }
     override val currentProgress: Int get() = currentCount

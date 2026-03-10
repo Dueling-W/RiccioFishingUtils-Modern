@@ -50,6 +50,7 @@ abstract class BaseAchievement : IAchievement {
         unregisterAllListeners()
         loadState(emptyMap())
         setupListeners()
+        AchievementProvider.fireAchievementUpdated(this)
     }
 
     protected fun unregisterAllListeners() {

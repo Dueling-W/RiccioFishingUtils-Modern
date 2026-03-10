@@ -35,6 +35,8 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
             
             if (field >= targetStage) {
                 complete()
+            } else {
+                AchievementProvider.fireAchievementUpdated(this)
             }
         }
     override val currentProgress: Int get() = currentStage

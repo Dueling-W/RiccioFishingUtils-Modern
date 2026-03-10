@@ -4,6 +4,7 @@ import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
 import cloud.glitchdev.rfu.events.managers.AchievementUnlockedEvents
 import cloud.glitchdev.rfu.events.managers.AchievementStageUnlockedEvents
+import cloud.glitchdev.rfu.events.managers.AchievementUpdatedEvents
 
 object AchievementProvider {
     fun getVisibleAchievements(): List<IAchievement> {
@@ -23,5 +24,9 @@ object AchievementProvider {
 
     fun fireAchievementStageUnlocked(achievement: IStageAchievement) {
         AchievementStageUnlockedEvents.runTasks(achievement)
+    }
+
+    fun fireAchievementUpdated(achievement: IAchievement) {
+        AchievementUpdatedEvents.runTasks(achievement)
     }
 }

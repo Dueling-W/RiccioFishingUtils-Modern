@@ -1,9 +1,12 @@
 package cloud.glitchdev.rfu.gui.window
 
+import cloud.glitchdev.rfu.RiccioFishingUtils
 import cloud.glitchdev.rfu.achievement.AchievementCategory
 import cloud.glitchdev.rfu.achievement.AchievementProvider
 import cloud.glitchdev.rfu.events.managers.AchievementStageUnlockedEvents.registerAchievementStageUnlockedEvent
 import cloud.glitchdev.rfu.events.managers.AchievementUnlockedEvents.registerAchievementUnlockedEvent
+import cloud.glitchdev.rfu.events.managers.AchievementUpdatedEvents.registerAchievementUpdatedEvent
+import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.UIButton
 import cloud.glitchdev.rfu.gui.components.achievement.Achievement
@@ -26,20 +29,33 @@ object AchievementWindow : BaseWindow() {
     private var selectedCategory: AchievementCategory = AchievementCategory.GENERAL
     private lateinit var scrollArea: ScrollComponent
     private val achievementComponents = mutableListOf<Achievement>()
+    private var needsRefresh = false
 
     init {
         create()
 
+        registerTickEvent {
+            if (needsRefresh && RiccioFishingUtils.mc.screen == this) {
+                refreshAchievements()
+                needsRefresh = false
+            }
+        }
+
         registerAchievementUnlockedEvent { _ ->
-            refreshAchievements()
+            needsRefresh = true
         }
 
         registerAchievementStageUnlockedEvent { _ ->
-            refreshAchievements()
+            needsRefresh = true
+        }
+
+        registerAchievementUpdatedEvent { _ ->
+            needsRefresh = true
         }
     }
 
     override fun onOpenWindow() {
+        needsRefresh = false
         refreshAchievements()
     }
 
