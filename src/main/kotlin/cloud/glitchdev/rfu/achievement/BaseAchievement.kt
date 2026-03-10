@@ -11,7 +11,7 @@ abstract class BaseAchievement : IAchievement {
     override val isCompleted: Boolean
         get() = _isCompleted || AchievementManager.isCompleted(id)
         
-    protected var _progress: Float = 0.0f
+    protected open var _progress: Float = 0.0f
     override val progress: Float
         get() = if (isCompleted) 1.0f else _progress
 

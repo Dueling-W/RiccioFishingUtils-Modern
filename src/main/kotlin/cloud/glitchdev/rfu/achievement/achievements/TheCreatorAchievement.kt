@@ -10,6 +10,13 @@ import cloud.glitchdev.rfu.utils.Tablist
 
 @Achievement
 object TheCreatorAchievement : BaseAchievement() {
+    override val id: String = "the_creator"
+    override val name: String = "The Creator"
+    override val description: String = "Be on the same lobby as ricciow, the creator"
+    override val type: AchievementType = AchievementType.HIDDEN
+    override val difficulty: AchievementDifficulty = AchievementDifficulty.MEDIUM
+    override val category: AchievementCategory = AchievementCategory.SPECIAL
+
     private val CREATOR_USERNAME = "ricciow"
 
     override fun setupListeners() {
@@ -21,11 +28,4 @@ object TheCreatorAchievement : BaseAchievement() {
             }
         })
     }
-
-    override val id: String = "the_creator"
-    override val name: String = "The Creator"
-    override val description: String = "Be on the same lobby as ricciow, the creator"
-    override val type: AchievementType = AchievementType.HIDDEN
-    override val difficulty: AchievementDifficulty = AchievementDifficulty.MEDIUM
-    override val category: AchievementCategory = AchievementCategory.SPECIAL
 }
