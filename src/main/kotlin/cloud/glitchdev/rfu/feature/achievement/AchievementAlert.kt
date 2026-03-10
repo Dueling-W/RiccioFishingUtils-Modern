@@ -29,6 +29,8 @@ object AchievementAlert : Feature {
     }
 
     private fun sendStageCompletedMessage(achievement: IStageAchievement) {
+        if(achievement.currentStage > achievement.targetStage) return
+
         Sounds.playSound("rfu:achievement")
 
         val completedStage = achievement.currentStage - 1
