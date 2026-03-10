@@ -21,7 +21,7 @@ object LavaFishing : Category("Lava Fishing") {
         reloadScreen()
     }
 
-    var diedJawbusVolume by float(0.1f) {
+    var diedJawbusVolume by float(1f) {
         name = Literal("Sound Volume")
         description = Literal("The volume for the jawbus death sound")
         range = 0f..1f

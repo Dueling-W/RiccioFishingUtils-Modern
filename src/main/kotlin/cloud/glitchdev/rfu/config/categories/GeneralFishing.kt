@@ -183,7 +183,7 @@ object GeneralFishing : Category("General Fishing") {
         reloadScreen()
     }
 
-    var deployableExpiredVolume by float(0.1f) {
+    var deployableExpiredVolume by float(1f) {
         name = Literal("Sound Volume")
         description = Literal("The volume for the expired sound")
         range = 0f..1f

@@ -37,7 +37,7 @@ object RareScSettings : Category("Rare SCs") {
         reloadScreen()
     }
 
-    var rareScSoundVolume by float(0.1f) {
+    var rareScSoundVolume by float(1f) {
         name = Literal("Sound Volume")
         description = Literal("The volume for the rare SC sound")
         range = 0f..1f
