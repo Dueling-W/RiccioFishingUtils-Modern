@@ -22,7 +22,7 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
     override var currentStage: Int = 1
         protected set(value) {
             field = value
-            _progress = if (targetStage > 1) (value - 1).toFloat() / (targetStage - 1).toFloat() else 1.0f
+            _progress = if (targetStage > 1) (value-1).toFloat() / (targetStage).toFloat() else 1.0f
             
             if (field > targetStage) {
                 complete()
