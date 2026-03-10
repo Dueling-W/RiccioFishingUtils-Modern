@@ -36,7 +36,7 @@ object UIScheme {
     val mediumDifficultyColor = Color(255, 255, 85)
     val hardDifficultyColor = Color(255, 85, 85)
     val veryHardDifficultyColor = Color(120, 7, 7)
-    val impossibleDifficultyColor = Color(60, 0, 0)
+    val impossibleDifficultyColor = Color(90, 0, 0)
 
     const val HOVER_EFFECT_DURATION = 0.1f
 
