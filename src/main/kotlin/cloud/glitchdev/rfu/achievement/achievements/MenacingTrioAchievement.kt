@@ -13,7 +13,7 @@ object MenacingTrioAchievement : BaseAchievement() {
     override val name: String = "Menacing Trio"
     override val description: String = "Have a Thunder, a Jawbus and a Plhlegblast nearby at the same time."
     override val type: AchievementType = AchievementType.SECRET
-    override val difficulty: AchievementDifficulty = AchievementDifficulty.HARD
+    override val difficulty: AchievementDifficulty = AchievementDifficulty.VERY_HARD
     override val category: AchievementCategory = AchievementCategory.ISLE
 
     override fun setupListeners() {
