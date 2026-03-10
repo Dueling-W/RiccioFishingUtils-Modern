@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.gui.components.achievement
 
 import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
+import cloud.glitchdev.rfu.constants.text.TextColor
 import cloud.glitchdev.rfu.gui.UIScheme
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
@@ -46,7 +47,8 @@ class AchievementProgress(
             } childOf textContainer
         }
 
-        UIText("${achievement.currentProgress}/${achievement.targetProgress}").constrain {
+        val progressText = if(achievement.isCompleted) "${TextColor.LIGHT_GREEN}✔" else "${achievement.currentProgress}/${achievement.targetProgress}"
+        UIText(progressText).constrain {
             x = 0.pixels(true)
             y = CenterConstraint()
             width = ScaledTextConstraint(1f)
