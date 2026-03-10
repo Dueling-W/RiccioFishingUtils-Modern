@@ -31,7 +31,7 @@ object CakeExpiredAlert : Feature {
             if(!World.isInSkyblock) return@registerTickEvent
             val outdated = cakes.getOutdatedCakes().toHashSet()
 
-            val newOutDated = lastOutdated.minus(outdated)
+            val newOutDated = outdated.minus(lastOutdated)
             if(newOutDated.isNotEmpty()) {
                 val message = TextUtils.rfuLiteral("${newOutDated.size} ${TextColor.GOLD}of your cakes just expired!", TextColor.YELLOW)
                 Chat.sendMessage(message)

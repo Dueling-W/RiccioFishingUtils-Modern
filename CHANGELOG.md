@@ -17,6 +17,7 @@
 ### Fixes:
 - Fixed jawbus hard mode not saving before the funny
 - Removed a debug println that was left on last release
+- Fixed a bug where eating a cake would trigger a cake expired message
 
 ### Back-end:
 - DeployableManager now owns its own scanning behind a generic `DeployableType` interface
