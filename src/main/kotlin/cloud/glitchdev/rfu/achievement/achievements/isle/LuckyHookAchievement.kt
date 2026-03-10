@@ -1,4 +1,4 @@
-package cloud.glitchdev.rfu.achievement.achievements
+package cloud.glitchdev.rfu.achievement.achievements.isle
 
 import cloud.glitchdev.rfu.achievement.Achievement
 import cloud.glitchdev.rfu.achievement.AchievementCategory
