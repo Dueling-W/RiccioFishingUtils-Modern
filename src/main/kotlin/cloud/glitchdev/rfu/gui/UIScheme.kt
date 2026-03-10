@@ -30,7 +30,8 @@ object UIScheme {
 
     val achievementBgColor = Color(26, 83, 113)
     val achievementBgColorOpaque = increaseOpacity(achievementBgColor, 127)
-    val achievementCompleteTextColor = Color(85, 255, 85)
+    val achievementCompleteColor = Color(85, 255, 85)
+    val achievementIncompleteColor = Color(255, 255, 85)
     val easyDifficultyColor = Color(85, 255, 85)
     val mediumDifficultyColor = Color(255, 255, 85)
     val hardDifficultyColor = Color(255, 85, 85)

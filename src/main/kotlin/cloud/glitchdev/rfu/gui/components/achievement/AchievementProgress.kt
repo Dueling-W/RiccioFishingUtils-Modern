@@ -35,7 +35,7 @@ class AchievementProgress(
                 y = CenterConstraint()
                 width = ScaledTextConstraint(1f)
                 height = TextAspectConstraint()
-                color = UIScheme.achievementCompleteTextColor.toConstraint()
+                color = UIScheme.achievementCompleteColor.toConstraint()
             } childOf textContainer
         } else if(achievement is IStageAchievement) {
             UIText("Stage ${achievement.currentStage}").constrain {
@@ -66,7 +66,7 @@ class AchievementProgress(
             y = 0.pixels()
             width = (achievement.progress * 100).percent()
             height = 100.percent()
-            color = UIScheme.allowColor.toConstraint()
+            color = (if(achievement.progress != 1f) UIScheme.achievementIncompleteColor else UIScheme.achievementCompleteColor).toConstraint()
         } childOf progressBackground
     }
 }
