@@ -3,6 +3,7 @@ package cloud.glitchdev.rfu.gui.components.achievement
 import cloud.glitchdev.rfu.achievement.AchievementType
 import cloud.glitchdev.rfu.achievement.interfaces.IAchievement
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
+import cloud.glitchdev.rfu.constants.text.TextColor
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.elementa.TextWrappingConstraint
 import gg.essential.elementa.components.UIContainer
@@ -69,7 +70,7 @@ class Achievement(
             height = TextAspectConstraint()
         } childOf container
 
-        val rawDescription = if(achievement.isCompleted || achievement.type != AchievementType.SECRET) achievement.description else "???"
+        val rawDescription = if(achievement.isCompleted || achievement.type != AchievementType.SECRET) achievement.description else "${TextColor.GRAY}???"
         val displayDescription = if (achievement is IStageAchievement && !achievement.isCompleted && achievement.type != AchievementType.SECRET) {
             achievement.getStageDescription(achievement.currentStage) ?: rawDescription
         } else {
@@ -78,7 +79,7 @@ class Achievement(
 
         UIWrappedText(displayDescription).constrain {
             x = 0.pixels()
-            y = SiblingConstraint()
+            y = SiblingConstraint(2f)
             width = 100.percent()
             height = TextWrappingConstraint()
         } childOf container
