@@ -27,12 +27,8 @@ object TooMuchDowntimeAchievement : BaseAchievement() {
                 val pos = entity.modelEntity.blockPosition()
                 val topY = world.getHeight(Heightmap.Types.WORLD_SURFACE_WG, pos.x, pos.z)
 
-                println(topY)
-
                 val isFalling = entity.modelEntity.deltaMovement.y < -1
                 val isAboveHole = topY <= 0
-
-                println(entity.modelEntity.deltaMovement.y)
 
                 isFalling && isAboveHole
             }
