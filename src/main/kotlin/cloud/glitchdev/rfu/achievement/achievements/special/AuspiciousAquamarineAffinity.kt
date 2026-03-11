@@ -18,10 +18,10 @@ object AuspiciousAquamarineAffinity : BaseAchievement() {
     override val category: AchievementCategory = AchievementCategory.SPECIAL
 
     override fun setupListeners() {
-        registerDyeDropEvent { dyeDrop, _ ->
+        activeListeners.add(registerDyeDropEvent { dyeDrop, _ ->
             if(dyeDrop == Dyes.AQUAMARINE) {
                 complete()
             }
-        }
+        })
     }
 }

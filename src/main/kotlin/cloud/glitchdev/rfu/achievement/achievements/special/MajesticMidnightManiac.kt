@@ -6,7 +6,7 @@ import cloud.glitchdev.rfu.achievement.AchievementDifficulty
 import cloud.glitchdev.rfu.achievement.AchievementType
 import cloud.glitchdev.rfu.achievement.BaseAchievement
 import cloud.glitchdev.rfu.constants.Dyes
-import cloud.glitchdev.rfu.events.managers.DropEvents
+import cloud.glitchdev.rfu.events.managers.DropEvents.registerDyeDropEvent
 
 @Achievement
 object MajesticMidnightManiac : BaseAchievement() {
@@ -18,10 +18,10 @@ object MajesticMidnightManiac : BaseAchievement() {
     override val category: AchievementCategory = AchievementCategory.SPECIAL
 
     override fun setupListeners() {
-        DropEvents.registerDyeDropEvent { dyeDrop, _ ->
+        activeListeners.add(registerDyeDropEvent { dyeDrop, _ ->
             if (dyeDrop == Dyes.MIDNIGHT) {
                 complete()
             }
-        }
+        })
     }
 }

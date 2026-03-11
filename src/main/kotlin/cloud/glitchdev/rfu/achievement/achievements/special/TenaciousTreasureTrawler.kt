@@ -18,7 +18,7 @@ object TenaciousTreasureTrawler : BaseAchievement() {
     override val category: AchievementCategory = AchievementCategory.SPECIAL
 
     override fun setupListeners() {
-         activeListeners.add(registerDyeDropEvent { dyeDrop, _ ->
+        activeListeners.add(registerDyeDropEvent { dyeDrop, _ ->
             if (dyeDrop == Dyes.TREASURE) {
                 complete()
             }
