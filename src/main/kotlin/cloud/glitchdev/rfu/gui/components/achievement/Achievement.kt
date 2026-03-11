@@ -87,6 +87,7 @@ class Achievement(
             y = SiblingConstraint()
             width = 100.percent()
             height = TextWrappingConstraint()
+            color = UIScheme.achievementDescriptionColor.toConstraint()
         } childOf container
 
         AchievementProgress(achievement).constrain {
