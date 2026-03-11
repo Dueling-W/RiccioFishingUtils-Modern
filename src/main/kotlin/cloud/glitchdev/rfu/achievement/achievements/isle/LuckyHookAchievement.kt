@@ -43,15 +43,6 @@ object LuckyHookAchievement : NumericStageAchievement() {
         })
     }
 
-    override var currentStage: Int = 1
-        set(value) {
-            field = value
-            currentCount = 0
-            if (field > targetStage) {
-                complete()
-            }
-        }
-
     override fun getTargetCountForStage(stage: Int): Int = 2
 
     private fun getCurrentSc() : String? {

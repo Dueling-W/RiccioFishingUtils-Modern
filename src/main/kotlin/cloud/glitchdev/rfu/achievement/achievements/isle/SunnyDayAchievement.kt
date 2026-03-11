@@ -19,6 +19,7 @@ object SunnyDayAchievement : NumericStageAchievement() {
     override val category: AchievementCategory = AchievementCategory.ISLE
 
     override val targetStage: Int = 5
+    override val resetCountOnStageAdvance: Boolean = false
 
     init {
         addStageInfo(1, "Rainy Day", "Don't catch a Thunder for 100 catches.", AchievementDifficulty.EASY)

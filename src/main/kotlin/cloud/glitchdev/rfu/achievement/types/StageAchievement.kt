@@ -30,15 +30,19 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
 
     override var currentStage: Int = 1
         protected set(value) {
+            val oldStage = field
             field = value
             _progress = if (targetStage > 1) (value - 1).toFloat() / (targetStage - 1).toFloat() else 1.0f
             
-            if (field >= targetStage) {
+            if (field > targetStage) {
                 complete()
             } else {
+                if (oldStage != field) onStageChanged(oldStage, field)
                 AchievementProvider.fireAchievementUpdated(this)
             }
         }
+
+    protected open fun onStageChanged(oldStage: Int, newStage: Int) {}
     override val currentProgress: Int get() = currentStage
         
     fun advanceStage() {
@@ -55,7 +59,7 @@ abstract class StageAchievement : BaseAchievement(), IStageAchievement {
 
     override fun debugComplete() {
         markAsCheated()
-        currentStage = targetStage
+        currentStage = targetStage + 1
     }
 
     override fun debugReset() {

@@ -21,6 +21,7 @@ object EfficiencyKingAchievement : NumericStageAchievement() {
     override val category: AchievementCategory = AchievementCategory.GENERAL
 
     override val targetStage: Int = 5
+    override val resetCountOnStageAdvance: Boolean = false
 
     init {
         addStageInfo(1, "Efficiency Rookie", "Reach 800 sc/h for 5 minutes", AchievementDifficulty.EASY)
