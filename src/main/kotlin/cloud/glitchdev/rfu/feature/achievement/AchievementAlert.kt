@@ -61,12 +61,23 @@ object AchievementAlert : Feature {
     private fun sendCompletedMessage(achievement: IAchievement) {
         Sounds.playSound("rfu:achievement")
 
-        val pair = achievement.difficulty.makePair()
+        var name = achievement.name
+        var desc = achievement.description
+        var difficulty = achievement.difficulty
 
-        val achievementText = Component.literal("${pair.second}[${achievement.name}]")
+        if (achievement is IStageAchievement) {
+            val lastStage = achievement.targetStage
+            name = achievement.getStageName(lastStage) ?: name
+            desc = achievement.getStageDescription(lastStage) ?: desc
+            difficulty = achievement.getStageDifficulty(lastStage) ?: difficulty
+        }
+
+        val pair = difficulty.makePair()
+
+        val achievementText = Component.literal("${pair.second}[$name]")
             .withStyle(
                 Style.EMPTY
-                    .withHoverEvent(HoverEvent.ShowText(Component.literal(achievement.description)))
+                    .withHoverEvent(HoverEvent.ShowText(Component.literal(desc)))
             )
 
         Chat.sendMessage(
