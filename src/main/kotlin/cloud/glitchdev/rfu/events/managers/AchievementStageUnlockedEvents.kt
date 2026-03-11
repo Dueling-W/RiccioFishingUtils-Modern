@@ -2,9 +2,11 @@ package cloud.glitchdev.rfu.events.managers
 
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
 import cloud.glitchdev.rfu.events.AbstractEventManager
+import cloud.glitchdev.rfu.utils.RFULogger
 
 object AchievementStageUnlockedEvents : AbstractEventManager<(IStageAchievement) -> Unit, AchievementStageUnlockedEvents.AchievementStageUnlockedEvent>() {
     override val runTasks: (IStageAchievement) -> Unit = { achievement ->
+        RFULogger.dev("Completed achievement stage ${achievement.currentStage-1} for ${achievement.name}")
         safeExecution {
             tasks.forEach { task ->
                 task.callback(achievement)
