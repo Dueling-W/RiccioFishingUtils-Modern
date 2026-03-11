@@ -15,7 +15,7 @@ object CrazyCarmineConosseurAchievement : BaseAchievement() {
     override val description: String = "Drop a carmine dye."
     override val type: AchievementType = AchievementType.NORMAL
     override val difficulty: AchievementDifficulty = AchievementDifficulty.IMPOSSIBLE
-    override val category: AchievementCategory = AchievementCategory.ISLE
+    override val category: AchievementCategory = AchievementCategory.SPECIAL
 
     override fun setupListeners() {
         registerDyeDropEvent { dyeDrop, _ ->
