@@ -11,7 +11,7 @@ import cloud.glitchdev.rfu.events.managers.DropEvents.registerDyeDropEvent
 @Achievement
 object IridescentIcebergIntellectual : BaseAchievement() {
     override val id: String = "iridescent_iceberg_intellectual"
-    override val name: String = "Iridescent Iceberg Intelectual"
+    override val name: String = "Iridescent Iceberg Intellectual"
     override val description: String = "Drop an Iceberg Dye."
     override val type: AchievementType = AchievementType.NORMAL
     override val difficulty: AchievementDifficulty = AchievementDifficulty.IMPOSSIBLE
