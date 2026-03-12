@@ -52,7 +52,7 @@ object MinMaxingAchievement : BaseAchievement() {
         return this.siblings.any { part ->
             val contents = part.contents
             contents is PlainTextContents.LiteralContents &&
-                    contents.text == STAR_STRING &&
+                    contents.text.trim() == STAR_STRING &&
                     part.style.color?.value == STAR_COLOR
         }
     }
