@@ -1,6 +1,6 @@
 package cloud.glitchdev.rfu.achievement.types
 
-import cloud.glitchdev.rfu.RiccioFishingUtils
+import cloud.glitchdev.rfu.RiccioFishingUtils.mc
 import cloud.glitchdev.rfu.achievement.BaseAchievement
 import cloud.glitchdev.rfu.constants.Dyes
 import cloud.glitchdev.rfu.events.managers.ContainerEvents
@@ -19,7 +19,7 @@ abstract class DyeAchievement(val dye: Dyes) : BaseAchievement() {
         })
 
         activeListeners.add(ContainerEvents.registerContainerOpenEvent { _, items ->
-            if (RiccioFishingUtils.mc.screen?.title?.string == "Dye Compendium") {
+            if (mc.screen?.title?.string == "Dye Compendium") {
                 val item = items.find { it.hoverName.toUnformattedString() == dye.dyeName }
                     ?: return@registerContainerOpenEvent
                 val lore = item[DataComponents.LORE] ?: return@registerContainerOpenEvent
