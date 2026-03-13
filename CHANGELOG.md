@@ -1,7 +1,7 @@
 # v1.5.1 - ???
 
 ### Features:
-- Added 5 more achievements
+- Added 6 more achievements
 
 ### Changes:
 - Improved order of achievements in /rfuachievements
@@ -14,5 +14,7 @@ of their respective Sea Creatures beforehand.
 - Fixed Failure is expected... achievement having the same id as flask thief
 
 ### Back-end:
+- Refactored achievement count and goal to use Long
+- Refactored Achievements UI to compact numbers larger than 10k
 
 ### Other:
