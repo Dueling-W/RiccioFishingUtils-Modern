@@ -1,7 +1,7 @@
 # v1.5.1 - ???
 
 ### Features:
-- Added 3 more achievements
+- Added 4 more achievements (including Party Pioneer)
 
 ### Changes:
 - Improved order of achievements in /rfuachievements

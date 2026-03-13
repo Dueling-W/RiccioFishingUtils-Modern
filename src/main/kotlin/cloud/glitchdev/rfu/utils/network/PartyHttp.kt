@@ -10,6 +10,7 @@ import cloud.glitchdev.rfu.utils.network.Network.isTokenExpired
 import cloud.glitchdev.rfu.utils.network.Network.postRequest
 import cloud.glitchdev.rfu.utils.network.Network.putRequest
 import cloud.glitchdev.rfu.utils.network.Network.deleteRequest
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents
 import com.google.gson.Gson
 import java.net.http.HttpRequest
 
@@ -47,6 +48,7 @@ object PartyHttp {
         postRequest("${API_URL}/party", true, HttpRequest.BodyPublishers.ofString(party.toJson())) { response ->
             if(response.isSuccessful()) {
                 currentParty = party
+                PartyFinderEvents.runTasks(party)
             }
             mc.execute { callback(response.isSuccessful()) }
         }
