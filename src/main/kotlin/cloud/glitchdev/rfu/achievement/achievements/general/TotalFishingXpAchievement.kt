@@ -7,6 +7,9 @@ import cloud.glitchdev.rfu.achievement.AchievementType
 import cloud.glitchdev.rfu.achievement.types.NumericStageAchievement
 import cloud.glitchdev.rfu.constants.Skills
 import cloud.glitchdev.rfu.events.managers.ChatEvents.registerGameEvent
+import cloud.glitchdev.rfu.events.managers.ContainerEvents.registerContainerOpenEvent
+import gg.essential.universal.utils.toUnformattedString
+import net.minecraft.core.component.DataComponents
 
 @Achievement
 object TotalFishingXpAchievement : NumericStageAchievement() {
@@ -72,6 +75,9 @@ object TotalFishingXpAchievement : NumericStageAchievement() {
         }
 
     private val OVERLAY_REGEX = """\+([0-9,]+(?:\.[0-9]+)?) Fishing \(([^/]+)/([^)]+)\)""".toRegex()
+    private val LORE_LEVEL_REGEX = """Progress to Level (\d+)""".toRegex()
+    private val LORE_PROGRESS_REGEX = """([0-9,]+[kMB]?)/([0-9,]+[kMB]?)""".toRegex()
+    private val LORE_TOTAL_XP_REGEX = """([0-9,]{5,}(?:\.[0-9]+)?)""".toRegex()
 
     override fun setupListeners() {
         activeListeners.add(registerGameEvent(OVERLAY_REGEX, isOverlay = true) { _, _, matches ->
@@ -94,6 +100,39 @@ object TotalFishingXpAchievement : NumericStageAchievement() {
 
             if (calculatedTotalXp > totalFishingXp) {
                 totalFishingXp = calculatedTotalXp
+            }
+        })
+
+        activeListeners.add(registerContainerOpenEvent { _, items ->
+            for (item in items) {
+                val loreLines = item[DataComponents.LORE]?.lines?.map { it.toUnformattedString() } ?: continue
+                val loreText = loreLines.joinToString(" ")
+
+                if (!loreText.contains("Visit your local pond to fish and earn Fishing XP!")) continue
+                println(loreText)
+
+                var parsedTotalXp = 0L
+                
+                if (loreText.contains("Max Skill level reached!")) {
+                    val match = LORE_TOTAL_XP_REGEX.findAll(loreText).lastOrNull()
+                    if (match != null) {
+                        parsedTotalXp = parseXp(match.groupValues[1])
+                    }
+                } else {
+                    val levelMatch = LORE_LEVEL_REGEX.find(loreText)
+                    val progressMatch = LORE_PROGRESS_REGEX.find(loreText)
+                    
+                    if (levelMatch != null && progressMatch != null) {
+                        val nextLevel = levelMatch.groupValues[1].toInt()
+                        val currentLevel = nextLevel - 1
+                        val currentXp = parseXp(progressMatch.groupValues[1])
+                        parsedTotalXp = Skills.getTotalXpAtLevel(currentLevel) + currentXp
+                    }
+                }
+                
+                if (parsedTotalXp > totalFishingXp) {
+                    totalFishingXp = parsedTotalXp
+                }
             }
         })
     }
