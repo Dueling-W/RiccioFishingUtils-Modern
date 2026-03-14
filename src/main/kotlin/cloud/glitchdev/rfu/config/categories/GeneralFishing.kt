@@ -194,7 +194,7 @@ object GeneralFishing : Category("General Fishing") {
 
     var failCastSound by observable(boolean(false) {
         name = Literal("Expired Sound")
-        description = Literal("Plays a sound whenever a deployable expires.")
+        description = Literal("Plays a sound whenever a cast fails.")
         condition = { failCastAlert }
     }) { _, _ ->
         reloadScreen()

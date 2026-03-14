@@ -8,6 +8,7 @@
 - Made the "overall" part of the fishing tracker more compact.
 
 ### Fixes:
+- Fixed description of failed cast sound
 
 ### Back-end:
 
