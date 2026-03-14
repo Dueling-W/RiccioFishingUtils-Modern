@@ -37,11 +37,11 @@ object FishTrackingDisplay : AbstractTextHudElement("fishTrackingDisplay") {
             val line = buildString {
                 append("$CYAN${BOLD}SC/h:")
                 append(" $YELLOW$rate")
-                append(" $CYAN($YELLOW$total$CYAN)")
                 if (items.contains(FishTrackingType.OVERALL)) {
                     val overall = getOverallScRate(time)
                     append(" $CYAN[$YELLOW${overall}$CYAN]")
                 }
+                append(" $CYAN($YELLOW$total$CYAN)")
             }
             lines.add(line)
         }
@@ -52,11 +52,11 @@ object FishTrackingDisplay : AbstractTextHudElement("fishTrackingDisplay") {
             val line = buildString {
                 append("$CYAN${BOLD}XP/h:")
                 append(" $YELLOW${formatXp(rate)}")
-                append(" $CYAN($YELLOW${formatXp(total)}$CYAN)")
                 if (items.contains(FishTrackingType.OVERALL)) {
                     val overall = getOverallXpRate(time)
                     append(" $CYAN[$YELLOW${formatXp(overall)}$CYAN]")
                 }
+                append(" $CYAN($YELLOW${formatXp(total)}$CYAN)")
             }
             lines.add(line)
         }
