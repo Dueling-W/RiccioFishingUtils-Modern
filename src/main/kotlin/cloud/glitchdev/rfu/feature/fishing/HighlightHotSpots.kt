@@ -9,6 +9,7 @@ import cloud.glitchdev.rfu.events.managers.RenderEvents.registerRenderEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
 import cloud.glitchdev.rfu.utils.rendering.Render3D
+import cloud.glitchdev.rfu.utils.rendering.Shape
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.phys.Vec3
@@ -38,15 +39,15 @@ object HighlightHotSpots : Feature {
                 val surfaceY = findSurfaceY(hotspot.center, world, hotspot.lava)
                 val renderPos = Vec3(hotspot.center.x, surfaceY + 0.01, hotspot.center.z)
 
-                Render3D.renderDisk(
-                    renderPos,
-                    radius,
-                    -3.0f,
-                    hotspot.color,
-                    context,
-                    borderColor = hotspot.color.darker(),
-                    lineWidth = 3.0f
-                )
+                Render3D.builder(Shape.CYLINDER)
+                    .pos(renderPos)
+                    .radius(radius)
+                    .height(-3.0f)
+                    .color(hotspot.color)
+                    .slices(32)
+                    .borderColor(hotspot.color.darker())
+                    .lineWidth(3.0f)
+                    .render(context)
             }
         }
     }

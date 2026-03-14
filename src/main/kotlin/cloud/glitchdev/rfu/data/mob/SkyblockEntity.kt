@@ -5,7 +5,8 @@ import cloud.glitchdev.rfu.config.categories.RareScSettings.RARE_SC_REGEX
 import cloud.glitchdev.rfu.events.managers.RenderEvents
 import cloud.glitchdev.rfu.events.managers.RenderEvents.registerRenderEvent
 import cloud.glitchdev.rfu.utils.RFULogger
-import cloud.glitchdev.rfu.utils.rendering.Render3D.renderSphereOnMob
+import cloud.glitchdev.rfu.utils.rendering.Render3D
+import cloud.glitchdev.rfu.utils.rendering.Shape
 import gg.essential.universal.utils.toUnformattedString
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext
 import net.minecraft.world.entity.LivingEntity
@@ -70,7 +71,13 @@ class SkyblockEntity(
     fun registerLsRange() {
         registerRenderer { context, entity ->
             if (RareScSettings.lootshareRange && RARE_SC_REGEX.matches(sbName)) {
-                renderSphereOnMob(entity, 30f, Color.WHITE, false, context)
+                Render3D.builder(Shape.SPHERE)
+                    .pos(entity)
+                    .radius(30f)
+                    .color(Color.WHITE)
+                    .stacks(32)
+                    .slices(32)
+                    .render(context)
             }
         }
     }
