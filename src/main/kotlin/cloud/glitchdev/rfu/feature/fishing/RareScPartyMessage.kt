@@ -24,13 +24,19 @@ object RareScPartyMessage : Feature {
                     "First Catch!"
                 }
 
+                val scName = seaCreature.scName
+                val article = if (scName.take(1).lowercase() in "aeiou") "n" else ""
+
                 val messageString = RareScSettings.rarePartyMessage
-                    .replace("{name}", seaCreature.scName)
-                    .replace("{total}", (history.total).toString())
+                    .replace("""(?i)\b(a)\s\{name\}""".toRegex()) { match  ->
+                        val originalA = match.groupValues[1]
+                        "$originalA$article $scName"
+                    }
+                    .replace("{name}", scName)
+                    .replace("{total}", history.total.toString())
                     .replace("{count}", (history.count + 1).toString())
                     .replace("{time}", timeSinceLast)
-                    .replace("{dh}", if(isDoubleHook) RareScSettings.dhText else "")
-
+                    .replace("{dh}", if (isDoubleHook) RareScSettings.dhText else "")
                 Chat.sendPartyMessage(messageString)
             }
         }

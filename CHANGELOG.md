@@ -9,6 +9,7 @@
 - Unified fishing tracking settings and added a migration step.
 - Made the "overall" part of the fishing tracker more compact.
 - Made the lootshare range turn green when inside it.
+- Made Rare SC party messages turn the preceding "a" into "an" if the sc name starts with a vowel
 
 ### Fixes:
 - Fixed description/name of failed cast sound
