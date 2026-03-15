@@ -6,11 +6,13 @@ import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.events.managers.ChatEvents.registerAllowGameEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
+import cloud.glitchdev.rfu.utils.dsl.escapeForRegex
+import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 
 @RFUFeature
 object HideMessages : Feature {
-    val SC_MESSAGE_REGEX = SeaCreatures.entries.joinToString("|") { it.catchMessage }.toRegex()
-    val DOUBLE_HOOK_REGEX = """Double Hook!|It's a Double Hook! Woot woot!|It's a Double Hook!""".toRegex()
+    val SC_MESSAGE_REGEX = SeaCreatures.entries.joinToString("|") { it.catchMessage.escapeForRegex() }.toExactRegex()
+    val DOUBLE_HOOK_REGEX = """Double Hook!|It's a Double Hook! Woot woot!|It's a Double Hook!""".toExactRegex()
     val AUTOPET_REGEX = """Autopet equipped your .+! VIEW RULE""".toRegex()
     val HYPE_REGEX = """Your Implosion hit \d+ enem(?:y|ies) for [\d.,]+ damage\.""".toRegex()
     val COMBO_REGEX = """\+\d+ Kill Combo (.+)""".toRegex()
