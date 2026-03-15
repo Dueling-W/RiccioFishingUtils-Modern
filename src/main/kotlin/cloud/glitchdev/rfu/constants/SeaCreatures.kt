@@ -102,7 +102,7 @@ enum class SeaCreatures(
     @SerializedName("Alligator")
     ALLIGATOR("Alligator", "A long snout breaks the surface of the water. It's an Alligator!", WATER, BAYOU, true),
     @SerializedName("Titanoboa")
-    TITANOBOA("Titanoboa", "A massive Titanoboa surfaces. It's body stretches as far as the eye can see.", WATER, BAYOU, true),
+    TITANOBOA("Titanoboa", "A massive Titanoboa surfaces. Its body stretches as far as the eye can see.", WATER, BAYOU, true),
     //Spooky
     @SerializedName("Scarecrow")
     SCARECROW("Scarecrow", "Phew! It's only a Scarecrow.", WATER, SPOOKY),
