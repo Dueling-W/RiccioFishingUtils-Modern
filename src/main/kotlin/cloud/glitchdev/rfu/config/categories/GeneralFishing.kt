@@ -6,8 +6,6 @@ import cloud.glitchdev.rfu.constants.Dyes
 import cloud.glitchdev.rfu.constants.RareDrops
 import cloud.glitchdev.rfu.data.fishing.FishTrackingType
 import cloud.glitchdev.rfu.data.mob.DeployableType
-import cloud.glitchdev.rfu.utils.dsl.escapeForRegex
-import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
 object GeneralFishing : Category("General Fishing") {
@@ -193,7 +191,7 @@ object GeneralFishing : Category("General Fishing") {
     }
 
     var failCastSound by observable(boolean(false) {
-        name = Literal("Expired Sound")
+        name = Literal("Failed Cast Sound")
         description = Literal("Plays a sound whenever a cast fails.")
         condition = { failCastAlert }
     }) { _, _ ->
