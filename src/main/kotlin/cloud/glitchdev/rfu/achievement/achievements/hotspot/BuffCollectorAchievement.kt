@@ -41,9 +41,8 @@ object BuffCollectorAchievement : NumericAchievement() {
     override fun loadState(progressData: Map<String, Any>) {
         super.loadState(progressData)
         collectedBuffs.clear()
-        val savedBuffs = progressData["buffs"] as? List<String>
-        if (savedBuffs != null) {
-            collectedBuffs.addAll(savedBuffs)
+        (progressData["buffs"] as? List<*>)?.filterIsInstance<String>()?.let {
+            collectedBuffs.addAll(it)
         }
     }
 
