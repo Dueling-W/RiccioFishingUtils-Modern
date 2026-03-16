@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.achievement.achievements.hotspot
 
 import cloud.glitchdev.rfu.achievement.*
 import cloud.glitchdev.rfu.constants.LiquidTypes
+import cloud.glitchdev.rfu.data.fishing.Hotspot
 import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
 import kotlin.time.Duration.Companion.minutes
 
@@ -11,15 +12,15 @@ object HotspotHopperAchievement : BaseAchievement() {
     override val name: String = "Hotspot Hopper"
     override val description: String = "Catch a sea creature in a Water Hotspot and a Lava Hotspot within a minute."
     override val type: AchievementType = AchievementType.SECRET
-    override val difficulty: AchievementDifficulty = AchievementDifficulty.HARD
+    override val difficulty: AchievementDifficulty = AchievementDifficulty.EASY
     override val category: AchievementCategory = AchievementCategory.HOT_SPOT
 
     private var lastHotspotType: LiquidTypes? = null
     private var lastHotspotTime: Long = 0L
 
     override fun setupListeners() {
-        activeListeners.add(registerSeaCreatureCatchEvent { sc, _, inHotspot ->
-            if (inHotspot) {
+        activeListeners.add(registerSeaCreatureCatchEvent { sc, _, hotspot ->
+            if (hotspot != null) {
                 val now = System.currentTimeMillis()
                 val currentType = sc.liquidType
 
