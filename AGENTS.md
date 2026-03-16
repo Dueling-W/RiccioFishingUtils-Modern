@@ -166,7 +166,7 @@ Managers are annotated with `@AutoRegister`. They must implement `RegisteredEven
 Common managers:
 - `TickEvents`: `registerTickEvent(priority, interval) { ... }`
 - `ChatEvents`: `registerChatEvent`, `registerGameEvent(regex)`.
-- `SeaCreatureCatchEvents`: `registerSeaCreatureCatchEvent { creature, isLootshared -> ... }`
+- `SeaCreatureCatchEvents`: `registerSeaCreatureCatchEvent { sc, isDoubleHook, inHotspot -> ... }`
 
 ### Managed Tasks
 

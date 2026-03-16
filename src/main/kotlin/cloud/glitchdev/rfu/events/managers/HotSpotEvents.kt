@@ -95,6 +95,15 @@ object HotSpotEvents : RegisteredEvent {
         return HotSpotDisposedEventManager.register(priority, callback)
     }
 
+    fun isInsideHotspot(pos: Vec3): Boolean {
+        return hotspots.values.any { hotspot ->
+            val horizontalDistance = Vec3(pos.x, 0.0, pos.z).distanceTo(Vec3(hotspot.center.x, 0.0, hotspot.center.z))
+            val verticalDistance = abs(pos.y - hotspot.center.y)
+            val radius = if (hotspot.radius > 0) hotspot.radius else 6.0
+            (horizontalDistance <= radius.toDouble()) && verticalDistance <= 6.0
+        }
+    }
+
     object HotSpotDetectedEventManager : AbstractEventManager<(Hotspot) -> Unit, HotSpotDetectedEventManager.HotSpotDetectedEvent>() {
         override val runTasks: (Hotspot) -> Unit = { hotspot ->
             safeExecution {

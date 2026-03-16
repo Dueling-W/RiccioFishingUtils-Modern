@@ -40,7 +40,7 @@ object SurvivalistAchievement : StageAchievement() {
     }
 
     override fun setupListeners() {
-        activeListeners.add(registerSeaCreatureCatchEvent { sc, doubleHook ->
+        activeListeners.add(registerSeaCreatureCatchEvent { sc, doubleHook, _ ->
             if (sc == SEA_CREATURE) {
                 waitingForJawbus = true
                 wasAssisted = false

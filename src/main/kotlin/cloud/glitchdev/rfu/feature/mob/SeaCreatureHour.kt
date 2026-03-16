@@ -14,7 +14,6 @@ import cloud.glitchdev.rfu.utils.command.SimpleCommand
 import com.mojang.brigadier.context.CommandContext
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import kotlin.time.Clock
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
 
@@ -30,7 +29,7 @@ object SeaCreatureHour : Feature {
     var total: Int = 0
 
     override fun onInitialize() {
-        registerSeaCreatureCatchEvent { _, isDoubleHook ->
+        registerSeaCreatureCatchEvent { _, isDoubleHook, _ ->
             handleCatch(isDoubleHook)
         }
 

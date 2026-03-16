@@ -13,7 +13,7 @@ import kotlin.time.Clock
 @RFUFeature
 object RareScPartyMessage : Feature {
     override fun onInitialize() {
-        registerSeaCreatureCatchEvent(-10) { seaCreature, isDoubleHook ->
+        registerSeaCreatureCatchEvent(-10) { seaCreature, isDoubleHook, _ ->
             if(!RareScSettings.rarePartyMessages) return@registerSeaCreatureCatchEvent
 
             if(RARE_SC_REGEX.matches(seaCreature.scName)) {
