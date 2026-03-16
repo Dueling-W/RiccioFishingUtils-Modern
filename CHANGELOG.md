@@ -16,6 +16,7 @@
 - Improved Highlight Hotspot radius calculation stability to prevent overshooting at first.
 - Fixed a typo in the Titanoboa catch message which would cause it to not be detected as a catch.
 - Fixed not escaping the catch messages for the regex resulting in any sea creature with a reserved char not being detected
+- Fixed dyes regex to work with treasure dye/aquamarine/Iceberg (Again :/)
 
 ### Back-end:
 - Switched 3D sphere and disk overlays from a simple projection check to frustum-based culling.

@@ -6,7 +6,6 @@ import cloud.glitchdev.rfu.events.RegisteredEvent
 import cloud.glitchdev.rfu.utils.dsl.isUser
 import cloud.glitchdev.rfu.constants.Dyes
 import cloud.glitchdev.rfu.constants.RareDrops
-import cloud.glitchdev.rfu.config.categories.GeneralFishing
 import cloud.glitchdev.rfu.utils.dsl.escapeForRegex
 import cloud.glitchdev.rfu.utils.dsl.removeFormatting
 import cloud.glitchdev.rfu.utils.dsl.removeRankTag
@@ -21,7 +20,7 @@ object DropEvents : RegisteredEvent {
     }.toExactRegex()
 
     val DYE_REGEX = buildString {
-        append("WOW! (.+) found a (")
+        append("WOW! (.+) found (?:an? )?(")
         append(Dyes.entries.joinToString("|") { it.toString().escapeForRegex() })
         append(")!")
     }.toExactRegex()
