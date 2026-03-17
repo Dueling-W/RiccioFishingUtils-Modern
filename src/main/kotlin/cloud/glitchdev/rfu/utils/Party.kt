@@ -10,6 +10,7 @@ import cloud.glitchdev.rfu.events.managers.ChatEvents.registerAllowGameEvent
 import cloud.glitchdev.rfu.events.managers.ChatEvents.registerGameEvent
 import cloud.glitchdev.rfu.events.managers.ConnectionEvents.registerJoinEvent
 import cloud.glitchdev.rfu.events.managers.HypixelModApiEvents.hypixelModAPI
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents
 import cloud.glitchdev.rfu.events.managers.ShutdownEvents.registerShutdownEvent
 import cloud.glitchdev.rfu.model.party.FishingParty
 import cloud.glitchdev.rfu.utils.dsl.isUser
@@ -29,6 +30,9 @@ object Party : RegisteredEvent {
     var isLeader = false
     val members: MutableSet<String> = mutableSetOf()
     val listeners: MutableList<(Boolean, Boolean, MutableSet<String>) -> Unit> = mutableListOf()
+    private var requestedUser: String? = null
+    private val joinedCooldowns: MutableMap<String, Long> = mutableMapOf()
+    private val pendingPFInvites: MutableSet<String> = mutableSetOf()
 
     private const val PLAYER_REGEX = "(?:\\[[A-Z]+\\+*\\] )?[0-9a-zA-Z_]{3,16}"
 
@@ -52,6 +56,15 @@ object Party : RegisteredEvent {
             val matchGroups = matches?.groupValues ?: return@registerGameEvent
             inParty = true
             val username = matchGroups[1].removeRankTag()
+            if (username == requestedUser) {
+                val lastJoin = joinedCooldowns[username] ?: 0L
+                val now = System.currentTimeMillis()
+                if (now - lastJoin > 15 * 60 * 1000) {
+                    PartyFinderEvents.runPartyJoinedTasks()
+                    joinedCooldowns[username] = now
+                }
+            }
+            requestedUser = null
             members.clear()
             members.add(username)
             executePartyChange()
@@ -92,6 +105,17 @@ object Party : RegisteredEvent {
             val matchGroups = matches?.groupValues ?: return@registerGameEvent
             inParty = true
             val player = matchGroups[1].removeRankTag()
+
+            if (pendingPFInvites.contains(player)) {
+                val lastJoin = joinedCooldowns[player] ?: 0L
+                val now = System.currentTimeMillis()
+                if (now - lastJoin > 15 * 60 * 1000) {
+                    PartyFinderEvents.runPartyJoinedTasks()
+                    joinedCooldowns[player] = now
+                }
+                pendingPFInvites.remove(player)
+            }
+
             members.add(player)
             executePartyChange()
         }
@@ -159,6 +183,7 @@ object Party : RegisteredEvent {
         registerAllowGameEvent("From ($PLAYER_REGEX): \\[RFUPF\\] I would like to join your party!".toExactRegex()) { _, _, matches ->
             val matchGroups = matches?.groupValues ?: return@registerAllowGameEvent true
             val player = matchGroups[1].removeRankTag()
+            pendingPFInvites.add(player)
             promptInvite(player)
             return@registerAllowGameEvent false
         }
@@ -245,6 +270,7 @@ object Party : RegisteredEvent {
     }
 
     fun requestEntry(username: String) {
+        requestedUser = username
         Chat.sendCommand("w $username [RFUPF] I would like to join your party!")
     }
 }

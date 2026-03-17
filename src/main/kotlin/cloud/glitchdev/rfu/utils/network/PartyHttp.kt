@@ -48,7 +48,7 @@ object PartyHttp {
         postRequest("${API_URL}/party", true, HttpRequest.BodyPublishers.ofString(party.toJson())) { response ->
             if(response.isSuccessful()) {
                 currentParty = party
-                PartyFinderEvents.runTasks(party)
+                PartyFinderEvents.runPartyCreatedTasks(party)
             }
             mc.execute { callback(response.isSuccessful()) }
         }

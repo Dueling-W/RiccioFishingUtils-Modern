@@ -6,6 +6,7 @@
 - Added Hotspot Hopper achievement.
 - Added Solid Magma achievement.
 - Added Buff Collector achievement.
+- Added Party Explorer achievement.
 - Added /rfusc command to check your data on specific Sea Creatures
 
 ### Changes:
