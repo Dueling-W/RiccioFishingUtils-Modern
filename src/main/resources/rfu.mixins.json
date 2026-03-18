@@ -8,7 +8,10 @@
     "ClientPacketListenerMixin",
     "AbstractContainerScreenMixin",
     "EntityRenderDispatcherMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "SquidRendererMixin",
+    "SquidMixin",
+    "SquidRenderStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

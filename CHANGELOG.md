@@ -8,6 +8,7 @@
 - Added Buff Collector achievement.
 - Added Party Explorer achievement.
 - Added /rfusc command to check your data on specific Sea Creatures
+- Added Glow Squid texture to plhlegblast feature
 
 ### Changes:
 - Merged XP/h and SC/h displays into a single Fish Tracking display.

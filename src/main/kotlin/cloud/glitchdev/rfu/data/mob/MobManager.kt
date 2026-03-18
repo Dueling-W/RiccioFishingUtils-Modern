@@ -42,6 +42,10 @@ object MobManager : RegisteredEvent {
         return uniqueSbEntities.toSet()
     }
 
+    fun getSkyblockEntity(id: Int): SkyblockEntity? {
+        return sbEntities[id]
+    }
+
     private fun scanEntities(world: ClientLevel) {
         world.entitiesForRendering().forEach { entity ->
             if (entity is ArmorStand) {

@@ -28,6 +28,13 @@ class SkyblockEntity(
 
     var renderEvent: RenderEvents.RenderEvent? = null
 
+    fun getName(): String? {
+        if (!::sbName.isInitialized) {
+            updateEntityData()
+        }
+        return if (::sbName.isInitialized) sbName else null
+    }
+
     override fun toString(): String {
         return "$sbName ($health/$maxHealth) (renderEvent: ${renderEvent != null}) - ${nameTagEntity.x}, ${nameTagEntity.y}, ${nameTagEntity.z}"
     }

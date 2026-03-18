@@ -28,4 +28,9 @@ object LavaFishing : Category("Lava Fishing") {
         slider = true
         condition = { diedJawbusAlert && diedJawbusSound }
     }
+
+    var plhlegblastGlow by boolean(true) {
+        name = Literal("Plhlegblast Glow")
+        description = Literal("Visually transforms Squids named 'Plhlegblast' into Glow Squids")
+    }
 }
