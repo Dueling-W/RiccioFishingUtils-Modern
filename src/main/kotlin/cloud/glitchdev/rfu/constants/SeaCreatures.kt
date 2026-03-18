@@ -6,6 +6,8 @@ import cloud.glitchdev.rfu.model.data.DataOption
 import com.google.gson.annotations.SerializedName
 
 import cloud.glitchdev.rfu.data.fishing.Hotspot
+import cloud.glitchdev.rfu.utils.MayorTracker
+import cloud.glitchdev.rfu.utils.World
 import net.minecraft.world.phys.Vec3
 
 enum class SeaCreatures(
@@ -109,15 +111,15 @@ enum class SeaCreatures(
     TITANOBOA("Titanoboa", "A massive Titanoboa surfaces. Its body stretches as far as the eye can see.", WATER, BAYOU, true),
     //Spooky
     @SerializedName("Scarecrow")
-    SCARECROW("Scarecrow", "Phew! It's only a Scarecrow.", WATER, SPOOKY),
+    SCARECROW("Scarecrow", "Phew! It's only a Scarecrow.", WATER, SPOOKY, false, { _, _ -> World.isSpookyFestival() }),
     @SerializedName("Nightmare")
-    NIGHTMARE("Nightmare", "You hear trotting from beneath the waves, you caught a Nightmare.", WATER, SPOOKY),
+    NIGHTMARE("Nightmare", "You hear trotting from beneath the waves, you caught a Nightmare.", WATER, SPOOKY, false, { _, _ -> World.isSpookyFestival() }),
     @SerializedName("Werewolf")
-    WEREWOLF("Werewolf", "It must be a full moon, a Werewolf appears.", WATER, SPOOKY),
+    WEREWOLF("Werewolf", "It must be a full moon, a Werewolf appears.", WATER, SPOOKY, false, { _, _ -> World.isSpookyFestival() }),
     @SerializedName("Phantom Fisher")
-    PHANTOM_FISHER("Phantom Fisher", "The spirit of a long lost Phantom Fisher has come to haunt you.", WATER, SPOOKY, true),
+    PHANTOM_FISHER("Phantom Fisher", "The spirit of a long lost Phantom Fisher has come to haunt you.", WATER, SPOOKY, true, { _, _ -> World.isSpookyFestival() }),
     @SerializedName("Grim Reaper")
-    GRIM_REAPER("Grim Reaper", "This can't be! The manifestation of death himself!", WATER, SPOOKY, true),
+    GRIM_REAPER("Grim Reaper", "This can't be! The manifestation of death himself!", WATER, SPOOKY, true, { _, _ -> World.isSpookyFestival() }),
     //Winter
     @SerializedName("Frozen Steve")
     FROZEN_STEVE("Frozen Steve", "Frozen Steve fell into the pond long ago, never to resurface...until now!", WATER, WINTER),
@@ -133,13 +135,13 @@ enum class SeaCreatures(
     REINDRAKE("Reindrake", "A Reindrake forms from the depths.", WATER, WINTER, true),
     //Festival
     @SerializedName("Nurse Shark")
-    NURSE_SHARK("Nurse Shark", "A tiny fin emerges from the water, you've caught a Nurse Shark.", WATER, SHARK),
+    NURSE_SHARK("Nurse Shark", "A tiny fin emerges from the water, you've caught a Nurse Shark.", WATER, SHARK, false, { _, _ -> World.isFishingFestival() }),
     @SerializedName("Blue Shark")
-    BLUE_SHARK("Blue Shark", "You spot a fin as blue as the water it came from, it's a Blue Shark.", WATER, SHARK),
+    BLUE_SHARK("Blue Shark", "You spot a fin as blue as the water it came from, it's a Blue Shark.", WATER, SHARK, false, { _, _ -> World.isFishingFestival() }),
     @SerializedName("Tiger Shark")
-    TIGER_SHARK("Tiger Shark", "A striped beast bounds from the depths, the wild Tiger Shark!", WATER, SHARK),
+    TIGER_SHARK("Tiger Shark", "A striped beast bounds from the depths, the wild Tiger Shark!", WATER, SHARK, false, { _, _ -> World.isFishingFestival() }),
     @SerializedName("Great White Shark")
-    GREAT_WHITE_SHARK("Great White Shark", "Hide no longer, a Great White Shark has tracked your scent and thirsts for your blood!", WATER, SHARK, true),
+    GREAT_WHITE_SHARK("Great White Shark", "Hide no longer, a Great White Shark has tracked your scent and thirsts for your blood!", WATER, SHARK, true, { _, _ -> World.isFishingFestival() }),
     //Isle
     @SerializedName("Magma Slug")
     MAGMA_SLUG("Magma Slug", "From beneath the lava appears a Magma Slug.", LAVA, ISLE),

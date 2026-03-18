@@ -46,6 +46,12 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         val lastHotspot = catchHistory.lastHotspot
         val lastPos = catchHistory.lastPos
 
+        // If we're on an island but haven't caught anything yet and aren't fishing, don't show anything
+        if (lastPos == Vec3.ZERO && !isFishing && !isEditing) {
+            text.setText("")
+            return
+        }
+
         selectedScs.forEach { sc ->
             if (currentIsland != null && !sc.category.islands.contains(currentIsland)) {
                 return@forEach
