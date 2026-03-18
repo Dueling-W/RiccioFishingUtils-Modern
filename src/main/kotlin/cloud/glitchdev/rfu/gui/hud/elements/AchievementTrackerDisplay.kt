@@ -5,24 +5,37 @@ import cloud.glitchdev.rfu.achievement.AchievementManager
 import cloud.glitchdev.rfu.achievement.interfaces.IStageAchievement
 import cloud.glitchdev.rfu.config.categories.OtherSettings
 import cloud.glitchdev.rfu.constants.text.TextColor.GRAY
-import cloud.glitchdev.rfu.constants.text.TextColor.LIGHT_GREEN
-import cloud.glitchdev.rfu.constants.text.TextColor.LIGHT_RED
-import cloud.glitchdev.rfu.constants.text.TextColor.RED
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
 import cloud.glitchdev.rfu.data.achievements.AchievementHandler
 import cloud.glitchdev.rfu.events.managers.AchievementStageUnlockedEvents.registerAchievementStageUnlockedEvent
 import cloud.glitchdev.rfu.events.managers.AchievementUnlockedEvents.registerAchievementUnlockedEvent
 import cloud.glitchdev.rfu.events.managers.AchievementUpdatedEvents.registerAchievementUpdatedEvent
-import cloud.glitchdev.rfu.gui.hud.AbstractTextHudElement
+import cloud.glitchdev.rfu.gui.UIScheme
+import cloud.glitchdev.rfu.gui.hud.AbstractHudElement
 import cloud.glitchdev.rfu.gui.hud.HudElement
-
 import cloud.glitchdev.rfu.utils.dsl.compact
+import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIText
+import gg.essential.elementa.constraints.ChildBasedMaxSizeConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.ScaledTextConstraint
+import gg.essential.elementa.constraints.SiblingConstraint
+import gg.essential.elementa.constraints.TextAspectConstraint
+import gg.essential.elementa.dsl.childOf
+import gg.essential.elementa.dsl.constrain
+import gg.essential.elementa.dsl.toConstraint
 
 @HudElement
-object AchievementTrackerDisplay : AbstractTextHudElement("achievementTrackerDisplay") {
-
+object AchievementTrackerDisplay : AbstractHudElement("achievementTrackerDisplay") {
     override val enabled: Boolean
-        get() = OtherSettings.achievementTrackerDisplay && (super.enabled || AchievementHandler.getTrackedAchievements().isNotEmpty())
+        get() = OtherSettings.achievementTrackerDisplay && (isEditing || AchievementHandler.getTrackedAchievements().isNotEmpty())
+
+    private val container = UIContainer().constrain {
+        width = ChildBasedMaxSizeConstraint()
+        height = ChildBasedSizeConstraint()
+    } childOf this
+
+    private var achievementLines: List<UIText> = emptyList()
 
     override fun onInitialize() {
         super.onInitialize()
@@ -38,56 +51,63 @@ object AchievementTrackerDisplay : AbstractTextHudElement("achievementTrackerDis
     }
 
     override fun onUpdateState() {
-        super.onUpdateState()
+        achievementLines.forEach { container.removeChild(it) }
 
         val trackedIds = AchievementHandler.getTrackedAchievements()
         if (trackedIds.isEmpty()) {
             if (isEditing) {
-                text.setText("Achievement Tracker")
+                achievementLines = listOf(
+                    UIText("Achievement Tracker").constrain {
+                        y = SiblingConstraint()
+                        width = ScaledTextConstraint(scale)
+                        height = TextAspectConstraint()
+                    } childOf container
+                )
             } else {
-                text.setText("")
+                achievementLines = emptyList()
             }
             return
         }
 
-        val lines = mutableListOf<String>()
-        trackedIds.forEach { id ->
-            val achievement = AchievementManager.getAchievement(id)
-            if (achievement != null) {
-                val name = if (achievement is IStageAchievement && !achievement.isCompleted) {
-                    achievement.getStageName(achievement.currentStage) ?: achievement.name
-                } else {
-                    achievement.name
-                }
-
-                val difficulty = if (achievement is IStageAchievement && !achievement.isCompleted) {
-                    achievement.getStageDifficulty(achievement.currentStage) ?: achievement.difficulty
-                } else {
-                    achievement.difficulty
-                }
-
-                val color = when (difficulty) {
-                    AchievementDifficulty.EASY -> LIGHT_GREEN
-                    AchievementDifficulty.MEDIUM -> YELLOW
-                    AchievementDifficulty.HARD -> LIGHT_RED
-                    AchievementDifficulty.VERY_HARD -> RED
-                    AchievementDifficulty.IMPOSSIBLE -> RED // Closest to DARK_RED if not available
-                }
-
-                val current = achievement.currentProgress
-                val target = achievement.targetProgress
-                val percentage = if (target > 0L) (current.toFloat() / target.toFloat() * 100).toInt() else 0
-
-                val progressText = if (achievement.isCompleted) {
-                    "Completed!"
-                } else {
-                    "${current.compact()}/${target.compact()} $GRAY($percentage%)"
-                }
-
-                lines.add("$color$name: $YELLOW$progressText")
+        achievementLines = trackedIds.mapNotNull { id ->
+            val achievement = AchievementManager.getAchievement(id) ?: return@mapNotNull null
+            
+            val name = if (achievement is IStageAchievement && !achievement.isCompleted) {
+                achievement.getStageName(achievement.currentStage) ?: achievement.name
+            } else {
+                achievement.name
             }
-        }
 
-        text.setText(if (lines.isEmpty()) (if (isEditing) "Achievement Tracker" else "") else lines.joinToString("\n"))
+            val difficulty = if (achievement is IStageAchievement && !achievement.isCompleted) {
+                achievement.getStageDifficulty(achievement.currentStage) ?: achievement.difficulty
+            } else {
+                achievement.difficulty
+            }
+
+            val color = when (difficulty) {
+                AchievementDifficulty.EASY -> UIScheme.easyDifficultyColor
+                AchievementDifficulty.MEDIUM -> UIScheme.mediumDifficultyColor
+                AchievementDifficulty.HARD -> UIScheme.hardDifficultyColor
+                AchievementDifficulty.VERY_HARD -> UIScheme.veryHardDifficultyColor
+                AchievementDifficulty.IMPOSSIBLE -> UIScheme.impossibleDifficultyColor
+            }
+
+            val current = achievement.currentProgress
+            val target = achievement.targetProgress
+            val percentage = if (target > 0L) (current.toFloat() / target.toFloat() * 100).toInt() else 0
+
+            val progressText = if (achievement.isCompleted) {
+                "Completed!"
+            } else {
+                "${current.compact()}/${target.compact()} $GRAY($percentage%)"
+            }
+
+            UIText("$name: $YELLOW$progressText").constrain {
+                y = SiblingConstraint()
+                width = ScaledTextConstraint(scale)
+                height = TextAspectConstraint()
+                this.color = color.toConstraint()
+            } childOf container
+        }
     }
 }
