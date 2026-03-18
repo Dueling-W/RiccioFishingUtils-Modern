@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.gui.hud.elements
 
 import cloud.glitchdev.rfu.config.categories.RareScSettings
+import cloud.glitchdev.rfu.constants.RareScDisplayDataType
 import cloud.glitchdev.rfu.constants.text.TextColor.CYAN
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
 import cloud.glitchdev.rfu.constants.text.TextColor.WHITE
@@ -15,6 +16,7 @@ import cloud.glitchdev.rfu.utils.World
 import cloud.glitchdev.rfu.utils.dsl.toReadableString
 import cloud.glitchdev.rfu.events.managers.HypixelModApiEvents.registerLocationEvent
 import net.minecraft.world.phys.Vec3
+import kotlin.math.ceil
 import kotlin.time.Clock
 import kotlin.time.Instant
 
@@ -46,11 +48,12 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         val lastHotspot = catchHistory.lastHotspot
         val lastPos = catchHistory.lastPos
 
-        // If we're on an island but haven't caught anything yet and aren't fishing, don't show anything
         if (lastPos == Vec3.ZERO && !isFishing && !isEditing) {
             text.setText("")
             return
         }
+
+        val dataOrder = RareScSettings.rareScDisplayDataOrder
 
         selectedScs.forEach { sc ->
             if (currentIsland != null && !sc.category.islands.contains(currentIsland)) {
@@ -63,19 +66,32 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
 
             val record = catchHistory.getOrAdd(sc)
 
-            val average = if (record.history.isNotEmpty()) "%.1f".format(record.history.average()) else "0.0"
-            val lastTime = if (record.total > 0) {
-                (Clock.System.now() - record.time).toReadableString()
-            } else {
-                "Never"
-            }
-
+            // Building the customized line
             val line = buildString {
                 append("$CYAN${BOLD}${sc.scName}:")
-                append(" $YELLOW${record.count}")
-                append(" $GRAY($YELLOW$average$GRAY)")
-                append(" $CYAN[$YELLOW${record.total}$CYAN]")
-                append(" $WHITE$lastTime")
+
+                dataOrder.forEach { dataType ->
+                    when (dataType) {
+                        RareScDisplayDataType.STREAK -> {
+                            append(" $YELLOW${record.count}")
+                        }
+                        RareScDisplayDataType.AVERAGE -> {
+                            val avg = if (record.history.isNotEmpty()) ceil(record.history.average()).toInt().toString() else "0"
+                            append(" $GRAY($YELLOW$avg$GRAY)")
+                        }
+                        RareScDisplayDataType.TOTAL -> {
+                            append(" $CYAN[$YELLOW${record.total}$CYAN]")
+                        }
+                        RareScDisplayDataType.TIME_SINCE -> {
+                            val lastTime = if (record.total > 0) {
+                                (Clock.System.now() - record.time).toReadableString()
+                            } else {
+                                "Never"
+                            }
+                            append(" $WHITE$lastTime")
+                        }
+                    }
+                }
             }
             lines.add(line)
         }

@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.config.categories
 
 import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.constants.SeaCreatures
+import cloud.glitchdev.rfu.constants.RareScDisplayDataType
 import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
@@ -134,6 +135,12 @@ object RareScSettings : Category("Rare SCs") {
     var rareScOnlyWhenFishing by boolean(true) {
         name = Literal("Only display when fishing")
         description = Literal("Only show the display when you're fishing")
+        condition = { rareScDisplay }
+    }
+
+    var rareScDisplayDataOrder by draggable(*RareScDisplayDataType.entries.toTypedArray()) {
+        name = Literal("Display Data Order")
+        description = Literal("Drag to reorder the data shown for each sea creature.")
         condition = { rareScDisplay }
     }
 }
