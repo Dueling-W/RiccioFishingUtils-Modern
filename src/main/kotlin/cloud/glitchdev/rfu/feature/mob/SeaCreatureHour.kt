@@ -8,6 +8,7 @@ import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
 import cloud.glitchdev.rfu.gui.hud.elements.FishTrackingDisplay
+import cloud.glitchdev.rfu.gui.hud.elements.RareSCDisplay
 import cloud.glitchdev.rfu.utils.TextUtils
 import cloud.glitchdev.rfu.utils.command.Command
 import cloud.glitchdev.rfu.utils.command.SimpleCommand
@@ -31,6 +32,7 @@ object SeaCreatureHour : Feature {
     override fun onInitialize() {
         registerSeaCreatureCatchEvent { _, isDoubleHook, _, _ ->
             handleCatch(isDoubleHook)
+            RareSCDisplay.updateState()
         }
 
         registerTickEvent(interval = 20) {
@@ -86,6 +88,7 @@ object SeaCreatureHour : Feature {
         if (startFishing == Instant.DISTANT_PAST) {
             currentScPerHour = 0.0
             FishTrackingDisplay.updateState()
+            RareSCDisplay.updateState()
             return
         }
 
@@ -99,11 +102,13 @@ object SeaCreatureHour : Feature {
         if (calculationWindow.inWholeSeconds == 0L) {
             currentScPerHour = 0.0
             FishTrackingDisplay.updateState()
+            RareSCDisplay.updateState()
             return
         }
 
         currentScPerHour = (catchHistory.size.toDouble() / calculationWindow.inWholeSeconds) * 3600
         FishTrackingDisplay.updateState()
+        RareSCDisplay.updateState()
     }
 
     private fun resetSession() {

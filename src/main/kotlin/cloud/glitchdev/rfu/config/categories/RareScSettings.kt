@@ -116,4 +116,24 @@ object RareScSettings : Category("Rare SCs") {
         description = Literal("Makes detections more frequent when the health bar is active (Probably wont but may cause lag, hence the option)")
         condition = { bossHealthBars }
     }
+
+    init {
+        dualSeparator {
+            title = "Rare SC Display"
+            description = "Track your rare sea creatures!"
+        }
+    }
+
+    var rareScDisplay by observable(boolean(true) {
+        name = Literal("Toggle")
+        description = Literal("Enables the Rare SC display")
+    }) { _, _ ->
+        reloadScreen()
+    }
+
+    var rareScOnlyWhenFishing by boolean(true) {
+        name = Literal("Only display when fishing")
+        description = Literal("Only show the display when you're fishing")
+        condition = { rareScDisplay }
+    }
 }

@@ -10,6 +10,11 @@ import kotlin.time.Instant
 class CatchHistory {
     var catches: MutableList<CatchRecord> = ArrayList()
 
+    @Transient
+    var lastHotspot: Hotspot? = null
+    @Transient
+    var lastPos: Vec3 = Vec3.ZERO
+
     /**
      * Finds the record for a specific SeaCreature.
      * If it doesn't exist, it creates it, adds it to the list, and returns the new one.
@@ -36,6 +41,9 @@ class CatchHistory {
      */
     fun registerCatch(sc: SeaCreatures, dh : Boolean, hotspot: Hotspot?, pos: Vec3) {
         if(dh) registerCatch(sc, false, hotspot, pos)
+
+        lastHotspot = hotspot
+        lastPos = pos
 
         val currentRecord = getOrAdd(sc)
 
