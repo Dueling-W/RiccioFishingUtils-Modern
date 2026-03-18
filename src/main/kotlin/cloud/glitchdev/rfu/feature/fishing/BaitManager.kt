@@ -41,34 +41,43 @@ object BaitManager : Feature {
 
 
         registerBobberLiquidEvent { bobber ->
-            val player = mc.player ?: return@registerBobberLiquidEvent
-
-            val speed = bobber.deltaMovement.length()
-            val inflation = (speed * 5.0)
-            val aabb = bobber.boundingBox.inflate(inflation)
-            val itemsNearBobber = mc.level?.getEntitiesOfClass(ItemEntity::class.java, aabb)
-
-            var foundBait: Bait? = null
-
-            itemsNearBobber?.forEach { itemEntity ->
-                val stack = itemEntity.item
-                Bait.fromName(stack.hoverName.string)?.let {
-                    foundBait = it
-                    return@forEach
-                }
+            val itemBait = findBaitNear(bobber)
+            if (itemBait != null) {
+                lastBait = itemBait
+                return@registerBobberLiquidEvent
             }
 
-            if (foundBait == null) {
-                for (i in 0 until player.inventory.containerSize) {
-                    val stack = player.inventory.getItem(i)
-                    Bait.fromName(stack.hoverName.string)?.let {
-                        foundBait = it
-                        break
-                    }
-                }
+            if (lastBait == null) {
+                lastBait = findBaitInInventory()
             }
-
-            lastBait = foundBait
         }
+    }
+
+    private fun findBaitNear(bobber: FishingHook): Bait? {
+        val speed = bobber.deltaMovement.length()
+        val inflation = (speed * 5.0).coerceAtLeast(1.0)
+        val aabb = bobber.boundingBox.inflate(inflation)
+        val itemsNearBobber = mc.level?.getEntitiesOfClass(ItemEntity::class.java, aabb)
+
+        itemsNearBobber?.forEach { itemEntity ->
+            val stack = itemEntity.item
+            if (stack.isEmpty) return@forEach
+            Bait.fromName(stack.hoverName.string)?.let {
+                return it
+            }
+        }
+        return null
+    }
+
+    private fun findBaitInInventory(): Bait? {
+        val player = mc.player ?: return null
+        for (i in 0 until player.inventory.containerSize) {
+            val stack = player.inventory.getItem(i)
+            if (stack.isEmpty) continue
+            Bait.fromName(stack.hoverName.string)?.let {
+                return it
+            }
+        }
+        return null
     }
 }
