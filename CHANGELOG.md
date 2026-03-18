@@ -3,6 +3,7 @@
 ### Features:
 - Added Highlight Hotspot feature with radius detection and buff-based coloring.
 - Added option to make the ls range filled (on by default)
+- Added Crowded Hotspot achievement.
 - Added Hotspot Hopper achievement.
 - Added Solid Magma achievement.
 - Added Buff Collector achievement.
