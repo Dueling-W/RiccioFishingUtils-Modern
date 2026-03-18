@@ -15,6 +15,8 @@ class CatchHistory {
     var lastHotspot: Hotspot? = null
     @Transient
     var lastPos: Vec3 = Vec3.ZERO
+    @Transient
+    var lastBait: Bait? = null
 
     /**
      * Finds the record for a specific SeaCreature.
@@ -45,6 +47,7 @@ class CatchHistory {
 
         lastHotspot = hotspot
         lastPos = pos
+        lastBait = bait
 
         val currentRecord = getOrAdd(sc)
 
@@ -52,7 +55,7 @@ class CatchHistory {
             catches.forEach { record ->
                 val recordSc = SeaCreatures.entries.find { it.scName == record.name }
                 if (recordSc != null && SeaCreatures.isInIslands(recordSc, sc.category)) {
-                    if (recordSc.condition(hotspot, pos)) {
+                    if (recordSc.condition(hotspot, pos, bait)) {
                         record.count += 1
                     }
                 }
@@ -64,7 +67,7 @@ class CatchHistory {
         }
         currentRecord.time = Clock.System.now()
 
-        if (sc.condition(hotspot, pos)) {
+        if (sc.condition(hotspot, pos, bait)) {
             currentRecord.count = 0
             currentRecord.total += 1
         }

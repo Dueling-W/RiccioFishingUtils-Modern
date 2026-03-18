@@ -34,6 +34,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         registerLocationEvent {
             CatchTracker.catchHistory.lastHotspot = null
             CatchTracker.catchHistory.lastPos = Vec3.ZERO
+            CatchTracker.catchHistory.lastBait = null
         }
     }
 
@@ -47,6 +48,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         val catchHistory = CatchTracker.catchHistory
         val lastHotspot = catchHistory.lastHotspot
         val lastPos = catchHistory.lastPos
+        val lastBait = catchHistory.lastBait
 
         if (lastPos == Vec3.ZERO && !isFishing && !isEditing) {
             text.setText("")
@@ -60,7 +62,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
                 return@forEach
             }
 
-            if (lastPos != Vec3.ZERO && !sc.condition(lastHotspot, lastPos)) {
+            if (lastPos != Vec3.ZERO && !sc.condition(lastHotspot, lastPos, lastBait)) {
                 return@forEach
             }
 
