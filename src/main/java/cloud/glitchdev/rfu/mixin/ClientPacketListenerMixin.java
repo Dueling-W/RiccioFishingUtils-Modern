@@ -1,22 +1,37 @@
 package cloud.glitchdev.rfu.mixin;
 
-import cloud.glitchdev.rfu.events.managers.ContainerEvents;
-import cloud.glitchdev.rfu.events.managers.EntityRemovedEvents;
-import cloud.glitchdev.rfu.events.managers.ParticleEvents;
-import cloud.glitchdev.rfu.events.managers.SetSlotEvents;
+import cloud.glitchdev.rfu.events.managers.*;
 import cloud.glitchdev.rfu.events.wrappers.VoidCancelable;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.network.protocol.game.ClientboundRemoveEntitiesPacket;
+import net.minecraft.network.protocol.game.*;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
+    @Shadow private ClientLevel level;
+
+    @Inject(method = "handleAddEntity", at = @At("TAIL"))
+    private void onEntityAdded(ClientboundAddEntityPacket packet, CallbackInfo ci) {
+        Entity entity = this.level.getEntity(packet.getId());
+        if (entity != null) {
+            EntityAddedEvents.INSTANCE.getRunTasks().invoke(entity);
+        }
+    }
+
+    @Inject(method = "handleSetEntityData", at = @At("TAIL"))
+    private void onEntityData(ClientboundSetEntityDataPacket packet, CallbackInfo ci) {
+        Entity entity = this.level.getEntity(packet.id());
+        if (entity != null) {
+            EntityDataEvents.INSTANCE.getRunTasks().invoke(entity);
+        }
+    }
+
     @Inject(method = "handleContainerContent", at = @At("HEAD"))
     private void onContainerContentPacket(ClientboundContainerSetContentPacket packet, CallbackInfo ci) {
         ContainerEvents.INSTANCE.getRunTasks().invoke(packet.containerId(), packet.items());

@@ -9,25 +9,22 @@ import net.minecraft.world.entity.projectile.FishingHook
 
 @AutoRegister
 object BobberLiquidEvents : AbstractEventManager<(FishingHook) -> Unit, BobberLiquidEvents.BobberLiquidEvent>(), RegisteredEvent {
-    private var wasInLiquid = false
+    private var lastHookId = -1
 
     override fun register() {
         registerTickEvent(0, 5) { _ ->
             val player = mc.player ?: return@registerTickEvent
             val fishingHook = player.fishing ?: run {
-                wasInLiquid = false
+                lastHookId = -1
                 return@registerTickEvent
             }
 
+            if (fishingHook.id == lastHookId) return@registerTickEvent
             val isInLiquid = fishingHook.isInWater || fishingHook.isInLava
 
             if (isInLiquid) {
-                if (!wasInLiquid) {
-                    wasInLiquid = true
-                    runTasks(fishingHook)
-                }
-            } else {
-                wasInLiquid = false
+                lastHookId = fishingHook.id
+                runTasks(fishingHook)
             }
         }
     }
