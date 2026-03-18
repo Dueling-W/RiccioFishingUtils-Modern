@@ -7,12 +7,14 @@
 - Added Solid Magma achievement.
 - Added Buff Collector achievement.
 - Added Party Explorer achievement.
+- Added Distant Ragnarok achievement (Ragnarok dry streak).
+- Added Silent Tiki achievement (Wiki Tiki dry streak).
 - Added /rfusc command to check your data on specific Sea Creatures
 - Added Glow Squid texture to plhlegblast feature
 - Added an option to hide the "Thunder Spark" message.
 
 ### Changes:
-- Added progress tracking to Menacing Trio achievements for better feedback.
+- Added progress tracking to Hotspot Hopper and Menacing Trio achievements for better feedback.
 - Merged XP/h and SC/h displays into a single Fish Tracking display.
 - Unified fishing tracking settings and added a migration step.
 - Made the "overall" part of the fishing tracker more compact.
