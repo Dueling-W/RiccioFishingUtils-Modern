@@ -9,6 +9,9 @@ enum class LiquidTypes(val liquid : String) {
     @SerializedName("Water")
     WATER("Water");
 
+    fun isLava() : Boolean = this == LAVA
+    fun isWater() : Boolean = this == WATER
+
     fun toDataOption() : DataOption {
         return DataOption(this, this.liquid)
     }

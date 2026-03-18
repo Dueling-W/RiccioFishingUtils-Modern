@@ -1,5 +1,6 @@
 package cloud.glitchdev.rfu.events.managers
 
+import cloud.glitchdev.rfu.constants.LiquidTypes
 import cloud.glitchdev.rfu.data.fishing.Hotspot
 import cloud.glitchdev.rfu.events.AbstractEventManager
 import cloud.glitchdev.rfu.events.AutoRegister
@@ -44,8 +45,8 @@ object HotSpotEvents : RegisteredEvent {
                         val pos = entity.position()
                         val buff = findBuffNearby(pos, world)
                         val color = getColorForBuff(buff)
-                        val isLava = checkIsLava(pos, world)
-                        val hotspot = Hotspot(uuid, pos, buff, 0f, color, isLava)
+                        val liquid = getLiquidType(pos, world)
+                        val hotspot = Hotspot(uuid, pos, buff, 0f, color, liquid)
                         hotspots[uuid] = hotspot
                         HotSpotDetectedEventManager.runTasks(hotspot)
                     }
@@ -190,15 +191,15 @@ object HotSpotEvents : RegisteredEvent {
         }
     }
 
-    private fun checkIsLava(pos: Vec3, world: ClientLevel): Boolean {
+    private fun getLiquidType(pos: Vec3, world: ClientLevel): LiquidTypes {
         for (dx in -1..1) {
             for (dz in -1..1) {
                 for (dy in -4..1) {
                     val blockPos = net.minecraft.core.BlockPos.containing(pos.x + dx, pos.y + dy, pos.z + dz)
-                    if (world.getBlockState(blockPos).`is`(Blocks.LAVA)) return true
+                    if (world.getBlockState(blockPos).`is`(Blocks.LAVA)) return LiquidTypes.LAVA
                 }
             }
         }
-        return false
+        return LiquidTypes.WATER
     }
 }

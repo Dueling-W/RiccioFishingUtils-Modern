@@ -60,13 +60,13 @@ enum class SeaCreatures(
     STRIDERSURFER("Stridersurfer", "You caught a Stridersurfer.", LAVA, GALATEA),
     //Water Hotspot
     @SerializedName("Frog Man")
-    FROG_MAN("Frog Man", "Is it a frog? Is it a man? Well, yes, sorta, IT'S FROG MAN!!!!!!", WATER, HOTSPOT_WATER, false, { h, _ -> h != null }),
+    FROG_MAN("Frog Man", "Is it a frog? Is it a man? Well, yes, sorta, IT'S FROG MAN!!!!!!", WATER, HOTSPOT_WATER, false, { h, _ -> h?.liquid?.isWater() == true }),
     @SerializedName("Snapping Turtle")
-    SNAPPING_TURTLE("Snapping Turtle", "A Snapping Turtle is coming your way, and it's ANGRY!", WATER, HOTSPOT_WATER, false, { h, _ -> h != null }),
+    SNAPPING_TURTLE("Snapping Turtle", "A Snapping Turtle is coming your way, and it's ANGRY!", WATER, HOTSPOT_WATER, false, { h, _ -> h?.liquid?.isWater() == true }),
     @SerializedName("Blue Ringed Octopus")
-    BLUE_RINGED_OCTOPUS("Blue Ringed Octopus", "A garish set of tentacles arise. It's a Blue Ringed Octopus!", WATER, HOTSPOT_WATER, true, { h, _ -> h != null }),
+    BLUE_RINGED_OCTOPUS("Blue Ringed Octopus", "A garish set of tentacles arise. It's a Blue Ringed Octopus!", WATER, HOTSPOT_WATER, true, { h, _ -> h?.liquid?.isWater() == true }),
     @SerializedName("Wiki Tiki")
-    WIKI_TIKI("Wiki Tiki", "The water bubbles and froths. A massive form emerges- you have disturbed the Wiki Tiki! You shall pay the price.", WATER, HOTSPOT_WATER, true, { h, _ -> h != null }),
+    WIKI_TIKI("Wiki Tiki", "The water bubbles and froths. A massive form emerges- you have disturbed the Wiki Tiki! You shall pay the price.", WATER, HOTSPOT_WATER, true, { h, _ -> h?.liquid?.isWater() == true }),
     //Oasis
     @SerializedName("Oasis Rabbit")
     OASIS_RABBIT("Oasis Rabbit","An Oasis Rabbit appears from the water.", WATER, OASIS),
@@ -167,13 +167,13 @@ enum class SeaCreatures(
     JAWBUS("Lord Jawbus", "You have angered a legendary creature... Lord Jawbus has arrived.", LAVA, ISLE, true),
     //Lava Hotspot
     @SerializedName("Fried Chicken")
-    FRIED_CHICKEN("Fried Chicken", "Smells of burning. Must be a Fried Chicken.", LAVA, HOTSPOT_LAVA, false, { h, _ -> h != null }),
+    FRIED_CHICKEN("Fried Chicken", "Smells of burning. Must be a Fried Chicken.", LAVA, HOTSPOT_LAVA, false, { h, _ -> h?.liquid?.isLava() == true }),
     @SerializedName("Fireproof Witch")
-    FIREPROOF_WITCH("Fireproof Witch", "Trouble's brewing, it's a Fireproof Witch!", LAVA, HOTSPOT_LAVA, false, { h, _ -> h != null }),
+    FIREPROOF_WITCH("Fireproof Witch", "Trouble's brewing, it's a Fireproof Witch!", LAVA, HOTSPOT_LAVA, false, { h, _ -> h?.liquid?.isLava() == true }),
     @SerializedName("Fiery Scuttler")
-    FIERY_SCUTTER("Fiery Scuttler", "A Fiery Scuttler inconspicuously waddles up to you, friends in tow.", LAVA, HOTSPOT_LAVA, true, { h, _ -> h != null }),
+    FIERY_SCUTTER("Fiery Scuttler", "A Fiery Scuttler inconspicuously waddles up to you, friends in tow.", LAVA, HOTSPOT_LAVA, true, { h, _ -> h?.liquid?.isLava() == true }),
     @SerializedName("Ragnarok")
-    RAGNAROK("Ragnarok", "The sky darkens and the air thickens. The end times are upon us: Ragnarok is here.", LAVA, HOTSPOT_LAVA, true, { h, _ -> h != null });
+    RAGNAROK("Ragnarok", "The sky darkens and the air thickens. The end times are upon us: Ragnarok is here.", LAVA, HOTSPOT_LAVA, true, { h, _ -> h?.liquid?.isLava() == true });
 
     fun toDataOption() : DataOption {
         return DataOption(this, this.scName)

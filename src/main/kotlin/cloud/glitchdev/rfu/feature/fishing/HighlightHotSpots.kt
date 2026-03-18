@@ -37,7 +37,7 @@ object HighlightHotSpots : Feature {
             Render3D.draw(context) {
                 for (hotspot in hotspots.values) {
                     val rad = if (hotspot.radius > 0) hotspot.radius else continue
-                    val surfaceY = findSurfaceY(hotspot.center, world, hotspot.lava)
+                    val surfaceY = findSurfaceY(hotspot.center, world, hotspot.liquid.isLava())
                     val renderPos = Vec3(hotspot.center.x, surfaceY + 0.01, hotspot.center.z)
 
                     cylinder {

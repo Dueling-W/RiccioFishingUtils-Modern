@@ -1,5 +1,6 @@
 package cloud.glitchdev.rfu.data.fishing
 
+import cloud.glitchdev.rfu.constants.LiquidTypes
 import net.minecraft.world.phys.Vec3
 import java.awt.Color
 import java.util.UUID
@@ -10,7 +11,7 @@ data class Hotspot(
     val buff: String,
     var radius: Float = 0f,
     val color: Color,
-    val lava: Boolean,
+    val liquid: LiquidTypes,
     val startTime: Long = System.currentTimeMillis()
 ) {
     private val particleDistances = mutableListOf<Double>()
