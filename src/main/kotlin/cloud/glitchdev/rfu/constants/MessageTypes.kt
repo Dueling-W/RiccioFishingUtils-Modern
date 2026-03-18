@@ -6,7 +6,8 @@ enum class MessageTypes(val displayName : String) {
     LOOTSHARE("Lootshare"),
     CATCH("Catch"),
     COMBO("Combo"),
-    BLOCKS("Blocks in the way");
+    BLOCKS("Blocks in the way"),
+    THUNDER_SPARK("Thunder Spark");
 
     override fun toString(): String {
         return displayName

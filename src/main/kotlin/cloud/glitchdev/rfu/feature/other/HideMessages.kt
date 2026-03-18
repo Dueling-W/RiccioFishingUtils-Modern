@@ -13,11 +13,12 @@ import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 object HideMessages : Feature {
     val SC_MESSAGE_REGEX = SeaCreatures.entries.joinToString("|") { it.catchMessage.escapeForRegex() }.toExactRegex()
     val DOUBLE_HOOK_REGEX = """Double Hook!|It's a Double Hook! Woot woot!|It's a Double Hook!""".toExactRegex()
-    val AUTOPET_REGEX = """Autopet equipped your .+! VIEW RULE""".toRegex()
-    val HYPE_REGEX = """Your Implosion hit \d+ enem(?:y|ies) for [\d.,]+ damage\.""".toRegex()
-    val COMBO_REGEX = """\+\d+ Kill Combo (.+)""".toRegex()
-    val BLOCKS_REGEX = """There are blocks in the way!""".toRegex()
-    val LOOTSHARE_REGEX = """LOOT SHARE You received loot for assisting (.+?)!""".toRegex()
+    val AUTOPET_REGEX = """Autopet equipped your .+! VIEW RULE""".toExactRegex()
+    val HYPE_REGEX = """Your Implosion hit \d+ enem(?:y|ies) for [\d.,]+ damage\.""".toExactRegex()
+    val COMBO_REGEX = """\+\d+ Kill Combo (.+)""".toExactRegex()
+    val BLOCKS_REGEX = """There are blocks in the way!""".toExactRegex()
+    val LOOTSHARE_REGEX = """LOOT SHARE You received loot for assisting (.+?)!""".toExactRegex()
+    val THUNDER_SPARK_REGEX = """Try clicking this Thunder Spark with an Empty Thunder Bottle to collect it!""".toExactRegex()
 
     override fun onInitialize() {
         registerAllowGameEvent(SC_MESSAGE_REGEX) { _, _, _ ->
@@ -54,6 +55,11 @@ object HideMessages : Feature {
         registerAllowGameEvent(LOOTSHARE_REGEX) { _, _, _ ->
             return@registerAllowGameEvent !(OtherSettings.hideMessages &&
                     OtherSettings.hiddenMessageTypes.contains(MessageTypes.LOOTSHARE))
+        }
+
+        registerAllowGameEvent(THUNDER_SPARK_REGEX) { _, _, _ ->
+            return@registerAllowGameEvent !(OtherSettings.hideMessages &&
+                    OtherSettings.hiddenMessageTypes.contains(MessageTypes.THUNDER_SPARK))
         }
     }
 }

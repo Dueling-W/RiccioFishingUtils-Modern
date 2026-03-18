@@ -9,6 +9,7 @@
 - Added Party Explorer achievement.
 - Added /rfusc command to check your data on specific Sea Creatures
 - Added Glow Squid texture to plhlegblast feature
+- Added an option to hide the "Thunder Spark" message.
 
 ### Changes:
 - Merged XP/h and SC/h displays into a single Fish Tracking display.
@@ -18,6 +19,7 @@
 - Made Rare SC party messages turn the preceding "a" into "an" if the sc name starts with a vowel
 - Updated Sea Creature catch tracking to only increment/reset if the creature's conditions are met.
 - Made the jawbus death alert after 30s on the display too and not just the sound
+- Improved message hiding by using exact regex matching.
 
 ### Fixes:
 - Fixed description/name of failed cast sound
