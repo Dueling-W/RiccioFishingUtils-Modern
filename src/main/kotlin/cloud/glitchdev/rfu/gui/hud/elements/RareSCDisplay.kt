@@ -1,7 +1,9 @@
 package cloud.glitchdev.rfu.gui.hud.elements
 
+import cloud.glitchdev.rfu.RiccioFishingUtils.mc
 import cloud.glitchdev.rfu.config.categories.RareScSettings
 import cloud.glitchdev.rfu.constants.RareScDisplayDataType
+import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.constants.text.TextColor.CYAN
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
 import cloud.glitchdev.rfu.constants.text.TextColor.WHITE
@@ -18,8 +20,10 @@ import kotlin.math.ceil
 import kotlin.time.Clock
 
 import cloud.glitchdev.rfu.feature.fishing.FishingSession
+import cloud.glitchdev.rfu.feature.fishing.BaitManager
 import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
 import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
+import cloud.glitchdev.rfu.events.managers.HotSpotEvents
 
 @HudElement
 object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
@@ -56,9 +60,16 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         val currentIsland = World.island
 
         val catchHistory = CatchTracker.catchHistory
-        val lastHotspot = catchHistory.lastHotspot
-        val lastPos = catchHistory.lastPos
-        val lastBait = catchHistory.lastBait
+        var lastHotspot = catchHistory.lastHotspot
+        var lastPos = catchHistory.lastPos
+        var lastBait = catchHistory.lastBait
+
+        val player = mc.player
+        if (lastPos == Vec3.ZERO && player != null) {
+            lastPos = player.position()
+            lastHotspot = HotSpotEvents.getHotspotAt(lastPos)
+            lastBait = BaitManager.lastBait
+        }
 
         if (lastPos == Vec3.ZERO && !isFishing && !isEditing) {
             text.setText("")
@@ -68,7 +79,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         val dataOrder = RareScSettings.rareScDisplayDataOrder
 
         selectedScs.forEach { sc ->
-            if (currentIsland != null && !sc.category.islands.contains(currentIsland)) {
+            if (currentIsland == null || !sc.category.islands.contains(currentIsland)) {
                 return@forEach
             }
 
@@ -106,6 +117,39 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
                 }
             }
             lines.add(line)
+        }
+
+        if (isEditing && lines.isEmpty()) {
+            val examples = if (selectedScs.isNotEmpty()) selectedScs.take(3) else SeaCreatures.entries.filter { it.special }.take(3)
+            examples.forEach { sc ->
+                val record = catchHistory.getOrAdd(sc)
+                val line = buildString {
+                    append("$CYAN${BOLD}${sc.scName}:")
+                    dataOrder.forEach { dataType ->
+                        when (dataType) {
+                            RareScDisplayDataType.STREAK -> {
+                                append(" $YELLOW${record.count}")
+                            }
+                            RareScDisplayDataType.AVERAGE -> {
+                                val avg = if (record.history.isNotEmpty()) ceil(record.history.average()).toInt().toString() else "0"
+                                append(" $GRAY($YELLOW$avg$GRAY)")
+                            }
+                            RareScDisplayDataType.TOTAL -> {
+                                append(" $CYAN[$YELLOW${record.total}$CYAN]")
+                            }
+                            RareScDisplayDataType.TIME_SINCE -> {
+                                val lastTime = if (record.total > 0) {
+                                    (Clock.System.now() - record.time).toReadableString()
+                                } else {
+                                    "Never"
+                                }
+                                append(" $WHITE$lastTime")
+                            }
+                        }
+                    }
+                }
+                lines.add(line)
+            }
         }
 
         text.setText(if (lines.isEmpty()) {

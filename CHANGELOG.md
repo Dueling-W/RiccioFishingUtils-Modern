@@ -24,6 +24,7 @@
 - Made Rare SC party messages turn the preceding "a" into "an" if the sc name starts with a vowel
 - Updated Sea Creature catch tracking to only increment/reset if the creature's conditions are met.
 - Made the jawbus death alert after 30s on the display too and not just the sound
+- Added a Rare SC display with dynamic tracking from the start of a session.
 - Improved message hiding by using exact regex matching.
 
 ### Fixes:
