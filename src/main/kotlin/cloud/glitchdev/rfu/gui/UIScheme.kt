@@ -28,6 +28,9 @@ object UIScheme {
 
     val diedColor = Color(120, 7, 7)
 
+    val trackedStarColor = Color(255, 215, 0)
+    val untrackedStarColor = Color(160, 160, 160)
+
     val achievementBgColor = Color(10, 40, 50)
     val achievementDescriptionColor = Color(200, 200, 200)
     val achievementBgColorOpaque = increaseOpacity(achievementBgColor, 127)

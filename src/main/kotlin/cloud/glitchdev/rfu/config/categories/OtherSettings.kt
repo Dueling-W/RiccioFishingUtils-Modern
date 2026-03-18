@@ -14,6 +14,11 @@ object OtherSettings : Category("Other") {
         description = Literal("Shows the currently equipped pet.")
     }
 
+    var achievementTrackerDisplay by boolean(true) {
+        name = Literal("Achievement Tracker Display")
+        description = Literal("Shows the currently tracked achievements.")
+    }
+
     var partyFinderAlert by boolean(true) {
         name = Literal("Party Finder Alert")
         description = Literal("Sends a message in chat if there are new parties in the party finder.")

@@ -12,6 +12,23 @@ object AchievementHandler {
     fun getAchievementData(id: String): AchievementsData.AchievementSaveData? {
         return jsonFile.data.achievements[id]
     }
+
+    fun isTracked(id: String): Boolean {
+        return jsonFile.data.trackedAchievements.contains(id)
+    }
+
+    fun setTracked(id: String, tracked: Boolean) {
+        if (tracked) {
+            jsonFile.data.trackedAchievements.add(id)
+        } else {
+            jsonFile.data.trackedAchievements.remove(id)
+        }
+        jsonFile.save()
+    }
+
+    fun getTrackedAchievements(): Set<String> {
+        return jsonFile.data.trackedAchievements
+    }
     
     fun saveAll(data: Map<String, AchievementsData.AchievementSaveData>) {
         jsonFile.data.achievements.putAll(data)
