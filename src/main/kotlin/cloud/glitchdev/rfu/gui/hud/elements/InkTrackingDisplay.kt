@@ -7,23 +7,21 @@ import cloud.glitchdev.rfu.constants.text.TextColor.LIGHT_GREEN
 import cloud.glitchdev.rfu.constants.text.TextEffects.BOLD
 import cloud.glitchdev.rfu.constants.text.TextColor.RED
 import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
-import cloud.glitchdev.rfu.feature.fishing.FishingXpTracker
-import cloud.glitchdev.rfu.feature.mob.SeaCreatureHour
 import cloud.glitchdev.rfu.gui.hud.AbstractTextHudElement
 import cloud.glitchdev.rfu.gui.hud.HudElement
 import cloud.glitchdev.rfu.utils.dsl.toReadableString
 import cloud.glitchdev.rfu.config.categories.InkFishing
 import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.feature.fishing.FishingSession
-import cloud.glitchdev.rfu.feature.ink.CollectionHour
+import cloud.glitchdev.rfu.feature.ink.InkSessionTracker
 import cloud.glitchdev.rfu.data.catches.CatchTracker.catchHistory
 import cloud.glitchdev.rfu.constants.SeaCreatures.NIGHT_SQUID
 import cloud.glitchdev.rfu.constants.SeaCreatures.SQUID
+import cloud.glitchdev.rfu.data.collections.CollectionItem
 import cloud.glitchdev.rfu.data.collections.CollectionsHandler
 import cloud.glitchdev.rfu.utils.World
 import cloud.glitchdev.rfu.data.fishing.InkTrackingType
 import kotlin.time.Duration
-import kotlin.time.Duration.Companion.seconds
 
 @HudElement
 object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
@@ -33,9 +31,6 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
 
     override val enabled: Boolean
         get() = InkFishing.inkTrackingDisplay && (World.island == FishingIslands.PARK) && (super.enabled || !InkFishing.fishTrackingOnlyWhenFishing|| isFishing)
-
-    val nightSquidStart = catchHistory.getOrAdd(NIGHT_SQUID).total
-    val squidStart = catchHistory.getOrAdd(sc=SQUID).total
 
 
     override fun onInitialize() {
@@ -51,15 +46,13 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         val lines = mutableListOf<String>()
         val items = InkFishing.inkTrackingItems
 
-        val time = CollectionHour.effectiveElapsed
-
-        val totalInk = CollectionsHandler.totalInkSac
-        val inkRate = CollectionHour.currentInkPerHour.toInt()
-
+        val time = InkSessionTracker.effectiveElapsed
+        val totalInk = CollectionsHandler.get(CollectionItem.INK_SAC)
+        val inkRate = InkSessionTracker.currentInkPerHour.toInt()
 
         if(items.contains(InkTrackingType.INK_H)) {
 
-            val inkSession = CollectionHour.totalInk.toInt()
+            val inkSession = InkSessionTracker.totalInk.toInt()
 
             if(inkRate > 0) {
                 val line = buildString {
@@ -75,7 +68,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
 
             val line = buildString {
                 append("$CYAN${BOLD}Uptime: $YELLOW${time.toReadableString()}")
-                if(CollectionHour.pausedAt != null) append(" $CYAN(${RED}Paused$CYAN)")
+                if(InkSessionTracker.pausedAt != null) append(" $CYAN(${RED}Paused$CYAN)")
             }
             lines.add(line)
         }
@@ -94,7 +87,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         if(items.contains(InkTrackingType.SQUIDS)) {
 
             val squidNow = catchHistory.getOrAdd(sc=SQUID).total
-            val squidGain = squidNow - squidStart
+            val squidGain = InkSessionTracker.squidGain
 
             val line = buildString {
                 append("$CYAN${BOLD}Squids: $YELLOW${squidGain} $CYAN($LIGHT_GREEN${squidNow}$CYAN)")
@@ -106,7 +99,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         if(items.contains(InkTrackingType.N_SQUID)) {
 
             val nightSquidNow = catchHistory.getOrAdd(NIGHT_SQUID).total
-            val nSquidGain = nightSquidNow - nightSquidStart
+            val nSquidGain = InkSessionTracker.nightSquidGain
 
             val line = buildString {
                 append("$CYAN${BOLD}Night Squids: $YELLOW${nSquidGain} $CYAN($LIGHT_GREEN${nightSquidNow}$CYAN)")
@@ -115,22 +108,11 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
 
         }
 
-        var eta: String = ""
-        var inkGoal = InkFishing.goalInk
+        val inkGoal = InkFishing.goalInk
 
         if(items.contains(InkTrackingType.INK_GOAL)) {
 
-            var percentage: Double = 0.0
-
-            if(inkRate > 0 && inkGoal > totalInk) {
-                val diff = inkGoal - totalInk
-                val hoursNeeded = diff/inkRate
-                val seconds = hoursNeeded * 3600
-                eta = seconds.seconds.toReadableString()
-
-                val ratio = totalInk.toDouble()/ inkGoal.toDouble()
-                percentage = ratio*100
-            }
+            val percentage = InkSessionTracker.percentageToGoal
 
             val line = buildString {
                 append("$CYAN${BOLD}Ink Goal: $YELLOW${truncInk(inkGoal.toLong())}")
@@ -142,9 +124,10 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         }
 
         if(items.contains(InkTrackingType.ETA)) {
+            val eta = InkSessionTracker.etaToGoal
 
             if(inkRate > 0 && inkGoal > totalInk) {
-                lines.add("${CYAN}${BOLD}ETA: $YELLOW${eta}")
+                lines.add("${CYAN}${BOLD}ETA: $YELLOW${eta.toReadableString()}")
             } else if (inkRate > 0) {
                 val line = buildString {
                     append("${CYAN}${BOLD}ETA:")
@@ -159,17 +142,6 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         text.setText(if (lines.isEmpty()) {
             if (isEditing) "inktrackingdisplay" else ""
         } else lines.joinToString("\n"))
-    }
-
-
-    private fun getOverallScRate(time: Duration): Int {
-        val hoursElapsed = time.inWholeMilliseconds / 3600000.0
-        return if (hoursElapsed > 0) (SeaCreatureHour.total / hoursElapsed).toInt() else 0
-    }
-
-    private fun getOverallXpRate(time: Duration): Long {
-        val hoursElapsed = time.inWholeMilliseconds / 3600000.0
-        return if (hoursElapsed > 0) (FishingXpTracker.totalXp / hoursElapsed).toLong() else 0L
     }
 
     private fun formatInk(value: Long): String {

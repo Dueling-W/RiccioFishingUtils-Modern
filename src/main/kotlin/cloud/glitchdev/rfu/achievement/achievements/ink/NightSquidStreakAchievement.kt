@@ -14,7 +14,7 @@ import cloud.glitchdev.rfu.data.drops.DropManager
 import cloud.glitchdev.rfu.events.managers.ChatEvents.registerGameEvent
 import cloud.glitchdev.rfu.events.managers.SeaCreatureCatchEvents.registerSeaCreatureCatchEvent
 import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
-import cloud.glitchdev.rfu.feature.ink.CollectionHour
+import cloud.glitchdev.rfu.feature.ink.InkSessionTracker
 import cloud.glitchdev.rfu.utils.Chat
 import net.minecraft.network.chat.Component
 
