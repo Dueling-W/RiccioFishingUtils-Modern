@@ -13,6 +13,7 @@ import cloud.glitchdev.rfu.gui.hud.AbstractTextHudElement
 import cloud.glitchdev.rfu.gui.hud.HudElement
 import cloud.glitchdev.rfu.utils.dsl.toReadableString
 import cloud.glitchdev.rfu.config.categories.InkFishing
+import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.feature.fishing.FishingSession
 import cloud.glitchdev.rfu.feature.ink.CollectionHour
 import cloud.glitchdev.rfu.data.catches.CatchTracker.catchHistory
@@ -31,7 +32,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
         get() = FishingSession.isFishing
 
     override val enabled: Boolean
-        get() = InkFishing.inkTrackingDisplay && (World.map == "The Park") && (super.enabled || !InkFishing.fishTrackingOnlyWhenFishing|| isFishing)
+        get() = InkFishing.inkTrackingDisplay && (World.island == FishingIslands.PARK) && (super.enabled || !InkFishing.fishTrackingOnlyWhenFishing|| isFishing)
 
     val nightSquidStart = catchHistory.getOrAdd(NIGHT_SQUID).total
     val squidStart = catchHistory.getOrAdd(sc=SQUID).total
