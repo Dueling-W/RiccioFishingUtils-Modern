@@ -146,7 +146,7 @@ object InkSessionTracker : Feature {
         updateRate()
     }
 
-    private fun updateRate() {
+    fun updateRate() {
         val now = Clock.System.now()
         val limit = InkFishing.fishingTimeAFK.minutes
 
@@ -174,7 +174,7 @@ object InkSessionTracker : Feature {
         }
     }
 
-    private fun resetSession() {
+    fun resetSession() {
         lastActivityEvent = Instant.DISTANT_PAST
         totalActiveTime = Duration.ZERO
         pausedAt = null
