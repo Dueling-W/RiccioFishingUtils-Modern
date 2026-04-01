@@ -58,6 +58,8 @@ enum class SeaCreatures(
     ENT("Ent", "You've hooked an Ent, as ancient as the forest itself.", WATER, GALATEA),
     @SerializedName("Bogged")
     BOGGED("Bogged", "You've hooked a Bogged!", WATER, GALATEA),
+    @SerializedName("Nessie")
+    NESSIE("Nessie", "You've caused a disturbance in the loch. Could it be... Nessie?", WATER, GALATEA),
     @SerializedName("Stridersurfer")
     STRIDERSURFER("Stridersurfer", "You caught a Stridersurfer.", LAVA, GALATEA),
     //Water Hotspot
