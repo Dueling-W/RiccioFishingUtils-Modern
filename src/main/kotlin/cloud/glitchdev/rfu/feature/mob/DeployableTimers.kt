@@ -12,25 +12,35 @@ import cloud.glitchdev.rfu.utils.Title
 
 @RFUFeature
 object DeployableTimers : Feature {
-    private val previouslyActive = HashMap<DeployableType, Boolean>()
+    private val previouslyActive = HashMap<DeployableType, DeployableManager.Deployable?>()
 
     override fun onInitialize() {
         registerTickEvent(interval = 20) {
             val active = DeployableManager.getActiveDeployables()
 
             DeployableType.entries.forEach { type ->
-                val wasActive = previouslyActive[type] ?: false
-                val isActive = active.containsKey(type)
+                val prevDeployable = previouslyActive[type]
+                val wasActive = prevDeployable != null
+                val currentDeployable = active[type]
+                val isActive = currentDeployable != null
 
                 if (wasActive && !isActive && alertEnabled(type)) {
-                    Title.showTitle(type.expiredTitle)
+                    val shouldAlert = if (type == DeployableType.FLARE) {
+                        prevDeployable.accentLabel.isNotEmpty()
+                    } else {
+                        true
+                    }
 
-                    if(GeneralFishing.deployableExpiredSound) {
-                        Sounds.playSound("rfu:deployable_expired", 1f, GeneralFishing.deployableExpiredVolume)
+                    if (shouldAlert) {
+                        Title.showTitle(type.expiredTitle)
+
+                        if (GeneralFishing.deployableExpiredSound) {
+                            Sounds.playSound("rfu:deployable_expired", 1f, GeneralFishing.deployableExpiredVolume)
+                        }
                     }
                 }
 
-                previouslyActive[type] = isActive
+                previouslyActive[type] = currentDeployable
             }
 
             DeployablesDisplay.updateDeployables(active)
