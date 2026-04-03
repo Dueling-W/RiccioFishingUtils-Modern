@@ -3,6 +3,18 @@ package cloud.glitchdev.rfu.constants
 import kotlin.collections.listOf
 
 enum class SeaCreatureCategory(val islands: List<FishingIslands>, val partyTypes: List<PartyTypes>) {
+    LESS_GENERAL_WATER(
+        listOf(
+            FishingIslands.HUB,
+            FishingIslands.DESERT,
+            FishingIslands.SPIDER,
+            FishingIslands.HOLLOWS,
+            FishingIslands.BAYOU,
+            FishingIslands.PARK
+        ),
+        listOf(PartyTypes.REGULAR, PartyTypes.HOTSPOT, PartyTypes.BARN)
+    ),
+
     GENERAL_WATER(
         listOf(
             FishingIslands.HUB,

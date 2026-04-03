@@ -7,12 +7,14 @@
 - Added Lucky Clover Core to the rare drops list.
 - Added Park Rain alert/sound.
 - Added Ink display UI.
+- Added Nessie SC
 
 ### Changes:
 - Enhanced `/rfureset` command to reset all session data, including fishing XP, ink tracking, and sea creature stats.
 
 ### Fixes:
 - Fixed an issue where the Park was not correctly identified as a fishing location.
+- Corrected Water Hydra being a Galatea SC.
 
 ### Back-end:
 - Removed unnecessary debug messages and cleaned up unused imports.

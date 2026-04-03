@@ -46,7 +46,7 @@ enum class SeaCreatures(
     @SerializedName("Deep Sea Protector")
     DEEP_SEA_PROTECTOR("Deep Sea Protector", "You have awoken the Deep Sea Protector, prepare for a battle!", WATER, GENERAL_WATER),
     @SerializedName("Water Hydra")
-    WATER_HYDRA("Water Hydra", "The Water Hydra has come to test your strength.", WATER, GENERAL_WATER, true),
+    WATER_HYDRA("Water Hydra", "The Water Hydra has come to test your strength.", WATER, LESS_GENERAL_WATER, true),
     //Galatea
     @SerializedName("The Loch Emperor")
     SEA_EMPEROR("The Loch Emperor", "The Loch Emperor arises from the depths.", WATER, GALATEA, true),
