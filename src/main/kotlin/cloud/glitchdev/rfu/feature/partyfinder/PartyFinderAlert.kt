@@ -1,5 +1,6 @@
 package cloud.glitchdev.rfu.feature.partyfinder
 
+import cloud.glitchdev.rfu.config.categories.OtherSettings
 import cloud.glitchdev.rfu.constants.text.TextColor.*
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
@@ -34,7 +35,7 @@ object PartyFinderAlert : Feature {
 
         val newParties = currentPartiesUsers.filter { it !in lastParties }
 
-        if (newParties.isNotEmpty()) {
+        if (newParties.isNotEmpty() && OtherSettings.partyFinderAlert) {
             val message = Component.literal("\n")
                 .append(
                     TextUtils.rfupfLiteral("There are $WHITE${newParties.size}$GOLD new parties!\n", GOLD)

@@ -8,11 +8,13 @@
 - Added Park Rain alert/sound.
 - Added Ink display UI.
 - Added Nessie SC
+- Added a pet level up alert
 
 ### Changes:
 - Enhanced `/rfureset` command to reset all session data, including fishing XP, ink tracking, and sea creature stats.
 - Delayed the alerts sent upon joining the server by around 3s to not get burried.
 - Made the zoom etherwarp have a cubic ease-in
+- Reorganized the Öther tab in the settings
 
 ### Fixes:
 - Fixed an issue where the Park was not correctly identified as a fishing location.
