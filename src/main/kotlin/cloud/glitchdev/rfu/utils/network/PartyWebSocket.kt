@@ -13,18 +13,19 @@ import cloud.glitchdev.rfu.utils.User
 import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.TextUtils
 import cloud.glitchdev.rfu.utils.Party
+import cloud.glitchdev.rfu.utils.Coroutines
 import cloud.glitchdev.rfu.constants.text.TextColor
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
 import cloud.glitchdev.rfu.events.managers.WebSocketEvents.registerConnectionStatusChangedEvent
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlin.time.Clock
 
 @AutoRegister
 object PartyWebSocket : RegisteredEvent {
     private val gson = Gson()
-    private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
     private var connectionLostJob: Job? = null
     
     var myParty: FishingParty? = null
@@ -43,7 +44,7 @@ object PartyWebSocket : RegisteredEvent {
                 connectionLostJob?.cancel()
                 connectionLostJob = null
             } else if (myParty != null) {
-                connectionLostJob = scope.launch {
+                connectionLostJob = Coroutines.launch {
                     val lastTime = WebSocketClient.lastIncomingTime ?: Clock.System.now()
                     val elapsed = Clock.System.now() - lastTime
                     val remaining = 60000 - elapsed.inWholeMilliseconds

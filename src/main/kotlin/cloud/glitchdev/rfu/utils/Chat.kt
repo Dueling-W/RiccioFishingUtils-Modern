@@ -2,10 +2,7 @@ package cloud.glitchdev.rfu.utils
 
 import net.minecraft.network.chat.Component
 import cloud.glitchdev.rfu.RiccioFishingUtils.mc
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 object Chat {
     private val queue: ArrayDeque<String> = ArrayDeque()
@@ -15,7 +12,7 @@ object Chat {
         if (isRunning) return
         isRunning = true
 
-        CoroutineScope(Dispatchers.Default).launch {
+        Coroutines.launch {
             while (queue.isNotEmpty()) {
                 if(Party.inParty) {
                     sendCommand("pc ${queue.removeFirst()}")

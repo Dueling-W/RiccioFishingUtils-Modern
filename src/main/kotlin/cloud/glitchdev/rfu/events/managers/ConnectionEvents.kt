@@ -3,7 +3,8 @@ package cloud.glitchdev.rfu.events.managers
 import cloud.glitchdev.rfu.events.AbstractEventManager
 import cloud.glitchdev.rfu.events.AutoRegister
 import cloud.glitchdev.rfu.events.RegisteredEvent
-import kotlinx.coroutines.*
+import cloud.glitchdev.rfu.utils.Coroutines
+import kotlinx.coroutines.delay
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 
 @AutoRegister
@@ -31,14 +32,12 @@ object ConnectionEvents : RegisteredEvent {
     }
 
     object JoinEventManager : AbstractEventManager<(wasConnected : Boolean) -> Unit, JoinEventManager.JoinEvent>() {
-        private val scope = CoroutineScope(Dispatchers.Default + SupervisorJob())
-
         override val runTasks: (Boolean) -> Unit = { wasConnected ->
             tasks.forEach { task ->
                 if (task.delayMillis <= 0L) {
                     safeExecution { task.callback(wasConnected) }
                 } else {
-                    scope.launch {
+                    Coroutines.launch {
                         delay(task.delayMillis)
                         safeExecution { task.callback(wasConnected) }
                     }
