@@ -11,6 +11,7 @@
 
 ### Changes:
 - Enhanced `/rfureset` command to reset all session data, including fishing XP, ink tracking, and sea creature stats.
+- Delayed the alerts sent upon joining the server by around 3s to not get burried.
 
 ### Fixes:
 - Fixed an issue where the Park was not correctly identified as a fishing location.

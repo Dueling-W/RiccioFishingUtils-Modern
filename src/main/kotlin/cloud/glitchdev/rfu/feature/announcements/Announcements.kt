@@ -33,7 +33,7 @@ object Announcements : Feature {
             announcement = newAnnouncement
         }
 
-        registerJoinEvent { wasConnected ->
+        registerJoinEvent(delayMillis = 3000) { wasConnected ->
             if (!wasConnected) {
                 announcement?.let {
                     Chat.sendMessage(
