@@ -25,8 +25,7 @@ object EasterAchievement: BaseAchievement() {
         activeListeners.add(registerSeaCreatureCatchEvent
         { sc, _, _, _, _ ->
             if (sc == SeaCreatures.CARROT_KING) {
-                val currentMonth = World.getCurrentSkyBlockMonth()
-                if(currentMonth ==4) { // april
+                if(World.SBMonth == 4) { // april
                     complete()
                 }
             }

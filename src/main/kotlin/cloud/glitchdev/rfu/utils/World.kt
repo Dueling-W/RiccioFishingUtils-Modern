@@ -37,38 +37,29 @@ object World : RegisteredEvent {
         return clock.millis() - SKYBLOCK_EPOCH
     }
 
-    fun getCurrentSkyBlockYear(): Long {
-        return getTimeSinceEpoch() / YEAR_DURATION_MS + 1
-    }
+    val SBYear: Long
+        get() = getTimeSinceEpoch() / YEAR_DURATION_MS + 1
 
-    fun getCurrentSkyBlockMonth(): Int {
-        return ((getTimeSinceEpoch() % YEAR_DURATION_MS) / MONTH_DURATION_MS).toInt() + 1
-    }
+    val SBMonth: Int
+        get() = ((getTimeSinceEpoch() % YEAR_DURATION_MS) / MONTH_DURATION_MS).toInt() + 1
 
-    fun getCurrentSkyBlockDay(): Int {
-        return ((getTimeSinceEpoch() % MONTH_DURATION_MS) / DAY_DURATION_MS).toInt() + 1
-    }
+    val SBDay: Int
+        get() = ((getTimeSinceEpoch() % MONTH_DURATION_MS) / DAY_DURATION_MS).toInt() + 1
 
-    fun getCurrentSkyBlockHour(): Int {
-        return ((getTimeSinceEpoch() % DAY_DURATION_MS) / HOUR_DURATION_MS).toInt()
-    }
+    val SBHour: Int
+        get() = ((getTimeSinceEpoch() % DAY_DURATION_MS) / HOUR_DURATION_MS).toInt()
 
-    fun getCurrentSkyBlockMinute(): Int {
-        return ((getTimeSinceEpoch() % HOUR_DURATION_MS) / MINUTE_DURATION_MS).toInt()
-    }
+    val SBMinute: Int
+        get() = ((getTimeSinceEpoch() % HOUR_DURATION_MS) / MINUTE_DURATION_MS).toInt()
 
     /**
      * Checks if the current SkyBlock time is during the Spooky Festival.
-     * The festival lasts from the 26th of Late Summer to the 3rd of Early Winter.
-     * Late Summer is Month 7, Autumn is Month 8, Early Winter is Month 9.
+     * The festival lasts from the 26th of the 8th month to the 3rd of the 9th month.
      */
     fun isSpookyFestival(): Boolean {
-        val month = getCurrentSkyBlockMonth()
-        val day = getCurrentSkyBlockDay()
-
-        return when (month) {
-            8 -> day >= 26
-            9 -> day <= 3
+        return when (SBMonth) {
+            8 -> SBDay >= 26
+            9 -> SBDay <= 3
             else -> false
         }
     }
@@ -78,13 +69,12 @@ object World : RegisteredEvent {
      * The festival lasts for the first 3 days of every month, but only if Marina is Mayor.
      */
     fun isFishingFestival(): Boolean {
-        val day = getCurrentSkyBlockDay()
-        if (day <= 3 && jerryFishingFestival) {
+        if (SBDay <= 3 && jerryFishingFestival) {
             return true
         } else {
             jerryFishingFestival = false
         }
-        return day <= 3 && (mayor == Mayors.MARINA)
+        return SBDay <= 3 && (mayor == Mayors.MARINA)
     }
 
     override fun register() {

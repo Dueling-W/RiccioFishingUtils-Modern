@@ -10,6 +10,10 @@ import cloud.glitchdev.rfu.utils.command.Command
 import cloud.glitchdev.rfu.utils.command.AbstractCommand
 import cloud.glitchdev.rfu.constants.text.TextColor
 import cloud.glitchdev.rfu.constants.text.TextStyle
+import cloud.glitchdev.rfu.utils.World.SBDay
+import cloud.glitchdev.rfu.utils.World.SBHour
+import cloud.glitchdev.rfu.utils.World.SBMonth
+import cloud.glitchdev.rfu.utils.World.SBYear
 import com.google.gson.JsonParser
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
@@ -34,14 +38,9 @@ object MayorTracker : RegisteredEvent {
     }
 
     private fun checkAndFetch() {
-        val year = World.getCurrentSkyBlockYear()
-        val month = World.getCurrentSkyBlockMonth()
-        val day = World.getCurrentSkyBlockDay()
-        val hour = World.getCurrentSkyBlockHour()
+        val isPastElection = SBMonth >= 3 && SBDay >= 27 && SBHour >= 1
 
-        val isPastElection = month >= 3 && day >= 27 && hour >= 1
-
-        if (lastFetchedYear < year && !isPastElection) {
+        if (lastFetchedYear < SBYear && !isPastElection) {
             fetchMayor()
         }
     }
@@ -76,7 +75,7 @@ object MayorTracker : RegisteredEvent {
                         val mayorJson = json.getAsJsonObject("mayor")
                         val name = mayorJson.get("name").asString
                         currentMayor = Mayors.fromName(name)
-                        lastFetchedYear = World.getCurrentSkyBlockYear()
+                        lastFetchedYear = SBYear
                         RFULogger.dev("Fetched current Mayor: ${currentMayor.mayorName}")
                     }
                 } catch (e: Exception) {
