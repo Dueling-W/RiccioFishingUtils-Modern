@@ -25,6 +25,8 @@ object World : RegisteredEvent {
 
     private const val SKYBLOCK_EPOCH = 1560275700000L
     private const val DAY_DURATION_MS = 20L * 60 * 1000L
+    private const val HOUR_DURATION_MS = DAY_DURATION_MS / 24
+    private const val MINUTE_DURATION_MS = HOUR_DURATION_MS / 60
     private const val MONTH_DURATION_MS = 31 * DAY_DURATION_MS
     private const val YEAR_DURATION_MS = 12 * MONTH_DURATION_MS
     private val mayor
@@ -45,6 +47,14 @@ object World : RegisteredEvent {
 
     fun getCurrentSkyBlockDay(): Int {
         return ((getTimeSinceEpoch() % MONTH_DURATION_MS) / DAY_DURATION_MS).toInt() + 1
+    }
+
+    fun getCurrentSkyBlockHour(): Int {
+        return ((getTimeSinceEpoch() % DAY_DURATION_MS) / HOUR_DURATION_MS).toInt()
+    }
+
+    fun getCurrentSkyBlockMinute(): Int {
+        return ((getTimeSinceEpoch() % HOUR_DURATION_MS) / MINUTE_DURATION_MS).toInt()
     }
 
     /**

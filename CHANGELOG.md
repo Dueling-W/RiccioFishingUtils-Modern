@@ -23,6 +23,7 @@
 - Corrected Water Hydra being a Galatea SC.
 - Flare Expired messages no longer trigger on normal fireworks.
 - Corrected spooky festival having incorrect dates
+- Made mayor fetching happen at least 25s after election is over to prevent wrong mayor fetching
 
 ### Back-end:
 - Removed unnecessary debug messages and cleaned up unused imports.

@@ -25,21 +25,24 @@ object MayorTracker : RegisteredEvent {
 
     override fun register() {
         registerJoinEvent {
-            val year = World.getCurrentSkyBlockYear()
-            if (lastFetchedYear != year) {
-                fetchMayor()
-            }
+            checkAndFetch()
         }
 
-        registerTickEvent(interval = 1200L) {
-            val year = World.getCurrentSkyBlockYear()
-            val month = World.getCurrentSkyBlockMonth()
-            val day = World.getCurrentSkyBlockDay()
+        registerTickEvent(interval = 200L) {
+            checkAndFetch()
+        }
+    }
 
-            if (month == 3 && day == 27 && lastFetchedYear != year) {
-                lastFetchedYear = year
-                fetchMayor()
-            }
+    private fun checkAndFetch() {
+        val year = World.getCurrentSkyBlockYear()
+        val month = World.getCurrentSkyBlockMonth()
+        val day = World.getCurrentSkyBlockDay()
+        val hour = World.getCurrentSkyBlockHour()
+
+        val isPastElection = month >= 3 && day >= 27 && hour >= 1
+
+        if (lastFetchedYear < year && !isPastElection) {
+            fetchMayor()
         }
     }
 
