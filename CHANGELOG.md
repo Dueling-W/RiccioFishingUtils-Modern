@@ -4,6 +4,7 @@
 - Added a 15s grace period before sending the new party notification.
 
 ### Changes:
+- Nothing
 
 ### Fixes:
 - Fixed a crash that would happen on clean installs.
@@ -13,3 +14,4 @@
 - Made lava hotspots require more particles before defining size
 
 ### Back-end:
+- Nothing
