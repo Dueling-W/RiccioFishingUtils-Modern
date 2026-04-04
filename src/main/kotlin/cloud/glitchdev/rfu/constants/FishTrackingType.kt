@@ -1,4 +1,4 @@
-package cloud.glitchdev.rfu.data.fishing
+package cloud.glitchdev.rfu.constants
 
 enum class FishTrackingType(val displayName: String) {
     SC_H("SC/h"),

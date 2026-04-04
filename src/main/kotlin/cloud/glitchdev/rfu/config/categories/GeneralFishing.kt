@@ -4,7 +4,7 @@ import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.config.categories.RareScSettings.detectionAlert
 import cloud.glitchdev.rfu.constants.Dyes
 import cloud.glitchdev.rfu.constants.RareDrops
-import cloud.glitchdev.rfu.data.fishing.FishTrackingType
+import cloud.glitchdev.rfu.constants.FishTrackingType
 import cloud.glitchdev.rfu.data.mob.DeployableType
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 

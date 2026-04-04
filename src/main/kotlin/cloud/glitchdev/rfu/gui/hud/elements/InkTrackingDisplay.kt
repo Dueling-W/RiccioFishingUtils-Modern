@@ -20,7 +20,7 @@ import cloud.glitchdev.rfu.constants.SeaCreatures.SQUID
 import cloud.glitchdev.rfu.data.collections.CollectionItem
 import cloud.glitchdev.rfu.data.collections.CollectionsHandler
 import cloud.glitchdev.rfu.utils.World
-import cloud.glitchdev.rfu.data.fishing.InkTrackingType
+import cloud.glitchdev.rfu.constants.InkTrackingType
 import kotlin.time.Duration
 
 @HudElement
@@ -78,7 +78,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
 
             if(totalInk > 0) {
                 val line = buildString {
-                    append("$CYAN${BOLD}Ink Collection: $YELLOW${formatInk(totalInk.toLong())}")
+                    append("$CYAN${BOLD}Ink Collection: $YELLOW${formatInk(totalInk)}")
                 }
                 lines.add(line)
             }
