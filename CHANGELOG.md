@@ -28,6 +28,7 @@
 - Fixed an issue where rare sea creature party messages would say "A The [Name]" instead of "The [Name]" for certain creatures.
 - Made mayor fetching happen at least 25s after election is over to prevent wrong mayor fetching
 - Made hotspot detection require less particles but also limited the range of particles to only 2 (Should make it more accurate, tell me if it didn't)
+- Fixed professional downtimer achievement from triggering unintendedly.
 
 ### Back-end:
 - Removed unnecessary debug messages and cleaned up unused imports.
