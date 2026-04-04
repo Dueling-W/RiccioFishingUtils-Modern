@@ -81,7 +81,11 @@ enum class SeaCreatures(
     @SerializedName("Poisoned Water Worm")
     POISONED_WATER_WORM("Poisoned Water Worm", "A Poisoned Water Worm surfaces!", WATER, HOLLOWS),
     @SerializedName("Abyssal Miner")
-    ABYSSAL_MINER("Abyssal Miner", "An Abyssal Miner breaks out of the water!", WATER, HOLLOWS, true),
+    ABYSSAL_MINER("Abyssal Miner", "An Abyssal Miner breaks out of the water!", WATER, HOLLOWS, true, { _, p, _ ->
+        p.x !in 202.0..512.0 ||
+        p.y !in 64.0..190.0 ||
+        p.z !in 514.0..823.0
+    }),
     @SerializedName("Flaming Worm")
     FLAMING_WORM("Flaming Worm", "A Flaming Worm surfaces from the depths!", LAVA, HOLLOWS),
     @SerializedName("Lava Blaze")
@@ -160,9 +164,9 @@ enum class SeaCreatures(
     TAURUS("Taurus", "Taurus and his steed emerge.", LAVA, ISLE),
     @SerializedName("Plhlegblast")
     PLHLEGBLAST("Plhlegblast", "WOAH! A Plhlegblast appeared.", LAVA, ISLE, true, { _, p, _ ->
-        p.x < -357.0 && p.x > -398.0 &&
-        p.y > 72.0 && p.y < 100.0 &&
-        p.z < -683.0 && p.z > -722.0
+        p.x in -398.0..-357.0 &&
+        p.y in 72.0..100.0 &&
+        p.z in -722.0..-683.0
     }),
     @SerializedName("Thunder")
     THUNDER("Thunder", "You hear a massive rumble as Thunder emerges.", LAVA, ISLE, true),
