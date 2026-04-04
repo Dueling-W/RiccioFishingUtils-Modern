@@ -1,6 +1,7 @@
 # v1.7.1 - Small Patches
 
 ### Features:
+- Added a 15s grace period before sending the new party notification.
 
 ### Changes:
 
