@@ -233,7 +233,12 @@ object Network : RegisteredEvent {
     }
 
     private fun sendAcknowledgementMessage() {
-        val message = TextUtils.rfuLiteral("This mod utilizes a separate back-end for features like party finder. Do you want to enable it? ", TextStyle(YELLOW))
+        val message = TextUtils.rfuLiteral("This mod utilizes a separate back-end for some features. Do you want to enable it? ", TextStyle(YELLOW))
+
+        message.append(Component.literal("\n${YELLOW}Includes:"))
+        message.append(Component.literal("\n${GRAY} - ${AQUAMARINE}Party Finder: ${WHITE}Find fishing parties with ease."))
+        message.append(Component.literal("\n${GRAY} - ${AQUAMARINE}Dye Tracking: ${WHITE}See currently boosted dyes in rotation."))
+        message.append(Component.literal("\n${GRAY} - ${AQUAMARINE}Announcements: ${WHITE}Get notified of updates instantly.\n"))
 
         val accept = Component.literal("$LIGHT_GREEN$BOLD[ACCEPT]")
             .withStyle { it.withClickEvent(ClickEvent.RunCommand("/rfubackend accept"))
