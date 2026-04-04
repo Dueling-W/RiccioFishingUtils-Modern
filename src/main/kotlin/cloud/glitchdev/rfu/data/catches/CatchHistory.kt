@@ -2,7 +2,7 @@ package cloud.glitchdev.rfu.data.catches
 
 import cloud.glitchdev.rfu.config.categories.RareScSettings
 import cloud.glitchdev.rfu.constants.SeaCreatures
-import cloud.glitchdev.rfu.data.fishing.Bait
+import cloud.glitchdev.rfu.constants.Bait
 import cloud.glitchdev.rfu.data.fishing.Hotspot
 import net.minecraft.world.phys.Vec3
 import kotlin.time.Clock

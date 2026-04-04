@@ -1,4 +1,4 @@
-package cloud.glitchdev.rfu.data.fishing
+package cloud.glitchdev.rfu.constants
 
 enum class Bait(val displayName: String) {
     MINNOW("Minnow Bait"),
