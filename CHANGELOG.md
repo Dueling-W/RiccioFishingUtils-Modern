@@ -17,6 +17,8 @@
 - Delayed the alerts sent upon joining the server by around 3s to not get burried.
 - Made the zoom etherwarp have a cubic ease-in
 - Reorganized the Öther tab in the settings
+- RFUPF requires leader to queue the party.
+- RFUPF now validates if you're already inside that party when trying to join.
 
 ### Fixes:
 - Fixed an issue where the Park was not correctly identified as a fishing location.

@@ -8,6 +8,7 @@ import cloud.glitchdev.rfu.utils.User
 import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.TextUtils
 import cloud.glitchdev.rfu.constants.text.TextColor
+import cloud.glitchdev.rfu.utils.Party
 import cloud.glitchdev.rfu.utils.gui.addHoverColoring
 import cloud.glitchdev.rfu.utils.gui.setHidden
 import cloud.glitchdev.rfu.utils.dsl.isUser
@@ -49,8 +50,16 @@ class UIPartyCard(val party: FishingParty, radius : Float) : UIRoundedRectangle(
             color = primaryColor
         }
 
+        val joinErrorPopup = UIPopup(5f, "") childOf this
+
         this.onMouseClick {
-            if(party.user != User.getUsername()) {
+            if (party.user.isUser()) {
+                joinErrorPopup.setText("You are already the leader of this party!")
+                joinErrorPopup.showPopup()
+            } else if (Party.members.contains(party.user)) {
+                joinErrorPopup.setText("You are already in this party!")
+                joinErrorPopup.showPopup()
+            } else {
                 PartyWebSocket.joinParty(party.user)
             }
         }

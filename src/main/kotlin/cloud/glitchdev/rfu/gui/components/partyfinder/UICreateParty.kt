@@ -255,7 +255,12 @@ class UICreateParty(radius: Float) : UIRoundedRectangle(radius) {
         } childOf endArea
 
         createButton.onClick = {
-            PartyWebSocket.submitParty(party)
+            if (Party.isLeader) {
+                PartyWebSocket.submitParty(party)
+            } else {
+                popup.setText("You must be the party leader to create a party!")
+                popup.showPopup()
+            }
         }
 
         descriptionArea.constrain {
