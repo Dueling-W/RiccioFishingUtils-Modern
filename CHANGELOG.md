@@ -1,4 +1,4 @@
-# v1.7.0 - ???
+# v1.7.0 - Ink Connections
 
 ### Features:
 - Added general collection tracking and session-based ink analytics.
