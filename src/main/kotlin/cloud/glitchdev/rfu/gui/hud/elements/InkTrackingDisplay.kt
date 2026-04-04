@@ -21,6 +21,7 @@ import cloud.glitchdev.rfu.data.collections.CollectionItem
 import cloud.glitchdev.rfu.data.collections.CollectionsHandler
 import cloud.glitchdev.rfu.utils.World
 import cloud.glitchdev.rfu.constants.InkTrackingType
+import cloud.glitchdev.rfu.utils.dsl.compact
 import kotlin.time.Duration
 
 @HudElement
@@ -58,7 +59,7 @@ object InkTrackingDisplay : AbstractTextHudElement("inktrackingdisplay") {
                 val line = buildString {
                     append("${CYAN}${BOLD}Ink/hr:")
                     append(" $YELLOW${formatInk(inkRate.toLong())}")
-                    append(" $CYAN($YELLOW$inkSession$CYAN)")
+                    append(" $CYAN($YELLOW${inkSession.toLong().compact()}$CYAN)")
                 }
                 lines.add(line)
             }
