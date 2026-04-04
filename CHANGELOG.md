@@ -5,6 +5,7 @@
 ### Changes:
 
 ### Fixes:
+- Fixed a crash that would happen on clean installs.
 - Fixed a bug where party leadership transfers weren't correctly detected due to a typo.
 - Suppressed redundant error popup when joining a party via the fallback method.
 - Made lava hotspots only track smoke particles and water hotspots only dust particles
