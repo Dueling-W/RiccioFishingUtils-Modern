@@ -1,6 +1,7 @@
 # v1.8.0 - ???
 
 ### Features:
+- Added a blizzard in a bottle timer/alert
 
 ### Changes:
 - Removed the 30 minute to expire message in the party finder creation area.
