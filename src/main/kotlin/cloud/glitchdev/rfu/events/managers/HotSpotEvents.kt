@@ -9,7 +9,7 @@ import cloud.glitchdev.rfu.events.managers.ParticleEvents.registerParticleEvent
 import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
 import gg.essential.universal.utils.toUnformattedString
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.core.particles.ParticleOptions
+import net.minecraft.core.particles.DustParticleOptions
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.world.entity.decoration.ArmorStand
 import net.minecraft.world.entity.Display.TextDisplay
@@ -65,12 +65,24 @@ object HotSpotEvents : RegisteredEvent {
         }
 
         registerParticleEvent { packet, cancelable ->
-            val particleType = packet.particle.type
+            val particleOptions = packet.particle
+            val particleType = particleOptions.type
             val isDust = particleType == ParticleTypes.DUST
             val isSmoke = particleType == ParticleTypes.SMOKE
+
             if (!isDust && !isSmoke) return@registerParticleEvent
 
+            if (isDust && particleOptions is DustParticleOptions) {
+                val colorVec = particleOptions.color
+
+                val red = (colorVec.x * 255).toInt()
+                val green = (colorVec.y * 255).toInt()
+                val blue = (colorVec.z * 255).toInt()
+
+                if(red != 255 || green != 105 || blue != 180) return@registerParticleEvent
+            }
             val pos = Vec3(packet.x, packet.y, packet.z)
+
             val closestHotspot = hotspots.values
                 .filter { hotspot ->
                     if (isSmoke) hotspot.liquid == LiquidTypes.LAVA
