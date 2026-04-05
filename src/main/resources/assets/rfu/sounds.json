@@ -10,6 +10,17 @@
       }
     ]
   },
+  "rain_expired": {
+    "category": "player",
+    "subtitle": "Rain Expired",
+    "sounds": [
+      {
+        "name": "rfu:rare_sc",
+        "preload": true,
+        "stream": false
+      }
+    ]
+  },
   "death": {
     "category": "player",
     "subtitle": "Someone Has Skill Issue",
@@ -21,9 +32,40 @@
       }
     ]
   },
+  "jawbus_death": {
+    "category": "player",
+    "subtitle": "Killed by Jawbus",
+    "sounds": [
+      {
+        "name": "rfu:death",
+        "preload": true,
+        "stream": false
+      }
+    ]
+  },
   "deployable_expired": {
     "category": "player",
     "subtitle": "Deployable Expired",
+    "sounds": [
+      {
+        "name": "entity.elder_guardian.curse",
+        "type": "event"
+      }
+    ]
+  },
+  "blizzard_expired": {
+    "category": "player",
+    "subtitle": "Blizzard Expired",
+    "sounds": [
+      {
+        "name": "entity.elder_guardian.curse",
+        "type": "event"
+      }
+    ]
+  },
+  "hotspot_expired": {
+    "category": "player",
+    "subtitle": "Hotspot Expired",
     "sounds": [
       {
         "name": "entity.elder_guardian.curse",

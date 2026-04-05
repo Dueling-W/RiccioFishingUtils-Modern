@@ -17,7 +17,7 @@ import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 object BlizzardTimer : Feature {
     private val blizzardStartRegex = """BLIZZARD! (?:\[[\w+]+\] )?(\w+) opened a Blizzard in a Bottle, improving everyone's Fishing Stats for the next 10 minutes and causing it to snow!""".toExactRegex()
     private val blizzardActiveRegex = """The Blizzard in this area is boosting your Fishing stats!""".toExactRegex()
-    private val blizzardEndRegex = """The Blizzard petered out...""".toExactRegex()
+    private val blizzardEndRegex = """The Blizzard petered out\.\.\.""".toExactRegex()
 
     var endTimeMillis: Long = 0
         private set
@@ -52,7 +52,7 @@ object BlizzardTimer : Feature {
                 if (blizzardActive && JerryFishing.blizzardExpiredAlert) {
                     Title.showTitle("§b§lBlizzard Expired!")
                     if (GeneralFishing.deployableExpiredSound) {
-                        Sounds.playSound("rfu:deployable_expired", 1f, GeneralFishing.deployableExpiredVolume)
+                        Sounds.playSound("rfu:blizzard_expired", 1f, GeneralFishing.deployableExpiredVolume)
                     }
                 }
                 blizzardActive = false

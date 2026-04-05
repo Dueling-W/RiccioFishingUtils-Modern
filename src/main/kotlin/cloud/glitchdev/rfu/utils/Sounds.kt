@@ -14,8 +14,12 @@ import net.minecraft.sounds.SoundEvent
 object Sounds : InstantRegisteredEvent {
     override fun instantRegister() {
         registerSound("rare_sc")
+        registerSound("rain_expired")
         registerSound("death")
+        registerSound("jawbus_death")
         registerSound("deployable_expired")
+        registerSound("blizzard_expired")
+        registerSound("hotspot_expired")
         registerSound("failed_cast")
         registerSound("achievement")
     }

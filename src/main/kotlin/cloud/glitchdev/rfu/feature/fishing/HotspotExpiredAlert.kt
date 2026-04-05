@@ -38,9 +38,9 @@ object HotspotExpiredAlert : Feature {
             if (hotspot.uuid != currentHotspotId) return@registerHotSpotDisposeEvent
 
             currentHotspotId = null
-            Title.showTitle("§6§lHotspot Expired!", "", 10, 20, 10)
+            Title.showTitle("§6§lHotspot Expired!")
             if (GeneralFishing.deployableExpiredSound) {
-                Sounds.playSound("rfu:deployable_expired", 1f, GeneralFishing.deployableExpiredVolume)
+                Sounds.playSound("rfu:hotspot_expired", 1f, GeneralFishing.deployableExpiredVolume)
             }
         }
     }
