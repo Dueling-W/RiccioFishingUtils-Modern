@@ -18,3 +18,4 @@
 ### Back-end:
 - Changed some of the sound names for rfu.
 - Automated sound registration
+- Optimized Hotspot size calculation to use a median-based cache by coordinate for improved accuracy and consistency.
