@@ -86,3 +86,22 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer $RFU_API_TOKEN" \
             -d "$JSON_PAYLOAD"
+
+      - name: Discord Announcement
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_ROLE_ID: ${{ secrets.DISCORD_ROLE_ID }}
+          TITLE: ${{ steps.changelog.outputs.title }}
+          BODY: ${{ steps.changelog.outputs.body }}
+        run: |
+          # Combine role ping, title, and body
+          MESSAGE="<@&$DISCORD_ROLE_ID>
+          # $TITLE
+          $BODY"
+
+          # Prepare the payload using jq
+          JSON_PAYLOAD=$(jq -n --arg content "$MESSAGE" '{content: $content}')
+
+          curl -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "$JSON_PAYLOAD"
