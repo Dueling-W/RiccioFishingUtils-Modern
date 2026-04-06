@@ -4,6 +4,7 @@
 - Added 26.1 Support
 - Added a blizzard in a bottle timer/alert
 - Added a hotspot expired alert
+- Added an alert when a rare sea creature is at low HP without a Golden Dragon equipped
 - Added a custom resourcepack that allows changing sounds. (READ "note.txt" if you're planning on using this!)
 - Added a setting to make Rare SCs glow. (Off by default, Use at your own risk!)
 

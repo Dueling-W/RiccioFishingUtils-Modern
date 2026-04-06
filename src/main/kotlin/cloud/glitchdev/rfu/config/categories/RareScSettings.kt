@@ -61,6 +61,27 @@ object RareScSettings : Category("Rare SCs") {
         description = Literal("Sends a message after killing a rare Sea Creature saying how long it took.")
     }
 
+    var goldenDragonAlert by observable(boolean(true) {
+        name = Literal("Golden Dragon Alert")
+        description = Literal("Sends an alert when a rare SC is low health and you don't have Golden Dragon equipped.")
+    }) { _, _ ->
+        reloadScreen()
+    }
+
+    var gdragAlertThreshold by int(20) {
+        name = Literal("GDrag Alert Threshold (%)")
+        description = Literal("The health percentage at which the alert will trigger.")
+        range = 1..100
+        slider = true
+        condition = { goldenDragonAlert }
+    }
+
+    var goldenDragonSound by boolean(true) {
+        name = Literal("GDrag Alert Sound")
+        description = Literal("Plays a sound when the alert triggers.")
+        condition = { goldenDragonAlert }
+    }
+
     init {
         dualSeparator {
             title = "Messages"
