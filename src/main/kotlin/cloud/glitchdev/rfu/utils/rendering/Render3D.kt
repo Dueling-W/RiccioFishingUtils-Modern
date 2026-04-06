@@ -1,14 +1,14 @@
 package cloud.glitchdev.rfu.utils.rendering
 
 import cloud.glitchdev.rfu.RiccioFishingUtils.mc
-import com.mojang.blaze3d.systems.RenderSystem
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderContext
 import net.minecraft.client.Camera
 import net.minecraft.client.renderer.culling.Frustum
-//~ if <1.21.11 'rendertype.RenderTypes' -> 'RenderType' {
+//? if <1.21.11 {
+/*import net.minecraft.client.renderer.RenderType as RenderTypes
+import com.mojang.blaze3d.systems.RenderSystem
+*///?} else {
 import net.minecraft.client.renderer.rendertype.RenderTypes
-//~}
-
+//?}
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
@@ -16,14 +16,17 @@ import org.joml.Matrix4f
 import java.awt.Color
 import kotlin.math.cos
 import kotlin.math.sin
+//~ if >=26.1 'world' -> 'level'{
+//~ if >=26.1 'World' -> 'Level'{
+import net.fabricmc.fabric.api.client.rendering.v1.level.LevelRenderContext
 
 object Render3D {
     val camera : Camera
         get() = mc.gameRenderer.mainCamera
 
-    fun builder(shape: Shape, context: WorldRenderContext) = Render3DBuilder(shape, context)
+    fun builder(shape: Shape, context: LevelRenderContext) = Render3DBuilder(shape, context)
 
-    inline fun draw(context: WorldRenderContext, block: WorldRenderContext.() -> Unit) {
+    inline fun draw(context: LevelRenderContext, block: LevelRenderContext.() -> Unit) {
         context.apply(block)
     }
 
@@ -31,7 +34,7 @@ object Render3D {
         location: Vec3,
         radius: Float,
         color: Color,
-        context: WorldRenderContext,
+        context: LevelRenderContext,
         stacks: Int = 16,
         slices: Int = 16,
         lineWidth: Float = 2.0f,
@@ -42,11 +45,16 @@ object Render3D {
             return
         }
 
-        val consumers = context.consumers()
+        //? if >=26.1 {
+        val consumers = context.bufferSource()
+        val matrixStack = context.poseStack()
+        //?} else {
+        /*val consumers = context.consumers()
+        val matrixStack = context.matrices()
+        *///?}
+
         val camPos = camera.position()
         val vecToSphere = location.subtract(camPos)
-
-        val matrixStack = context.matrices()
 
         matrixStack.pushPose()
         matrixStack.translate(
@@ -94,8 +102,9 @@ object Render3D {
 
         if (borderColor != null) {
             val buffer = consumers.getBuffer(
-                //$ if >=1.21.11 'RenderTypes.LINES' else 'RenderType.lines()'
+                //~ if >=1.21.11 'lines()' -> 'LINES' {
                 RenderTypes.LINES
+                //~}
             )
 
             for (i in 0 until stacks) {
@@ -133,7 +142,9 @@ object Render3D {
         radius: Float,
         height: Float,
         color: Color,
-        context: WorldRenderContext,
+        context: LevelRenderContext,
+//~}
+//~}
         slices: Int = 32,
         borderColor: Color? = null,
         lineWidth: Float = 2.0f
@@ -142,11 +153,17 @@ object Render3D {
             return
         }
 
-        val consumers = context.consumers()
+        //? if >=26.1 {
+        val consumers = context.bufferSource()
+        val matrixStack = context.poseStack()
+        //?} else {
+        /*val consumers = context.consumers()
+        val matrixStack = context.matrices()
+        *///?}
+
         val camPos = camera.position()
         val vecToCylinder = location.subtract(camPos)
 
-        val matrixStack = context.matrices()
         matrixStack.pushPose()
 
         try {
@@ -186,8 +203,9 @@ object Render3D {
 
             if (borderColor != null) {
                 val lineBuffer = consumers.getBuffer(
-                    //$ if >=1.21.11 'RenderTypes.LINES' else 'RenderType.lines()'
+                    //~ if >=1.21.11 'lines()' -> 'LINES' {
                     RenderTypes.LINES
+                    //~}
                 )
 
                 for (i in 0 until slices) {
@@ -223,14 +241,21 @@ object Render3D {
         buffer.addVertex(matrix, x, y, z)
             .setColor(color.red, color.green, color.blue, color.alpha)
             .setNormal(1f, 0f, 0f)
-        //~ if <1.21.11 '.setLineWidth(lineWidth)' -> 'RenderSystem.lineWidth(lineWidth)' {
-        .setLineWidth(lineWidth)
-        //~}
+        //? if <1.21.11 {
+        /*RenderSystem.lineWidth(lineWidth)
+        *///?} else {
+        buffer.setLineWidth(lineWidth)
+        //?}
     }
 
     private fun isVisible(bounds: AABB): Boolean {
-        val fov = mc.options.fov().get().toFloat()
-        val projectionMatrix = mc.gameRenderer.getProjectionMatrix(fov)
+        //? if < 26.1 {
+        /*val fov = mc.options.fov().get().toFloat()
+        *///?}
+        //~ if >=26.1 'getProjectionMatrix(fov)' -> 'gameRenderState.levelRenderState.cameraRenderState.projectionMatrix' {
+        val projectionMatrix = mc.gameRenderer.gameRenderState.levelRenderState.cameraRenderState.projectionMatrix
+        //~}
+
         val quaternion = camera.rotation().conjugate(org.joml.Quaternionf())
         val viewMatrix = Matrix4f().rotation(quaternion)
         val frustum = Frustum(viewMatrix, projectionMatrix)

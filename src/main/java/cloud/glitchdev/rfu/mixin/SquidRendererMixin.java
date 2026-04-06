@@ -7,9 +7,10 @@ import net.minecraft.client.renderer.entity.state.SquidRenderState;
 
 //~ if <1.21.11 'squid.Squid' -> 'Squid' {
 import net.minecraft.world.entity.animal.squid.Squid;
+//~}
+//~ if <1.21.11 'Identifier' -> 'ResourceLocation' {
 import net.minecraft.resources.Identifier;
 //~}
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,7 +26,7 @@ public class SquidRendererMixin {
     private static final Identifier rfu$GLOW_SQUID_TEXTURE = Identifier.withDefaultNamespace("textures/entity/squid/glow_squid.png");
     //~}
 
-    //~ if <1.21.11 'squid/Squid' -> 'Squid' {
+    //~ if <1.21.11 'squid/Squid;' -> 'Squid;' {
     @Inject(
             method = "extractRenderState(Lnet/minecraft/world/entity/animal/squid/Squid;Lnet/minecraft/client/renderer/entity/state/SquidRenderState;F)V",
             at = @At("TAIL")

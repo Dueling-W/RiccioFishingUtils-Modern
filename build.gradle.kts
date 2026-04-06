@@ -109,7 +109,11 @@ dependencies {
     modImpl(resConfig)
     "include"(resConfig)
 
-    val resConfigKt = "com.teamresourceful.resourcefulconfigkt:resourcefulconfigkt-fabric-${property("resourcefulkt_mc_version")}:${property("resourcefulkt_version")}"
+    val resConfigKt = if (stonecutter.eval(stonecutter.current.version, "<26.1")) {
+        "com.teamresourceful.resourcefulconfigkt:resourcefulconfigkt-fabric-${property("resourcefulkt_mc_version")}:${property("resourcefulkt_version")}"
+    } else {
+        "com.teamresourceful.resourcefulconfigkt:resourcefulconfigkt-${property("resourcefulkt_mc_version")}-rc-1:${property("resourcefulkt_version")}-beta.1"
+    }
     modImpl(resConfigKt)
     "include"(resConfigKt)
 
@@ -145,8 +149,9 @@ configure<net.fabricmc.loom.api.LoomGradleExtensionAPI> {
 
 java {
     withSourcesJar()
-    targetCompatibility = requiredJava
-    sourceCompatibility = requiredJava
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(requiredJava.majorVersion.toInt()))
+    }
 }
 
 kotlin {
