@@ -142,7 +142,12 @@ configure<net.fabricmc.loom.api.LoomGradleExtensionAPI> {
 
     runConfigs.all {
         ideConfigGenerated(true)
-        vmArgs("-Dmixin.debug.export=true")
+        vmArgs(
+            "-Dmixin.debug.export=true",
+            "-Dfabric.addMods=mods/${stonecutter.current.version}",
+            "-Ddevauth.enabled=true",
+            "-Ddevauth.account=main"
+        )
         runDir = "../../run"
     }
 }
