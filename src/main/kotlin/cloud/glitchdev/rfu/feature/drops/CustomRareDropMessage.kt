@@ -45,6 +45,7 @@ object CustomRareDropMessage : Feature {
             .replace("{magic_find}", magicFind?.toString() ?: "0")
             .replace("{count}", currentDrop.sinceCount?.toString() ?: "N/A")
             .replace("{time}", timeSinceLast)
+            .replace("{total}", history.size.toString())
             .toMcCodes()
 
         val message = Component.literal(messageString)
