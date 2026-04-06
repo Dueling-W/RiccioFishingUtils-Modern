@@ -7,6 +7,7 @@ import cloud.glitchdev.rfu.constants.Rarity
 import cloud.glitchdev.rfu.data.drops.DropManager
 import cloud.glitchdev.rfu.data.drops.DropRecord
 import cloud.glitchdev.rfu.utils.Title
+import cloud.glitchdev.rfu.utils.dsl.formatTemplate
 import cloud.glitchdev.rfu.utils.dsl.toMcCodes
 import cloud.glitchdev.rfu.utils.dsl.toReadableString
 
@@ -36,23 +37,44 @@ object RareDropTitleAlert : Feature {
             "First Drop"
         }
 
-        val title = DropsSettings.rareDropTitleFormat
-            .replace("{drop}", dropName)
-            .replace("{dropcolor}", dropColor)
-            .replace("{magic_find}", magicFind?.toString() ?: "0")
-            .replace("{count}", currentDrop.sinceCount?.toString() ?: "N/A")
-            .replace("{time}", timeSinceLast)
-            .replace("{total}", history.size.toString())
-            .toMcCodes()
-        val subtitle = DropsSettings.rareDropSubtitleFormat
-            .replace("{drop}", dropName)
-            .replace("{dropcolor}", dropColor)
-            .replace("{magic_find}", magicFind?.toString() ?: "0")
-            .replace("{count}", currentDrop.sinceCount?.toString() ?: "N/A")
-            .replace("{time}", timeSinceLast)
-            .replace("{total}", history.size.toString())
-            .toMcCodes()
+        val title = DropsSettings.rareDropTitleFormat.formatTemplate(
+            "drop" to dropName,
+            "dropcolor" to dropColor,
+            "magic_find" to (magicFind?.toString() ?: "0"),
+            "count" to (currentDrop.sinceCount?.toString() ?: "N/A"),
+            "time" to timeSinceLast,
+            "total" to history.size.toString()
+        )
+        val subtitle = DropsSettings.rareDropSubtitleFormat.formatTemplate(
+            "drop" to dropName,
+            "dropcolor" to dropColor,
+            "magic_find" to (magicFind?.toString() ?: "0"),
+            "count" to (currentDrop.sinceCount?.toString() ?: "N/A"),
+            "time" to timeSinceLast,
+            "total" to history.size.toString()
+        )
 
+
+        Title.showTitle(title, subtitle, fadeIn = 5, duration = 40, fadeOut = 5)
+    }
+
+    fun preview() {
+        val title = DropsSettings.rareDropTitleFormat.formatTemplate(
+            "drop" to "Radioactive Vial",
+            "dropcolor" to "&d",
+            "magic_find" to "350",
+            "count" to "100",
+            "time" to "5m 20s",
+            "total" to "500"
+        )
+        val subtitle = DropsSettings.rareDropSubtitleFormat.formatTemplate(
+            "drop" to "Radioactive Vial",
+            "dropcolor" to "&d",
+            "magic_find" to "350",
+            "count" to "100",
+            "time" to "5m 20s",
+            "total" to "500"
+        )
 
         Title.showTitle(title, subtitle, fadeIn = 5, duration = 40, fadeOut = 5)
     }

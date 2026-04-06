@@ -3,6 +3,8 @@ package cloud.glitchdev.rfu.config.categories
 import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.constants.Dyes
 import cloud.glitchdev.rfu.constants.RareDrops
+import cloud.glitchdev.rfu.feature.drops.CustomRareDropMessage
+import cloud.glitchdev.rfu.feature.drops.RareDropTitleAlert
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
 object DropsSettings : Category("Drops") {
@@ -46,6 +48,14 @@ object DropsSettings : Category("Drops") {
         condition = { customRareDropMessage }
     }
 
+    init {
+        previewButton(
+            CustomRareDropMessage::preview,
+            "Preview Message",
+            "Shows a preview of the rare drop message in chat."
+        ) { customRareDropMessage }
+    }
+
     var rareDropPartyChat by boolean(true) {
         name = Literal("Send in party chat")
         description = Literal("Sends the drop message in party chat, uses the same message as above but removes the colors")
@@ -81,5 +91,13 @@ object DropsSettings : Category("Drops") {
         name = Literal("Rare Drop Subtitle Format")
         description = Literal("The subtitle to show on screen. Variables: {drop}, {dropcolor}, {magic_find}, {count}, {time}, {total}")
         condition = { rareDropTitleAlert }
+    }
+
+    init {
+        previewButton(
+            RareDropTitleAlert::preview,
+            "Preview Title",
+            "Shows a preview of the rare drop title on screen."
+        ) { rareDropTitleAlert }
     }
 }

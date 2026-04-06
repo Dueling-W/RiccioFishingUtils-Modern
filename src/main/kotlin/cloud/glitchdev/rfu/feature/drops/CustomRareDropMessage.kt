@@ -8,6 +8,7 @@ import cloud.glitchdev.rfu.data.drops.DropManager
 import cloud.glitchdev.rfu.data.drops.DropRecord
 import cloud.glitchdev.rfu.utils.Chat.sendMessage
 import cloud.glitchdev.rfu.utils.Chat.sendPartyMessage
+import cloud.glitchdev.rfu.utils.dsl.formatTemplate
 import cloud.glitchdev.rfu.utils.dsl.toMcCodes
 import cloud.glitchdev.rfu.utils.dsl.toReadableString
 import gg.essential.universal.utils.toUnformattedString
@@ -40,13 +41,13 @@ object CustomRareDropMessage : Feature {
             "First Drop"
         }
 
-        val messageString = DropsSettings.rareDropMessageFormat
-            .replace("{drop}", dropName)
-            .replace("{magic_find}", magicFind?.toString() ?: "0")
-            .replace("{count}", currentDrop.sinceCount?.toString() ?: "N/A")
-            .replace("{time}", timeSinceLast)
-            .replace("{total}", history.size.toString())
-            .toMcCodes()
+        val messageString = DropsSettings.rareDropMessageFormat.formatTemplate(
+            "drop" to dropName,
+            "magic_find" to (magicFind?.toString() ?: "0"),
+            "count" to (currentDrop.sinceCount?.toString() ?: "N/A"),
+            "time" to timeSinceLast,
+            "total" to history.size.toString()
+        )
 
         val message = Component.literal(messageString)
 
@@ -55,5 +56,17 @@ object CustomRareDropMessage : Feature {
         if (DropsSettings.rareDropPartyChat) {
             sendPartyMessage(message.toUnformattedString())
         }
+    }
+
+    fun preview() {
+        val preview = DropsSettings.rareDropMessageFormat.formatTemplate(
+            "drop" to "&dRadioactive Vial",
+            "magic_find" to "350",
+            "count" to "100",
+            "time" to "5m 20s",
+            "total" to "500"
+        )
+
+        sendMessage(Component.literal(preview))
     }
 }

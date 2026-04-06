@@ -4,6 +4,7 @@ import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.config.categories.RareScSettings.detectionAlert
 import cloud.glitchdev.rfu.constants.FishTrackingType
 import cloud.glitchdev.rfu.data.mob.DeployableType
+import cloud.glitchdev.rfu.feature.fishing.DoubleHookMessages
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
 object GeneralFishing : Category("General Fishing") {
@@ -118,10 +119,19 @@ object GeneralFishing : Category("General Fishing") {
         "( ^_^) &b[ &3<>< &b]",
         "( >_<) &b[ &3RFU &b]"
     ) {
-        name = Literal("Double Hook messages")
-        description = Literal("Select what words will be sent when you get a double hook. Each line is one phrase.")
+        name = Literal("Double Hook Messages")
+        description = Literal("The messages sent to chat when you get a double hook. It will pick one at random.")
         condition = { toggleDoubleHookMessages }
     }
+
+    init {
+        previewButton(
+            DoubleHookMessages::preview,
+            "Preview Message",
+            "Shows a preview of one of the double hook messages in chat."
+        ) { toggleDoubleHookMessages }
+    }
+
 
     var randomDoubleHookMessages by boolean(false) {
         name = Literal("Random Double Hook Messages")

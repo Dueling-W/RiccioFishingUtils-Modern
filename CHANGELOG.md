@@ -8,6 +8,7 @@
 - Added a rare drop title alert
 - Added a custom resourcepack that allows changing sounds. (READ "note.txt" if you're planning on using this!)
 - Added a setting to make Rare SCs glow. (Off by default, Use at your own risk!)
+- Added the hability to preview custom messages/titles
 
 ### Changes:
 - Removed the 30 minute to expire message in the party finder creation area.

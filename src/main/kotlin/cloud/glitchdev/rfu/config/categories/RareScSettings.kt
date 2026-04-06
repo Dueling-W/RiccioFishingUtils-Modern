@@ -3,6 +3,7 @@ package cloud.glitchdev.rfu.config.categories
 import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.constants.RareScDisplayDataType
+import cloud.glitchdev.rfu.feature.fishing.RareScPartyMessage
 import cloud.glitchdev.rfu.utils.dsl.toExactRegex
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
@@ -128,6 +129,14 @@ object RareScSettings : Category("Rare SCs") {
         name = Literal("Rare SC message")
         description = Literal("Variables: {name} {total} {count}, {time}, {dh}")
         condition = { rarePartyMessages }
+    }
+
+    init {
+        previewButton(
+            RareScPartyMessage::preview,
+            "Preview Message",
+            "Shows a preview of the rare SC party message in chat."
+        ) { rarePartyMessages }
     }
 
     var dhText by string("(Double Hook) ") {
