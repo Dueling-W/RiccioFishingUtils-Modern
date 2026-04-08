@@ -165,6 +165,7 @@ configure<net.fabricmc.loom.api.LoomGradleExtensionAPI> {
         )
         runDir = "../../run"
     }
+    rootProject.file("run/mods/$modsFolder").mkdirs()
 }
 
 java {
