@@ -32,3 +32,13 @@ tasks.register("publishModrinth") {
         }
     }
 }
+
+tasks.register("buildPrimary") {
+    group = "build"
+    description = "Builds all primary versions"
+    subprojects.forEach { sub ->
+        if (sub.name != "processor" && sub.findProperty("stonecutter.redirect") == null) {
+            dependsOn(sub.tasks.named("build"))
+        }
+    }
+}
