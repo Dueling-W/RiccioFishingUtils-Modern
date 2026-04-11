@@ -201,8 +201,6 @@ object HotSpotEvents : RegisteredEvent {
                     if (abs(horizontalDistance - closestHotspot.radius) <= 0.05) {
                         cancelable.cancel()
                     }
-                } else {
-                    cancelable.cancel()
                 }
             }
         }
