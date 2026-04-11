@@ -4,6 +4,7 @@
 - Added 26.1.2 support
 
 ### Changes:
+- Added a stability check before resizing hotspots
 
 ### Fixes:
 - Actually fixed hotspot particles being hid while highlight hotspot is off

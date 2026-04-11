@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.events.managers
 
 import cloud.glitchdev.rfu.RiccioFishingUtils
 import cloud.glitchdev.rfu.config.categories.HotSpotSettings
+import cloud.glitchdev.rfu.constants.HotSpotConstants
 import cloud.glitchdev.rfu.constants.LiquidTypes
 import cloud.glitchdev.rfu.data.fishing.Hotspot
 import cloud.glitchdev.rfu.data.fishing.HotspotCache
@@ -92,12 +93,12 @@ object HotSpotEvents : RegisteredEvent {
                     val player = client.player
                     val distanceToPlayer = player?.position()?.distanceTo(hotspot.center) ?: 0.0
 
-                    if (distanceToPlayer < 25.0) {
+                    if (distanceToPlayer < HotSpotConstants.RANGE_DISPOSE_DISTANCE) {
                         if (hotspot.rangeEntryTime == null) {
                             hotspot.rangeEntryTime = now
                         }
 
-                        if (now - (hotspot.rangeEntryTime ?: now) > 2000) {
+                        if (now - (hotspot.rangeEntryTime ?: now) > HotSpotConstants.RANGE_ENTRY_TIMEOUT_MS) {
                             iterator.remove()
                             virtualUuids.remove(uuid)
                             if (hotspot.isNotified) {
@@ -111,7 +112,7 @@ object HotSpotEvents : RegisteredEvent {
 
                     virtualUuids.add(uuid)
 
-                    if (now - hotspot.lastUpdate > 200) {
+                    if (now - hotspot.lastUpdate > HotSpotConstants.INACTIVITY_TIMEOUT_MS) {
                         iterator.remove()
                         virtualUuids.remove(uuid)
                         if (hotspot.isNotified) {
@@ -137,7 +138,7 @@ object HotSpotEvents : RegisteredEvent {
                 val green = (colorVec.y * 255).toInt()
                 val blue = (colorVec.z * 255).toInt()
 
-                if(red != 255 || green != 105 || blue != 180) return@registerParticleEvent
+                if(red != HotSpotConstants.PARTICLE_RED || green != HotSpotConstants.PARTICLE_GREEN || blue != HotSpotConstants.PARTICLE_BLUE) return@registerParticleEvent
             }
 
             val pos = Vec3(packet.x, packet.y, packet.z)
@@ -149,15 +150,15 @@ object HotSpotEvents : RegisteredEvent {
                 }
                 .minByOrNull { it.center.distanceTo(pos) }
 
-            if (closestHotspot == null || abs(pos.y - closestHotspot.center.y) > 6.0 || pos.horizontalDistance(closestHotspot.center) > 6.0) {
+            if (closestHotspot == null || abs(pos.y - closestHotspot.center.y) > HotSpotConstants.PARTICLE_MAX_VERTICAL_DISTANCE || pos.horizontalDistance(closestHotspot.center) > HotSpotConstants.PARTICLE_MAX_HORIZONTAL_DISTANCE) {
                 val playerPos = RiccioFishingUtils.mc.player?.position() ?: return@registerParticleEvent
                 val cachedEntry = HotspotCache.getCachedEntries(World.island).find { (blockPos, data) ->
                     val center = Vec3(blockPos.x + 0.5, blockPos.y.toDouble(), blockPos.z + 0.5)
 
-                    if (playerPos.distanceTo(center) < 25.0) return@find false
+                    if (playerPos.distanceTo(center) < HotSpotConstants.RANGE_DISPOSE_DISTANCE) return@find false
 
                     val liquidMatches = if (isSmoke) data.liquid == LiquidTypes.LAVA else data.liquid == LiquidTypes.WATER
-                    liquidMatches && abs(pos.y - center.y) <= 6.0 && pos.horizontalDistance(center) <= 6.0
+                    liquidMatches && abs(pos.y - center.y) <= HotSpotConstants.PARTICLE_MAX_VERTICAL_DISTANCE && pos.horizontalDistance(center) <= HotSpotConstants.PARTICLE_MAX_HORIZONTAL_DISTANCE
                 }
 
                 if (cachedEntry != null) {
@@ -166,7 +167,7 @@ object HotSpotEvents : RegisteredEvent {
                     val uuid = UUID.nameUUIDFromBytes("virtual_${blockPos}".toByteArray())
 
                     val now = System.currentTimeMillis()
-                    val buff = if (now - data.lastMetadataUpdate < 30000) data.sessionBuff else ""
+                    val buff = if (now - data.lastMetadataUpdate < HotSpotConstants.METADATA_EXPIRY_MS) data.sessionBuff else ""
                     val color = getColorForBuff(buff)
 
                     closestHotspot = hotspots.getOrPut(uuid) {
@@ -177,13 +178,16 @@ object HotSpotEvents : RegisteredEvent {
             }
 
             if (closestHotspot == null) return@registerParticleEvent
-            if (abs(pos.y - closestHotspot.center.y) > 6.0) return@registerParticleEvent
+            if (abs(pos.y - closestHotspot.center.y) > HotSpotConstants.PARTICLE_MAX_VERTICAL_DISTANCE) return@registerParticleEvent
 
             val horizontalDistance = pos.horizontalDistance(closestHotspot.center)
 
-            if (horizontalDistance < 6.0) {
+            if (horizontalDistance < HotSpotConstants.PARTICLE_MAX_HORIZONTAL_DISTANCE) {
                 if (virtualUuids.contains(closestHotspot.uuid)) {
-                    closestHotspot.lastUpdate = System.currentTimeMillis()
+                    val inRing = closestHotspot.radius > 0 && abs(horizontalDistance - closestHotspot.radius) <= HotSpotConstants.RADIUS_CANCELLATION_TOLERANCE
+                    if (inRing) {
+                        closestHotspot.lastUpdate = System.currentTimeMillis()
+                    }
                 } else {
                     closestHotspot.addParticleDistance(horizontalDistance)
                 }
@@ -191,14 +195,14 @@ object HotSpotEvents : RegisteredEvent {
                 // Virtual threshold check
                 if (virtualUuids.contains(closestHotspot.uuid) && !closestHotspot.isNotified) {
                     closestHotspot.virtualParticleCount++
-                    if (closestHotspot.virtualParticleCount >= 3) {
+                    if (closestHotspot.virtualParticleCount >= HotSpotConstants.VIRTUAL_PARTICLE_THRESHOLD) {
                         closestHotspot.isNotified = true
                         HotSpotDetectedEventManager.runTasks(closestHotspot)
                     }
                 }
 
                 if (closestHotspot.radius > 0 && HotSpotSettings.highlightHotSpots) {
-                    if (abs(horizontalDistance - closestHotspot.radius) <= 0.05) {
+                    if (abs(horizontalDistance - closestHotspot.radius) <= HotSpotConstants.RADIUS_CANCELLATION_TOLERANCE) {
                         cancelable.cancel()
                     }
                 }
@@ -218,8 +222,8 @@ object HotSpotEvents : RegisteredEvent {
         return hotspots.values.find { hotspot ->
             val horizontalDistance = pos.horizontalDistance(hotspot.center)
             val verticalDistance = abs(pos.y - hotspot.center.y)
-            val radius = if (hotspot.radius > 0) hotspot.radius else 6.0
-            (horizontalDistance <= radius.toDouble()) && verticalDistance <= 6.0
+            val radius = if (hotspot.radius > 0) hotspot.radius.toDouble() else HotSpotConstants.PARTICLE_DETECTION_RADIUS
+            (horizontalDistance <= radius) && verticalDistance <= HotSpotConstants.PARTICLE_MAX_VERTICAL_DISTANCE
         }
     }
 
@@ -267,8 +271,8 @@ object HotSpotEvents : RegisteredEvent {
 
     private fun findBuffNearby(pos: Vec3, world: ClientLevel): String {
         val searchBox = net.minecraft.world.phys.AABB(
-            pos.x - 0.5, pos.y - 4.0, pos.z - 0.5, 
-            pos.x + 0.5, pos.y + 4.0, pos.z + 0.5
+            pos.x - HotSpotConstants.BUFF_SEARCH_HORIZONTAL, pos.y - HotSpotConstants.BUFF_SEARCH_VERTICAL, pos.z - HotSpotConstants.BUFF_SEARCH_HORIZONTAL, 
+            pos.x + HotSpotConstants.BUFF_SEARCH_HORIZONTAL, pos.y + HotSpotConstants.BUFF_SEARCH_VERTICAL, pos.z + HotSpotConstants.BUFF_SEARCH_HORIZONTAL
         )
         
         val entities = world.getEntitiesOfClass(ArmorStand::class.java, searchBox).toList()
@@ -297,9 +301,10 @@ object HotSpotEvents : RegisteredEvent {
     }
 
     private fun getLiquidType(pos: Vec3, world: ClientLevel): LiquidTypes {
-        for (dx in -1..1) {
-            for (dz in -1..1) {
-                for (dy in -4..1) {
+        val horizontal = HotSpotConstants.LIQUID_SEARCH_HORIZONTAL
+        for (dx in -horizontal..horizontal) {
+            for (dz in -horizontal..horizontal) {
+                for (dy in HotSpotConstants.LIQUID_SEARCH_VERTICAL_MIN..HotSpotConstants.LIQUID_SEARCH_VERTICAL_MAX) {
                     val blockPos = BlockPos.containing(pos.x + dx, pos.y + dy, pos.z + dz)
                     if (world.getBlockState(blockPos).`is`(Blocks.LAVA)) return LiquidTypes.LAVA
                 }
