@@ -48,7 +48,7 @@ object CustomRareDropMessage : Feature {
             "time" to timeSinceLast,
             "total" to history.size.toString()
         )
-
+        
         val message = Component.literal(messageString)
 
         sendMessage(message)
