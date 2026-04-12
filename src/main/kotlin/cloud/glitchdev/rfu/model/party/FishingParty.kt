@@ -9,7 +9,6 @@ import cloud.glitchdev.rfu.utils.User
 import cloud.glitchdev.rfu.utils.World
 import com.google.gson.annotations.SerializedName
 import com.google.gson.Gson
-import kotlin.math.max
 
 data class FishingParty(
     @Transient
@@ -87,7 +86,7 @@ data class FishingParty(
                     Requisite("brain_food", "Brain Food", false),
                 ),
                 listOf(),
-                Players(max(Party.members.size + 1, 1), 6)
+                Players(maxOf(Party.members.size, 1), 6)
             )
         }
     }

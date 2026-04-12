@@ -14,3 +14,4 @@
 - Made deployable alert not trigger upon swapping islands
 
 ### Back-end:
+- Refactored party system to use Hypixel Mod Api for party tracking

@@ -16,7 +16,7 @@ import cloud.glitchdev.rfu.model.party.FishingParty
 import cloud.glitchdev.rfu.utils.Party
 import cloud.glitchdev.rfu.utils.network.PartyWebSocket
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
-import cloud.glitchdev.rfu.events.managers.PartyEvents.registerMyPartyChangedEvent
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerMyPartyChangedEvent
 import cloud.glitchdev.rfu.utils.gui.isHidden
 import cloud.glitchdev.rfu.utils.network.WebSocketClient
 import gg.essential.elementa.components.UIContainer
@@ -359,7 +359,7 @@ class UICreateParty(radius: Float) : UIRoundedRectangle(radius) {
     }
 
     fun onOpen() {
-        party.players.current = Party.members.size + 1
+        party.players.current = Party.members.size
         needUpdating = true
     }
 

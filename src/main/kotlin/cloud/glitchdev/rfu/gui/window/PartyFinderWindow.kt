@@ -9,9 +9,9 @@ import cloud.glitchdev.rfu.gui.components.partyfinder.UIFilterArea
 import cloud.glitchdev.rfu.gui.components.partyfinder.UIPartyCard
 import cloud.glitchdev.rfu.model.party.FishingParty
 import cloud.glitchdev.rfu.utils.gui.setHidden
-import cloud.glitchdev.rfu.events.managers.PartyEvents
-import cloud.glitchdev.rfu.events.managers.PartyEvents.registerPartyListChangedEvent
-import cloud.glitchdev.rfu.events.managers.PartyEvents.registerMyPartyChangedEvent
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyListChangedEvent
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerMyPartyChangedEvent
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyCreatedEvent
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
 import cloud.glitchdev.rfu.utils.User
@@ -59,7 +59,7 @@ object PartyFinderWindow : BaseWindow(false) {
     init {
         create()
         updatePartyCreation()
-        updateFiltering(PartyEvents.parties)
+        updateFiltering(PartyFinderEvents.parties)
 
         registerPartyListChangedEvent { parties ->
             updateFiltering(parties)
@@ -135,7 +135,7 @@ object PartyFinderWindow : BaseWindow(false) {
         } childOf background
 
         filterArea.onFilterChange = {
-            updateFiltering(PartyEvents.parties)
+            updateFiltering(PartyFinderEvents.parties)
         }
 
         createPartyArea()
@@ -211,7 +211,7 @@ object PartyFinderWindow : BaseWindow(false) {
         filterButton = UIButton("Filters", 3f) {
             filterOpen = !filterOpen
             updatePartyCreation()
-            updateFiltering(PartyEvents.parties)
+            updateFiltering(PartyFinderEvents.parties)
         }.constrain {
             x = SiblingConstraint(2f, true)
             y = CenterConstraint()

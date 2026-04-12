@@ -2,7 +2,7 @@ package cloud.glitchdev.rfu.utils.network
 
 import cloud.glitchdev.rfu.events.AutoRegister
 import cloud.glitchdev.rfu.events.RegisteredEvent
-import cloud.glitchdev.rfu.events.managers.PartyEvents
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.runPartyCreatedTasks
 import cloud.glitchdev.rfu.model.network.WebSocketEvent
 import cloud.glitchdev.rfu.model.network.WebSocketEventType
@@ -31,7 +31,7 @@ object PartyWebSocket : RegisteredEvent {
     var myParty: FishingParty? = null
         private set(value) {
             field = value
-            PartyEvents.MyPartyChanged.runTasks(value)
+            PartyFinderEvents.MyPartyChanged.runTasks(value)
         }
 
     private var lastJoinTarget: String? = null
@@ -78,7 +78,7 @@ object PartyWebSocket : RegisteredEvent {
                 if (event.type == WebSocketEventType.SYNC) {
                     val newParties = event.data ?: emptyList()
                     myParty = newParties.find { it.user == User.getUsername() }
-                    PartyEvents.handleSync(newParties)
+                    PartyFinderEvents.handleSync(newParties)
                 }
             } catch (e: Exception) {
                 RFULogger.error("Error parsing party list sync: ", e)
@@ -99,7 +99,7 @@ object PartyWebSocket : RegisteredEvent {
                                     runPartyCreatedTasks(updatedParty)
                                 }
                             }
-                            PartyEvents.handleUpdate(updatedParty)
+                            PartyFinderEvents.handleUpdate(updatedParty)
                         }
                     }
                     WebSocketEventType.DELETED -> {
@@ -110,7 +110,7 @@ object PartyWebSocket : RegisteredEvent {
                                 }
                                 myParty = null
                             }
-                            PartyEvents.handleDelete(user)
+                            PartyFinderEvents.handleDelete(user)
                         }
                     }
                     else -> {}
@@ -123,7 +123,7 @@ object PartyWebSocket : RegisteredEvent {
         val joinRequestCallback: (String) -> Unit = { msg ->
             try {
                 val notification = gson.fromJson(msg, JoinPartyNotification::class.java)
-                PartyEvents.JoinRequest.runTasks(notification.applicant)
+                PartyFinderEvents.JoinRequest.runTasks(notification.applicant)
             } catch (e: Exception) {
                 RFULogger.error("Error parsing join request notification: ", e)
             }
