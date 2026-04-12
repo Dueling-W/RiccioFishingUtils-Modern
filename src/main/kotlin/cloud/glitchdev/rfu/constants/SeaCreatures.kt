@@ -1,5 +1,6 @@
 package cloud.glitchdev.rfu.constants
 
+import cloud.glitchdev.rfu.config.seacreatures.SeaCreatureSettingsManager
 import cloud.glitchdev.rfu.constants.LiquidTypes.*
 import cloud.glitchdev.rfu.constants.SeaCreatureCategory.*
 import cloud.glitchdev.rfu.model.data.DataOption
@@ -14,7 +15,7 @@ enum class SeaCreatures(
     val catchMessage : String,
     val liquidType: LiquidTypes,
     val category: SeaCreatureCategory,
-    val special: Boolean = false,
+    private val defaultSpecial: Boolean = false,
     val condition: (Hotspot?, Vec3, Bait?) -> Boolean = { _, _, _ -> true },
     val lsRangeExcluded: Boolean = false
 ) {
@@ -183,62 +184,13 @@ enum class SeaCreatures(
     @SerializedName("Ragnarok")
     RAGNAROK("Ragnarok", "The sky darkens and the air thickens. The end times are upon us: Ragnarok is here.", LAVA, HOTSPOT_LAVA, true, { h, _, _ -> h?.liquid?.isLava() == true });
 
-    fun toDataOption() : DataOption {
-        return DataOption(this, this.scName)
-    }
-
-    fun getSingularNameWithArticle(): String {
-        val name = getNameWithoutArticle()
-        val article = getArticle()
-        if (article.equals("The", ignoreCase = true)) return "$article $name"
-        return "$article $name"
-    }
-
-    fun getArticle(): String {
-        if (scName.startsWith("The ", ignoreCase = true)) return "The"
-        val vowels = setOf('a', 'e', 'i', 'o', 'u')
-        val firstChar = scName.lowercase().first()
-        return if (firstChar in vowels) "an" else "a"
-    }
-
-    fun getNameWithoutArticle(): String {
-        if (scName.startsWith("The ", ignoreCase = true)) return scName.substring(4)
-        return scName
-    }
-
-    fun getPluralName(): String {
-        var name = scName
-        if (name.startsWith("The ", ignoreCase = true)) {
-            name = name.substring(4)
-        }
-        return when (name) {
-            "Oasis Sheep" -> "Oasis Sheep"
-            "Rider of the Deep" -> "Riders of the Deep"
-            "Blue Ringed Octopus" -> "Blue Ringed Octopi"
-            "Werewolf" -> "Werewolves"
-            else -> {
-                if (name.endsWith("Man", ignoreCase = true)) return name.dropLast(3) + "Men"
-                if (name.endsWith("Pigman", ignoreCase = true)) return name.dropLast(3) + "Men"
-                if (name.endsWith("Witch", ignoreCase = true) ||
-                    name.endsWith("Leech", ignoreCase = true) ||
-                    name.endsWith("Grinch", ignoreCase = true) ||
-                    name.endsWith("Jawbus", ignoreCase = true) ||
-                    name.endsWith("Taurus", ignoreCase = true) ||
-                    name.endsWith("Blaze", ignoreCase = true) ||
-                    name.endsWith("Sludge", ignoreCase = true)) {
-                    return name + "es"
-                }
-                if (name.endsWith("y", ignoreCase = true) &&
-                    !name.endsWith("ay", ignoreCase = true) &&
-                    !name.endsWith("ey", ignoreCase = true) &&
-                    !name.endsWith("oy", ignoreCase = true) &&
-                    !name.endsWith("uy", ignoreCase = true)) {
-                    return name.dropLast(1) + "ies"
-                }
-                name + "s"
-            }
-        }
-    }
+    val special: Boolean = defaultSpecial
+    fun toDataOption(): DataOption = DataOption(this, this.scName)
+    fun getSingularNameWithArticle(): String = "${getArticle()} ${getNameWithoutArticle()}"
+    fun getArticle(): String = SeaCreatureSettingsManager.getArticle(scName)
+    fun getNameWithoutArticle(): String = SeaCreatureSettingsManager.getName(scName)
+    fun getPluralName(): String = SeaCreatureSettingsManager.getPlural(scName)
+    fun getFormatCode(): String = SeaCreatureSettingsManager.getFormat(scName);
 
     override fun toString(): String {
         return scName
