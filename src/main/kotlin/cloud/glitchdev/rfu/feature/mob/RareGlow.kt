@@ -5,7 +5,6 @@ import cloud.glitchdev.rfu.config.categories.SeaCreatureConfig.RARE_SC_REGEX
 import cloud.glitchdev.rfu.events.managers.MobEvents.registerMobDetectEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
-import net.minecraft.world.entity.LivingEntity
 
 @RFUFeature
 object RareGlow : Feature {
