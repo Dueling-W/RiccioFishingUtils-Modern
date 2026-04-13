@@ -14,11 +14,19 @@ import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.universal.UMatrixStack
+import cloud.glitchdev.rfu.gui.components.Colorable
+import gg.essential.elementa.dsl.animate
+import java.awt.Color
 
-class UIWrappedDecoratedTextInput(val placeholder : String, radius : Float, val maxChars : Int = 0, var onChange : (String) -> Unit = {}) : UIRoundedRectangle(radius) {
-    val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
-    val hoverColor = UIScheme.secondaryColor.toConstraint()
-    val textColor = UIScheme.primaryTextColor.toConstraint()
+class UIWrappedDecoratedTextInput(
+    val placeholder: String,
+    radius: Float,
+    val maxChars: Int = 0,
+    var onChange: (String) -> Unit = {}
+) : UIRoundedRectangle(radius), Colorable {
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+    var hoverColor = UIScheme.secondaryColor.toConstraint()
+    var textColor = UIScheme.primaryTextColor.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
 
     private var textChanged = false
@@ -33,7 +41,15 @@ class UIWrappedDecoratedTextInput(val placeholder : String, radius : Float, val 
         this.constrain {
             color = primaryColor
         }
-        this.addHoverColoring(Animations.IN_EXP, hoverDuration, primaryColor, hoverColor)
+        this.onMouseEnter {
+            this.animate {
+                setColorAnimation(Animations.IN_EXP, hoverDuration, hoverColor)
+            }
+        }.onMouseLeave {
+            this.animate {
+                setColorAnimation(Animations.IN_EXP, hoverDuration, primaryColor)
+            }
+        }
 
         textInput = (UIMultilineTextInput(placeholder).constrain {
             x = CenterConstraint()
@@ -64,5 +80,12 @@ class UIWrappedDecoratedTextInput(val placeholder : String, radius : Float, val 
     fun setText(text : String) {
         textInput.setText(text)
         textChanged = true
+    }
+
+    override fun refreshColors() {
+        this.constrain { color = primaryColor }
+        if (::textInput.isInitialized) {
+            textInput.constrain { color = textColor }
+        }
     }
 }

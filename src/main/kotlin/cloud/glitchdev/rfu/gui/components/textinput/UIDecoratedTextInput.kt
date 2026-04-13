@@ -2,7 +2,6 @@ package cloud.glitchdev.rfu.gui.components.textinput
 
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.elementa.UISpecialTextInput
-import cloud.glitchdev.rfu.utils.gui.addHoverColoring
 import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.animation.Animations
@@ -11,11 +10,19 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.universal.UMatrixStack
+import cloud.glitchdev.rfu.gui.components.Colorable
+import gg.essential.elementa.dsl.animate
 
-class UIDecoratedTextInput(val placeholder : String, radius : Float, val numberOnly: Boolean = false, val maxChars : Int = 0, var onChange : (String) -> Unit = {}) : UIRoundedRectangle(radius) {
-    val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
-    val hoverColor = UIScheme.secondaryColor.toConstraint()
-    val textColor = UIScheme.primaryTextColor.toConstraint()
+class UIDecoratedTextInput(
+    val placeholder: String,
+    radius: Float,
+    val numberOnly: Boolean = false,
+    val maxChars: Int = 0,
+    var onChange: (String) -> Unit = {}
+) : UIRoundedRectangle(radius), Colorable {
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+    var hoverColor = UIScheme.secondaryColor.toConstraint()
+    var textColor = UIScheme.primaryTextColor.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
 
     private var textChanged = false
@@ -31,7 +38,15 @@ class UIDecoratedTextInput(val placeholder : String, radius : Float, val numberO
         this.constrain {
             color = primaryColor
         }
-        this.addHoverColoring(Animations.IN_EXP, hoverDuration, primaryColor, hoverColor)
+        this.onMouseEnter {
+            this.animate {
+                setColorAnimation(Animations.IN_EXP, hoverDuration, hoverColor)
+            }
+        }.onMouseLeave {
+            this.animate {
+                setColorAnimation(Animations.IN_EXP, hoverDuration, primaryColor)
+            }
+        }
 
         textInput = (UISpecialTextInput(placeholder).constrain {
             x = CenterConstraint()
@@ -69,5 +84,12 @@ class UIDecoratedTextInput(val placeholder : String, radius : Float, val numberO
 
     fun getText() : String {
         return textInput.getText()
+    }
+
+    override fun refreshColors() {
+        this.constrain { color = primaryColor }
+        if (::textInput.isInitialized) {
+            textInput.constrain { color = textColor }
+        }
     }
 }

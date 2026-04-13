@@ -17,33 +17,30 @@ import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.universal.UMatrixStack
+import java.awt.Color
 
 /**
  * Simple Button Component
  */
-class UIButton(var text: String, radius: Float = 0f, val image : UIImage? = null, val baseTextScale: Float = 1.0f, var onClick : () -> Unit = {}) : UIRoundedRectangle(radius) {
-    val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
-    val hoverColor = UIScheme.secondaryColor.toConstraint()
-    val textColor = UIScheme.primaryTextColor.toConstraint()
-    val secondaryTextColor = UIScheme.secondaryTextColor.toConstraint()
-    val disabledColor = UIScheme.secondaryColorDisabledOpaque.toConstraint()
+class UIButton(
+    var text: String,
+    radius: Float = 0f,
+    val image: UIImage? = null,
+    val baseTextScale: Float = 1.0f,
+    var onClick: () -> Unit = {}
+) : UIRoundedRectangle(radius), Colorable {
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+    var hoverColor = UIScheme.secondaryColor.toConstraint()
+    var textColor = UIScheme.primaryTextColor.toConstraint()
+    var secondaryTextColor = UIScheme.secondaryTextColor.toConstraint()
+    var disabledColor = UIScheme.secondaryColorDisabledOpaque.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
     val clickDuration = 0.1f
 
     var disabled = false
         set(value) {
             field = value
-            this.constrain {
-                color = if (disabled) disabledColor else primaryColor
-            }
-            textArea.constrain {
-                color = if (disabled) secondaryTextColor else textColor
-            }
-            if(image != null) {
-                image.constrain {
-                    color = if (disabled) secondaryTextColor else textColor
-                }
-            }
+            refreshColors()
         }
 
     lateinit var textArea : UIText
@@ -155,7 +152,17 @@ class UIButton(var text: String, radius: Float = 0f, val image : UIImage? = null
             height = newHeight.pixels()
         }
     }
-    
+
+    override fun refreshColors() {
+        this.constrain { color = if (disabled) disabledColor else primaryColor }
+        if (::textArea.isInitialized) {
+            textArea.constrain { color = if (disabled) secondaryTextColor else textColor }
+        }
+        if (image != null) {
+            image.constrain { color = if (disabled) secondaryTextColor else textColor }
+        }
+    }
+
     companion object {
         fun withImage(image: UIImage, radius: Float = 0f, onClick: () -> Unit = {}) : UIButton {
             return UIButton("", radius, image, 1.0f, onClick)

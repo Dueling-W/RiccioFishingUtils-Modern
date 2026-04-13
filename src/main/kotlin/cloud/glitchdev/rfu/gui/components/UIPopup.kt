@@ -15,14 +15,20 @@ import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
+import cloud.glitchdev.rfu.gui.components.Colorable
 import java.awt.Color
 
-class UIPopup(val radiusPopup : Float, val text: String, val onConfirm: (() -> Unit)? = null) : UIBlock() {
-    val backgroundColor = Color.BLACK.increaseOpacity(127).toConstraint()
-    val errorColor = UIScheme.errorPopupColor.toConstraint()
-    val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+class UIPopup(
+    val radiusPopup: Float,
+    val text: String,
+    val onConfirm: (() -> Unit)? = null
+) : UIBlock(), Colorable {
+    var backgroundColor = Color.BLACK.increaseOpacity(127).toConstraint()
+    var errorColor = UIScheme.errorPopupColor.toConstraint()
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
 
     lateinit var uiText : UIWrappedText
+    lateinit var popupContainer : UIRoundedRectangle
 
     init {
         create()
@@ -47,7 +53,7 @@ class UIPopup(val radiusPopup : Float, val text: String, val onConfirm: (() -> U
             it.stopPropagation()
         }
 
-        val popupContainer = UIRoundedRectangle(radiusPopup).constrain {
+        popupContainer = UIRoundedRectangle(radiusPopup).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
             width = 33.percent()
@@ -110,5 +116,11 @@ class UIPopup(val radiusPopup : Float, val text: String, val onConfirm: (() -> U
 
     fun showPopup() {
         this.unhide()
+    }
+
+    override fun refreshColors() {
+        this.constrain { color = backgroundColor }
+        if (::popupContainer.isInitialized) popupContainer.constrain { color = primaryColor }
+        if (::uiText.isInitialized) uiText.constrain { color = errorColor }
     }
 }

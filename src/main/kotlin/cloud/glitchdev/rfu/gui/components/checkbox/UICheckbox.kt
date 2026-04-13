@@ -19,14 +19,21 @@ import gg.essential.elementa.dsl.min
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
+import cloud.glitchdev.rfu.gui.components.Colorable
+import java.awt.Color
 
 /**
  * Simple Checkbox Component
  */
-class UICheckbox(val text: String, defaultState : Boolean = false, val allowDisabling : Boolean = true, var onChange : (Boolean) -> Unit = {}) : UIContainer() {
-    val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
-    val hoverColor = UIScheme.secondaryColor.toConstraint()
-    val textColor = UIScheme.primaryTextColor.toConstraint()
+class UICheckbox(
+    val text: String,
+    defaultState: Boolean = false,
+    val allowDisabling: Boolean = true,
+    var onChange: (Boolean) -> Unit = {}
+) : UIContainer(), Colorable {
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+    var hoverColor = UIScheme.secondaryColor.toConstraint()
+    var textColor = UIScheme.primaryTextColor.toConstraint()
     val animationDuration = UIScheme.HOVER_EFFECT_DURATION
     val padding = 2f
 
@@ -36,13 +43,15 @@ class UICheckbox(val text: String, defaultState : Boolean = false, val allowDisa
             field = value
         }
     lateinit var checkmark : UIText
+    lateinit var checkbox : UIRoundedRectangle
+    lateinit var textComponent : UIText
 
     init {
         create()
     }
 
     fun create() {
-        val checkbox = UIRoundedRectangle(2f).constrain {
+        checkbox = UIRoundedRectangle(2f).constrain {
             x = SiblingConstraint(padding)
             y = CenterConstraint()
             width = AspectConstraint(1f)
@@ -74,12 +83,18 @@ class UICheckbox(val text: String, defaultState : Boolean = false, val allowDisa
             }
         }
 
-        UIText(text).constrain {
+        textComponent = UIText(text).constrain {
             x = SiblingConstraint(padding)
             y = CenterConstraint()
             width = TextAspectConstraint()
             height = ScaledTextConstraint(1f)
             color = textColor
         } childOf this
+    }
+
+    override fun refreshColors() {
+        if (::checkbox.isInitialized) checkbox.constrain { color = primaryColor }
+        if (::checkmark.isInitialized) checkmark.constrain { color = textColor }
+        if (::textComponent.isInitialized) textComponent.constrain { color = textColor }
     }
 }

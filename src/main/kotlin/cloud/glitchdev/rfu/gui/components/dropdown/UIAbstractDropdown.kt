@@ -15,6 +15,8 @@ import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
 import gg.essential.universal.UKeyboard
 import gg.essential.universal.UMatrixStack
+import cloud.glitchdev.rfu.gui.components.Colorable
+import java.awt.Color
 import kotlin.math.min
 
 abstract class UIAbstractDropdown(
@@ -22,14 +24,14 @@ abstract class UIAbstractDropdown(
     val radiusProps: Float,
     val hideArrow: Boolean = false,
     val label: String = ""
-) : UIContainer() {
+) : UIContainer(), Colorable {
 
-    protected val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
-    protected val hoverColor = UIScheme.secondaryColor.toConstraint()
-    protected val textColor = UIScheme.primaryTextColor.toConstraint()
-    protected val selectedColor = UIScheme.primaryColor.toConstraint()
-    protected val disabledColor = UIScheme.secondaryColorDisabled.toConstraint()
-    protected val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
+    var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
+    var hoverColor = UIScheme.secondaryColor.toConstraint()
+    var textColor = UIScheme.primaryTextColor.toConstraint()
+    var selectedColor = UIScheme.primaryColor.toConstraint()
+    var disabledColor = UIScheme.secondaryColorDisabled.toConstraint()
+    val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
     protected val padding = 2f
     protected val optionHeightPixels = 12f
 
@@ -312,5 +314,16 @@ abstract class UIAbstractDropdown(
             }
         }
         fontSize = font
+    }
+
+    override fun refreshColors() {
+        if (::background.isInitialized) {
+            background.constrain { color = primaryColor }
+            text.constrain { color = textColor }
+            arrowHead.constrain { color = textColor }
+            scrollbar.constrain { color = hoverColor }
+            refreshOptionColors()
+            uiOptionsText.forEach { it.constrain { color = textColor } }
+        }
     }
 }
