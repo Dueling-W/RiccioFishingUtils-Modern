@@ -2,8 +2,8 @@ package cloud.glitchdev.rfu.feature.ink
 
 import cloud.glitchdev.rfu.config.categories.InkFishing
 import cloud.glitchdev.rfu.constants.FishingIslands
-import cloud.glitchdev.rfu.constants.SeaCreatures.NIGHT_SQUID
-import cloud.glitchdev.rfu.constants.SeaCreatures.SQUID
+import cloud.glitchdev.rfu.constants.SeaCreatures.Companion.NIGHT_SQUID
+import cloud.glitchdev.rfu.constants.SeaCreatures.Companion.SQUID
 import cloud.glitchdev.rfu.constants.text.TextColor.GOLD
 import cloud.glitchdev.rfu.constants.text.TextColor.LIGHT_GREEN
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW

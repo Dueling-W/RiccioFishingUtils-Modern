@@ -16,4 +16,9 @@
 - Fixed the generated custom sound json not having the replace flag
 
 ### Back-end:
+- Renamed `format` to `style` in sea creature configuration system
+- Updated custom catch message templates to use the new `{style}` variable and included all available variables in the description
+- Set bossbar to true for Thunder and Lord Jawbus in sea creature configuration
+- Updated sea creature configurations for Abyssal Miner and Plhlegblast
+- Refactored sea creatures system to be data-driven via `sc-config.json`
 - Refactored party system to use Hypixel Mod Api for party tracking

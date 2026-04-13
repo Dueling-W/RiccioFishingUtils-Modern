@@ -58,7 +58,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         super.onUpdateState()
 
         val lines = mutableListOf<String>()
-        val selectedScs = RareScSettings.rareSC
+        val selectedScs = SeaCreatures.entries.filter { it.special }
         val currentIsland = World.island
 
         val catchHistory = CatchTracker.catchHistory
@@ -95,7 +95,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
 
         val dataOrder = RareScSettings.rareScDisplayDataOrder
 
-        selectedScs.forEach { sc ->
+        selectedScs.forEach { sc: SeaCreatures ->
             if (currentIsland == null || !sc.category.islands.contains(currentIsland)) {
                 return@forEach
             }
@@ -141,8 +141,8 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
         }
 
         if (isEditing && lines.isEmpty()) {
-            val examples = if (selectedScs.isNotEmpty()) selectedScs.take(3) else SeaCreatures.entries.filter { it.special }.take(3)
-            examples.forEach { sc ->
+            val examples = SeaCreatures.entries.filter { it.special }.take(3)
+            examples.forEach { sc: SeaCreatures ->
                 val record = catchHistory.getOrAdd(sc)
                 val line = buildString {
                     append("$CYAN${BOLD}${sc.scName}:")

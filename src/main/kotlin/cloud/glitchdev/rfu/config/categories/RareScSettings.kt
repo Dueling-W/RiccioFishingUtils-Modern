@@ -1,10 +1,12 @@
 package cloud.glitchdev.rfu.config.categories
 
+import cloud.glitchdev.rfu.RiccioFishingUtils.mc
 import cloud.glitchdev.rfu.config.Category
 import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.constants.RareScDisplayDataType
 import cloud.glitchdev.rfu.feature.fishing.RareScPartyMessage
 import cloud.glitchdev.rfu.utils.dsl.toExactRegex
+import cloud.glitchdev.rfu.gui.window.SeaCreatureEditWindow
 import com.teamresourceful.resourcefulconfig.api.types.options.TranslatableValue
 
 object RareScSettings : Category("Rare SCs") {
@@ -16,15 +18,17 @@ object RareScSettings : Category("Rare SCs") {
             title = "General"
             description = "Basic settings for Rare Sea Creatures"
         }
-    }
 
-    var rareSC by draggable(*SeaCreatures.entries.filter { it.special }.toTypedArray()) {
-        name = Literal("Rare Sea Creatures")
-        description = Literal("Select which sea creatures are considered rare for the mod.")
+        customButton(
+            { mc.setScreen(SeaCreatureEditWindow()) },
+            "Edit Sea Creatures",
+            "Open a window to edit sea creature properties (Name, Plural, Article, Special, etc.)",
+            "Edit"
+        )
     }
 
     val RARE_SC_REGEX
-        get() = rareSC.joinToString("|").toExactRegex()
+        get() = SeaCreatures.entries.filter { it.special }.joinToString("|") { it.scName }.toExactRegex()
 
     var rareScGlow by boolean(false) {
         name = Literal("Rare SC Glow")
@@ -159,14 +163,8 @@ object RareScSettings : Category("Rare SCs") {
         reloadScreen()
     }
 
-    var healthBarMobs by draggable(*SeaCreatures.entries.filter { it.special }.toTypedArray()) {
-        name = Literal("Boss Health Bar mobs")
-        description = Literal("Select which mobs will have their health bars displayed")
-        condition = { bossHealthBars }
-    }
-
     val HEALTH_BAR_REGEX
-        get() = healthBarMobs.joinToString("|").toExactRegex()
+        get() = SeaCreatures.entries.filter { it.special }.joinToString("|") { it.scName }.toExactRegex()
 
 
     var coloredShurikenBar by boolean(true) {

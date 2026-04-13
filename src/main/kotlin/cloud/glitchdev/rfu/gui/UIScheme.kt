@@ -44,7 +44,13 @@ object UIScheme {
     val veryHardDifficultyColor = Color(120, 7, 7)
     val impossibleDifficultyColor = Color(90, 0, 0)
 
+    val windowBackground = Color(30, 30, 30, 220)
+    val sidebarBackground = Color(20, 20, 20, 180)
+    val contentBackground = Color(40, 40, 40, 150)
+    val selectedTextColor = Color.YELLOW
+
     const val HOVER_EFFECT_DURATION = 0.1f
+
 
     fun increaseOpacity(baseColor : Color, amount: Int) : Color {
         return Color(baseColor.red, baseColor.green, baseColor.blue, baseColor.alpha - amount)

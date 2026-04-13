@@ -153,15 +153,15 @@ object GeneralFishing : Category("General Fishing") {
         reloadScreen()
     }
 
-    var catchMessageTemplate by string("&3&lSEA CREATURE! &eYou caught {article} &3&l{name}") {
+    var catchMessageTemplate by string("&3&lSEA CREATURE! &eYou caught {article} {style}&l{name}") {
         name = Literal("Catch Message Template")
-        description = Literal("The template for the catch message. Available: {article}, {article_upper}, {name}, {mob}")
+        description = Literal("The template for the catch message. Available: {article}, {article_upper}, {name}, {style}, {plural}, {mob}, {mobs}")
         condition = { replaceCatchMessages }
     }
 
-    var doubleHookCatchMessageTemplate by string("&9&lDOUBLE HOOK! &eYou caught two &3&l{plural}") {
+    var doubleHookCatchMessageTemplate by string("&9&lDOUBLE HOOK! &eYou caught two {style}&l{plural}") {
         name = Literal("Double Hook Message Template")
-        description = Literal("The template for the double hook catch message. Available: {plural}, {mobs}")
+        description = Literal("The template for the double hook catch message. Available: {article}, {article_upper}, {name}, {style}, {plural}, {mob}, {mobs}")
         condition = { replaceCatchMessages }
     }
 

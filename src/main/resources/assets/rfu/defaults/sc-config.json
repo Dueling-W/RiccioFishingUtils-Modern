@@ -5,504 +5,889 @@
       "plural": "Sea Walkers",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "You caught a Sea Walker.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Squid": {
       "name": "Squid",
       "plural": "Squid",
       "article": "a",
       "special": false,
-      "format": "§7"
+      "style": "§7",
+      "catchMessage": "A Squid appeared.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Night Squid": {
       "name": "Night Squid",
       "plural": "Night Squids",
       "article": "a",
       "special": false,
-      "format": "§8"
+      "style": "§8",
+      "catchMessage": "Pitch darkness reveals a Night Squid.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Sea Guardian": {
       "name": "Sea Guardian",
       "plural": "Sea Guardians",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "You stumbled upon a Sea Guardian.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Sea Witch": {
       "name": "Sea Witch",
       "plural": "Sea Witches",
       "article": "a",
       "special": false,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "It looks like you've disrupted the Sea Witch's brewing session. Watch out, she's furious!",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Sea Archer": {
       "name": "Sea Archer",
       "plural": "Sea Archers",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "You reeled in a Sea Archer.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Rider of the Deep": {
       "name": "Rider of the Deep",
       "plural": "Riders of the Deep",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "The Rider of the Deep has emerged.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Catfish": {
       "name": "Catfish",
       "plural": "Catfish",
       "article": "a",
       "special": false,
-      "format": "§e"
+      "style": "§e",
+      "catchMessage": "Huh? A Catfish!",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Carrot King": {
       "name": "Carrot King",
       "plural": "Carrot Kings",
       "article": "the",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "Is this even a fish? It's the Carrot King!",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "bait": "CARROT"
+      }
     },
     "Agarimoo": {
       "name": "Agarimoo",
       "plural": "Agarimoos",
       "article": "an",
       "special": false,
-      "format": "§e"
+      "style": "§e",
+      "catchMessage": "Your Chumcap Bucket trembles, it's an Agarimoo.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Sea Leech": {
       "name": "Sea Leech",
       "plural": "Sea Leeches",
       "article": "a",
       "special": false,
-      "format": "§7"
+      "style": "§7",
+      "catchMessage": "Gross! A Sea Leech!",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Guardian Defender": {
       "name": "Guardian Defender",
       "plural": "Guardian Defenders",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "You've discovered a Guardian Defender of the sea.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Deep Sea Protector": {
       "name": "Deep Sea Protector",
       "plural": "Deep Sea Protectors",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "You have awoken the Deep Sea Protector, prepare for a battle!",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false
     },
     "Water Hydra": {
       "name": "Water Hydra",
       "plural": "Water Hydras",
       "article": "a",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "The Water Hydra has come to test your strength.",
+      "liquidType": "WATER",
+      "category": "GENERAL_WATER",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "The Loch Emperor": {
       "name": "The Loch Emperor",
       "plural": "Loch Emperors",
       "article": "the",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "The Loch Emperor arises from the depths.",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Wetwing": {
       "name": "Wetwing",
       "plural": "Wetwings",
       "article": "a",
       "special": false,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "Look! A Wetwing emerges!",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Tadgang": {
       "name": "Tadgang",
       "plural": "Tadgangs",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "A gang of Liltads!",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Ent": {
       "name": "Ent",
       "plural": "Ents",
       "article": "an",
       "special": false,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "You've hooked an Ent, as ancient as the forest itself.",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Bogged": {
       "name": "Bogged",
       "plural": "Bogged",
       "article": "a",
       "special": false,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "You've hooked a Bogged!",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Nessie": {
       "name": "Nessie",
       "plural": "Nessies",
       "article": "",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "You've caused a disturbance in the loch. Could it be... Nessie?",
+      "liquidType": "WATER",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Stridersurfer": {
       "name": "Stridersurfer",
       "plural": "Stridersurfers",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "You caught a Stridersurfer.",
+      "liquidType": "LAVA",
+      "category": "GALATEA",
+      "lsRangeExcluded": false
     },
     "Frog Man": {
       "name": "Frog Man",
       "plural": "Frog Men",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "Is it a frog? Is it a man? Well, yes, sorta, IT'S FROG MAN!!!!!!",
+      "liquidType": "WATER",
+      "category": "HOTSPOT_WATER",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "hotspot": "WATER"
+      }
     },
     "Snapping Turtle": {
       "name": "Snapping Turtle",
       "plural": "Snapping Turtles",
       "article": "a",
       "special": false,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "A Snapping Turtle is coming your way, and it's ANGRY!",
+      "liquidType": "WATER",
+      "category": "HOTSPOT_WATER",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "hotspot": "WATER"
+      }
     },
     "Blue Ringed Octopus": {
       "name": "Blue Ringed Octopus",
       "plural": "Blue Ringed Octopuses",
       "article": "a",
       "special": true,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "A garish set of tentacles arise. It's a Blue Ringed Octopus!",
+      "liquidType": "WATER",
+      "category": "HOTSPOT_WATER",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "hotspot": "WATER"
+      }
     },
     "Wiki Tiki": {
       "name": "Wiki Tiki",
       "plural": "Wiki Tikis",
       "article": "a",
       "special": true,
-      "format": "§d"
+      "style": "§d",
+      "catchMessage": "The water bubbles and froths. A massive form emerges- you have disturbed the Wiki Tiki! You shall pay the price.",
+      "liquidType": "WATER",
+      "category": "HOTSPOT_WATER",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "hotspot": "WATER"
+      }
     },
     "Oasis Rabbit": {
       "name": "Oasis Rabbit",
       "plural": "Oasis Rabbits",
       "article": "an",
       "special": false,
-      "format": "§f"
+      "style": "§f",
+      "catchMessage": "An Oasis Rabbit appears from the water.",
+      "liquidType": "WATER",
+      "category": "OASIS",
+      "lsRangeExcluded": false
     },
     "Oasis Sheep": {
       "name": "Oasis Sheep",
       "plural": "Oasis Sheep",
       "article": "an",
       "special": false,
-      "format": "§b"
+      "style": "§b",
+      "catchMessage": "An Oasis Sheep appears from the water.",
+      "liquidType": "WATER",
+      "category": "OASIS",
+      "lsRangeExcluded": false
     },
     "Water Worm": {
       "name": "Water Worm",
       "plural": "Water Worms",
       "article": "a",
       "special": false,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "A Water Worm surfaces!",
+      "liquidType": "WATER",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false
     },
     "Poisoned Water Worm": {
       "name": "Poisoned Water Worm",
       "plural": "Poisoned Water Worms",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "A Poisoned Water Worm surfaces!",
+      "liquidType": "WATER",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false
     },
     "Abyssal Miner": {
       "name": "Abyssal Miner",
       "plural": "Abyssal Miners",
       "article": "an",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "An Abyssal Miner breaks out of the water!",
+      "liquidType": "WATER",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "coords": [
+          {
+            "x0": 202,
+            "x1": 512,
+            "y0": 64,
+            "y1": 190,
+            "z0": 514,
+            "z1": 823,
+            "exclude": true
+          }
+        ]
+      }
     },
     "Flaming Worm": {
       "name": "Flaming Worm",
       "plural": "Flaming Worms",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "A Flaming Worm surfaces from the depths!",
+      "liquidType": "LAVA",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false
     },
     "Lava Blaze": {
       "name": "Lava Blaze",
       "plural": "Lava Blazes",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "A Lava Blaze has surfaced from the depths!",
+      "liquidType": "LAVA",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false
     },
     "Lava Pigman": {
       "name": "Lava Pigman",
       "plural": "Lava Pigmen",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "A Lava Pigman arose from the depths!",
+      "liquidType": "LAVA",
+      "category": "HOLLOWS",
+      "lsRangeExcluded": false
     },
     "Mithril Grubber": {
       "name": "Mithril Grubber",
       "plural": "Mithril Grubbers",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A leech of the mines surfaces... you've caught a Mithril Grubber.",
+      "liquidType": "WATER",
+      "category": "DWARVEN",
+      "lsRangeExcluded": false
     },
     "Medium Mithril Grubber": {
       "name": "Medium Mithril Grubber",
       "plural": "Medium Mithril Grubbers",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A leech of the mines surfaces... you've caught a Medium Mithril Grubber.",
+      "liquidType": "WATER",
+      "category": "DWARVEN",
+      "lsRangeExcluded": false
     },
     "Large Mithril Grubber": {
       "name": "Large Mithril Grubber",
       "plural": "Large Mithril Grubbers",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A leech of the mines surfaces... you've caught a Large Mithril Grubber.",
+      "liquidType": "WATER",
+      "category": "DWARVEN",
+      "lsRangeExcluded": false
     },
     "Bloated Mithril Grubber": {
       "name": "Bloated Mithril Grubber",
       "plural": "Bloated Mithril Grubbers",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A leech of the mines surfaces... you've caught a Bloated Mithril Grubber.",
+      "liquidType": "WATER",
+      "category": "DWARVEN",
+      "lsRangeExcluded": false
     },
     "Dumpster Diver": {
       "name": "Dumpster Diver",
       "plural": "Dumpster Divers",
       "article": "a",
       "special": false,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A Dumpster Diver has emerged from the swamp!",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false
     },
     "Trash Gobbler": {
       "name": "Trash Gobbler",
       "plural": "Trash Gobblers",
       "article": "a",
       "special": false,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "The Trash Gobbler is hungry for you!",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false
     },
     "Banshee": {
       "name": "Banshee",
       "plural": "Banshees",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "The desolate wail of a Banshee breaks the silence.",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false
     },
     "Bayou Sludge": {
       "name": "Bayou Sludge",
       "plural": "Bayou Sludges",
       "article": "a",
       "special": false,
-      "format": "§a"
+      "style": "§a",
+      "catchMessage": "A swampy mass of slime emerges, the Bayou Sludge!",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false
     },
     "Alligator": {
       "name": "Alligator",
       "plural": "Alligators",
       "article": "an",
       "special": true,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "A long snout breaks the surface of the water. It's an Alligator!",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Titanoboa": {
       "name": "Titanoboa",
       "plural": "Titanoboas",
       "article": "a",
       "special": true,
-      "format": "§3"
+      "style": "§3",
+      "catchMessage": "A massive Titanoboa surfaces. Its body stretches as far as the eye can see.",
+      "liquidType": "WATER",
+      "category": "BAYOU",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Scarecrow": {
       "name": "Scarecrow",
       "plural": "Scarecrows",
       "article": "a",
       "special": false,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "Phew! It's only a Scarecrow.",
+      "liquidType": "WATER",
+      "category": "SPOOKY",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isSpooky": true
+      }
     },
     "Nightmare": {
       "name": "Nightmare",
       "plural": "Nightmares",
       "article": "a",
       "special": false,
-      "format": "§7"
+      "style": "§7",
+      "catchMessage": "You hear trotting from beneath the waves, you caught a Nightmare.",
+      "liquidType": "WATER",
+      "category": "SPOOKY",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isSpooky": true
+      }
     },
     "Werewolf": {
       "name": "Werewolf",
       "plural": "Werewolves",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "It must be a full moon, a Werewolf appears.",
+      "liquidType": "WATER",
+      "category": "SPOOKY",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isSpooky": true
+      }
     },
     "Phantom Fisher": {
       "name": "Phantom Fisher",
       "plural": "Phantom Fishers",
       "article": "a",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "The spirit of a long lost Phantom Fisher has come to haunt you.",
+      "liquidType": "WATER",
+      "category": "SPOOKY",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "isSpooky": true
+      }
     },
     "Grim Reaper": {
       "name": "Grim Reaper",
       "plural": "Grim Reapers",
       "article": "the",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "This can't be! The manifestation of death himself!",
+      "liquidType": "WATER",
+      "category": "SPOOKY",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "isSpooky": true
+      }
     },
     "Frozen Steve": {
       "name": "Frozen Steve",
       "plural": "Frozen Steves",
       "article": "a",
       "special": false,
-      "format": "§b"
+      "style": "§b",
+      "catchMessage": "Frozen Steve fell into the pond long ago, never to resurface...until now!",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": false
     },
     "Frosty": {
       "name": "Frosty",
       "plural": "Frosties",
       "article": "a",
       "special": false,
-      "format": "§f"
+      "style": "§f",
+      "catchMessage": "It's a snowman! He looks harmless.",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": false
     },
     "Grinch": {
       "name": "Grinch",
       "plural": "Grinches",
       "article": "the",
       "special": false,
-      "format": "§2"
+      "style": "§2",
+      "catchMessage": "The Grinch stole Jerry's Gifts...get them back!",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": false
     },
     "Yeti": {
       "name": "Yeti",
       "plural": "Yetis",
       "article": "a",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "What is this creature!?",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Nutcracker": {
       "name": "Nutcracker",
       "plural": "Nutcrackers",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "You found a forgotten Nutcracker laying beneath the ice.",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": false
     },
     "Reindrake": {
       "name": "Reindrake",
       "plural": "Reindrakes",
       "article": "a",
       "special": true,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "A Reindrake forms from the depths.",
+      "liquidType": "WATER",
+      "category": "WINTER",
+      "lsRangeExcluded": true,
+      "bossbar": true
     },
     "Nurse Shark": {
       "name": "Nurse Shark",
       "plural": "Nurse Sharks",
       "article": "a",
       "special": false,
-      "format": "§d"
+      "style": "§d",
+      "catchMessage": "A tiny fin emerges from the water, you've caught a Nurse Shark.",
+      "liquidType": "WATER",
+      "category": "SHARK",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isFestival": true
+      }
     },
     "Blue Shark": {
       "name": "Blue Shark",
       "plural": "Blue Sharks",
       "article": "a",
       "special": false,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "You spot a fin as blue as the water it came from, it's a Blue Shark.",
+      "liquidType": "WATER",
+      "category": "SHARK",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isFestival": true
+      }
     },
     "Tiger Shark": {
       "name": "Tiger Shark",
       "plural": "Tiger Sharks",
       "article": "a",
       "special": false,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "A striped beast bounds from the depths, the wild Tiger Shark!",
+      "liquidType": "WATER",
+      "category": "SHARK",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "isFestival": true
+      }
     },
     "Great White Shark": {
       "name": "Great White Shark",
       "plural": "Great White Sharks",
       "article": "a",
       "special": true,
-      "format": "§f"
+      "style": "§f",
+      "catchMessage": "Hide no longer, a Great White Shark has tracked your scent and thirsts for your blood!",
+      "liquidType": "WATER",
+      "category": "SHARK",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "isFestival": true
+      }
     },
     "Magma Slug": {
       "name": "Magma Slug",
       "plural": "Magma Slugs",
       "article": "a",
       "special": false,
-      "format": "§4"
+      "style": "§4",
+      "catchMessage": "From beneath the lava appears a Magma Slug.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Moogma": {
       "name": "Moogma",
       "plural": "Moogmata",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "You hear a faint Moo from the lava... A Moogma appears.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Lava Leech": {
       "name": "Lava Leech",
       "plural": "Lava Leeches",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "A small but fearsome Lava Leech emerges.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Pyroclastic Worm": {
       "name": "Pyroclastic Worm",
       "plural": "Pyroclastic Worms",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "You feel the heat radiating as a Pyroclastic Worm surfaces.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Lava Flame": {
       "name": "Lava Flame",
       "plural": "Lava Flames",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "A Lava Flame flies out from beneath the lava.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Fire Eel": {
       "name": "Fire Eel",
       "plural": "Fire Eels",
       "article": "a",
       "special": false,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "A Fire Eel slithers out from the depths.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Taurus": {
       "name": "Taurus",
       "plural": "Tauri",
       "article": "a",
       "special": false,
-      "format": "§d"
+      "style": "§d",
+      "catchMessage": "Taurus and his steed emerge.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false
     },
     "Plhlegblast": {
       "name": "Plhlegblast",
       "plural": "Plhlegblasts",
       "article": "a",
       "special": true,
-      "format": "§9"
+      "style": "§9",
+      "catchMessage": "WOAH! A Plhlegblast appeared.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "coords": [
+          {
+            "x0": -398,
+            "x1": -357,
+            "y0": 72,
+            "y1": 100,
+            "z0": -722,
+            "z1": -683
+          }
+        ]
+      }
     },
     "Thunder": {
       "name": "Thunder",
       "plural": "Thunders",
       "article": "",
       "special": true,
-      "format": "§d"
+      "style": "§d",
+      "catchMessage": "You hear a massive rumble as Thunder emerges.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Lord Jawbus": {
       "name": "Lord Jawbus",
       "plural": "Lord Jawbi",
       "article": "",
       "special": true,
-      "format": "§d"
+      "style": "§d",
+      "catchMessage": "You have angered a legendary creature... Lord Jawbus has arrived.",
+      "liquidType": "LAVA",
+      "category": "ISLE",
+      "lsRangeExcluded": false,
+      "bossbar": true
     },
     "Fried Chicken": {
       "name": "Fried Chicken",
       "plural": "Fried Chickens",
       "article": "a",
       "special": false,
-      "format": "§6"
+      "style": "§6",
+      "catchMessage": "Smells of burning. Must be a Fried Chicken.",
+      "liquidType": "LAVA",
+      "category": "HOTSPOT_LAVA",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "hotspot": "LAVA"
+      }
     },
     "Fireproof Witch": {
       "name": "Fireproof Witch",
       "plural": "Fireproof Witches",
       "article": "a",
       "special": false,
-      "format": "§5"
+      "style": "§5",
+      "catchMessage": "Trouble's brewing, it's a Fireproof Witch!",
+      "liquidType": "LAVA",
+      "category": "HOTSPOT_LAVA",
+      "lsRangeExcluded": false,
+      "conditions": {
+        "hotspot": "LAVA"
+      }
     },
     "Fiery Scuttler": {
       "name": "Fiery Scuttler",
       "plural": "Fiery Scuttlers",
       "article": "a",
       "special": true,
-      "format": "§c"
+      "style": "§c",
+      "catchMessage": "A Fiery Scuttler inconspicuously waddles up to you, friends in tow.",
+      "liquidType": "LAVA",
+      "category": "HOTSPOT_LAVA",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "hotspot": "LAVA"
+      }
     },
     "Ragnarok": {
       "name": "Ragnarok",
       "plural": "Ragnaroks",
       "article": "",
       "special": true,
-      "format": "§4"
+      "style": "§4",
+      "catchMessage": "The sky darkens and the air thickens. The end times are upon us: Ragnarok is here.",
+      "liquidType": "LAVA",
+      "category": "HOTSPOT_LAVA",
+      "lsRangeExcluded": false,
+      "bossbar": true,
+      "conditions": {
+        "hotspot": "LAVA"
+      }
     }
   }
 }

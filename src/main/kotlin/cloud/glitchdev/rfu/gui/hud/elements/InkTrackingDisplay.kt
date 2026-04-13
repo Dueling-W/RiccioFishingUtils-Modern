@@ -3,7 +3,6 @@ package cloud.glitchdev.rfu.gui.hud.elements
 import cloud.glitchdev.rfu.constants.text.TextColor.CYAN
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
 import cloud.glitchdev.rfu.constants.text.TextColor.LIGHT_GREEN
-
 import cloud.glitchdev.rfu.constants.text.TextEffects.BOLD
 import cloud.glitchdev.rfu.constants.text.TextColor.RED
 import cloud.glitchdev.rfu.events.managers.TickEvents.registerTickEvent
@@ -15,8 +14,8 @@ import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.feature.fishing.FishingSession
 import cloud.glitchdev.rfu.feature.ink.InkSessionTracker
 import cloud.glitchdev.rfu.data.catches.CatchTracker.catchHistory
-import cloud.glitchdev.rfu.constants.SeaCreatures.NIGHT_SQUID
-import cloud.glitchdev.rfu.constants.SeaCreatures.SQUID
+import cloud.glitchdev.rfu.constants.SeaCreatures.Companion.NIGHT_SQUID
+import cloud.glitchdev.rfu.constants.SeaCreatures.Companion.SQUID
 import cloud.glitchdev.rfu.data.collections.CollectionItem
 import cloud.glitchdev.rfu.data.collections.CollectionsHandler
 import cloud.glitchdev.rfu.utils.World
