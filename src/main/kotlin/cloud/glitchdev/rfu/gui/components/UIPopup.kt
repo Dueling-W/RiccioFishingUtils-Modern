@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.gui.components
 
 import cloud.glitchdev.rfu.gui.UIScheme
+import cloud.glitchdev.rfu.gui.UIScheme.increaseOpacity
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIRoundedRectangle
@@ -17,7 +18,7 @@ import gg.essential.elementa.dsl.toConstraint
 import java.awt.Color
 
 class UIPopup(val radiusPopup : Float, val text: String, val onConfirm: (() -> Unit)? = null) : UIBlock() {
-    val backgroundColor = UIScheme.increaseOpacity(Color.BLACK, 128).toConstraint()
+    val backgroundColor = Color.BLACK.increaseOpacity(127).toConstraint()
     val errorColor = UIScheme.errorPopupColor.toConstraint()
     val primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
 

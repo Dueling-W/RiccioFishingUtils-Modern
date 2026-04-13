@@ -4,13 +4,13 @@ import java.awt.Color
 
 object UIScheme {
     val primaryColor = Color(37, 114, 153)
-    val primaryColorOpaque = increaseOpacity(primaryColor, 127)
+    val primaryColorOpaque = primaryColor.increaseOpacity(127)
 
     val secondaryColor = Color(200, 200, 200)
-    val secondaryColorOpaque = increaseOpacity(secondaryColor, 127)
+    val secondaryColorOpaque = secondaryColor.increaseOpacity(127)
 
     val secondaryColorDisabled = Color(150, 150, 150)
-    val secondaryColorDisabledOpaque = increaseOpacity(secondaryColorDisabled, 127)
+    val secondaryColorDisabledOpaque = secondaryColorDisabled.increaseOpacity(127)
 
     val primaryTextColor = Color(255, 255, 255)
     val secondaryTextColor = Color(180, 180, 180)
@@ -21,21 +21,24 @@ object UIScheme {
     val darkBackground = Color(0, 0, 0, 128)
     val transparent = Color(0, 0, 0, 0)
 
+    //Boss Bar
     val barHighHP = Color(85, 255, 85)
     val barMediumHP = Color(255, 255, 85)
     val barLowHP = Color(255, 85, 85)
     val barShuriken = Color(85, 255, 255)
 
+    //Died to jawbus
     val diedColor = Color(120, 7, 7)
 
+    //Error Popup text
     val errorPopupColor = Color(255, 85, 85)
 
+    //Achievements
     val trackedStarColor = Color(255, 215, 0)
     val untrackedStarColor = Color(160, 160, 160)
-
     val achievementBgColor = Color(10, 40, 50)
     val achievementDescriptionColor = Color(200, 200, 200)
-    val achievementBgColorOpaque = increaseOpacity(achievementBgColor, 127)
+    val achievementBgColorOpaque = achievementBgColor.increaseOpacity(127)
     val achievementCompleteColor = Color(85, 255, 85)
     val achievementIncompleteColor = Color(255, 255, 85)
     val easyDifficultyColor = Color(85, 255, 85)
@@ -44,19 +47,24 @@ object UIScheme {
     val veryHardDifficultyColor = Color(120, 7, 7)
     val impossibleDifficultyColor = Color(90, 0, 0)
 
+    //Sea Creatures Window
     val windowBackground = Color(30, 30, 30, 220)
     val sidebarBackground = Color(20, 20, 20, 180)
     val contentBackground = Color(40, 40, 40, 150)
     val selectedTextColor = Color.YELLOW
 
+    //Party Finder Window
+    val pfWindowBackground = Color(30, 30, 30, 220)
+    val pfWindowSeparator = Color(45, 75, 200)
+    val pfTitleText = pfWindowSeparator
+
     const val HOVER_EFFECT_DURATION = 0.1f
 
-
-    fun increaseOpacity(baseColor : Color, amount: Int) : Color {
-        return Color(baseColor.red, baseColor.green, baseColor.blue, baseColor.alpha - amount)
+    fun Color.increaseOpacity(amount: Int): Color {
+        return Color(red, green, blue, maxOf(alpha - amount, 0))
     }
-
-    fun decreaseOpacity(baseColor: Color, amount: Int) : Color {
-        return Color(baseColor.red, baseColor.green, baseColor.blue, baseColor.alpha + amount)
+    
+    fun Color.decreaseOpacity(amount: Int): Color {
+        return Color(red, green, blue, minOf(alpha + amount, 255))
     }
 }

@@ -8,6 +8,7 @@ import cloud.glitchdev.rfu.utils.User
 import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.TextUtils
 import cloud.glitchdev.rfu.constants.text.TextColor
+import cloud.glitchdev.rfu.gui.UIScheme.decreaseOpacity
 import cloud.glitchdev.rfu.utils.Party
 import cloud.glitchdev.rfu.utils.gui.addHoverColoring
 import cloud.glitchdev.rfu.utils.gui.setHidden
@@ -34,7 +35,7 @@ import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
 
 class UIPartyCard(val party: FishingParty, radius : Float) : UIRoundedRectangle(radius) {
-    val primaryColor = UIScheme.decreaseOpacity(UIScheme.primaryColorOpaque, 80).toConstraint()
+    val primaryColor = UIScheme.primaryColorOpaque.decreaseOpacity(80).toConstraint()
     val hoverColor = UIScheme.secondaryColorOpaque.toConstraint()
     val textColor = UIScheme.primaryTextColor.toConstraint()
     val hoverText = UIScheme.denyColor.toConstraint()
