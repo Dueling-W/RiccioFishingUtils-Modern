@@ -1,12 +1,14 @@
 package cloud.glitchdev.rfu.config.seacreatures
 
+import cloud.glitchdev.rfu.events.AutoRegister
+import cloud.glitchdev.rfu.events.RegisteredEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
 import cloud.glitchdev.rfu.utils.JsonFile
 import com.google.gson.Gson
 
-
-object SeaCreatureSettingsManager {
+@AutoRegister
+object SeaCreatureSettingsManager : RegisteredEvent {
     val seaCreatureConfigFile = JsonFile(
         directory = "repo",
         filename = "sc-config.json",
@@ -33,7 +35,7 @@ object SeaCreatureSettingsManager {
         return extractor(default!!)!!
     }
 
-    fun onInitialize() {
+    override fun register() {
         val gson = Gson()
 
         val stream = Thread.currentThread()

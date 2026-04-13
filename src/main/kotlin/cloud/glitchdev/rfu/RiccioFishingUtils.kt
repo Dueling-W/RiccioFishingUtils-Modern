@@ -27,7 +27,6 @@ object RiccioFishingUtils : ClientModInitializer {
     val configurator = Configurator(MOD_ID)
 
     init {
-        SeaCreatureSettingsManager.onInitialize();
         ConfigMigration.runMigrations(CONFIG_DIR.resolve("rfu/settings.jsonc"))
     }
 
