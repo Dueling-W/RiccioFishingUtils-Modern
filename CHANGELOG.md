@@ -13,6 +13,7 @@
 - Fixed pet display not saving in between sessions
 - Made mod sent messages not trigger event (Could cause an infinite loop that crashes game)
 - Made deployable alert not trigger upon swapping islands
+- Fixed the generated custom sound json not having the replace flag
 
 ### Back-end:
 - Refactored party system to use Hypixel Mod Api for party tracking
