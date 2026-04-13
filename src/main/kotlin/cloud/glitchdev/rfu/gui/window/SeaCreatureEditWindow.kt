@@ -207,7 +207,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             color = UIScheme.primaryTextColor.toConstraint()
         } childOf content
 
-        specialCheckbox = UICheckbox("Special", false) { saveCurrent() }.constrain {
+        specialCheckbox = UICheckbox("Rare", false) { saveCurrent() }.constrain {
             x = 15.pixels()
             y = 185.pixels()
             width = 100.pixels()
