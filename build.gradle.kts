@@ -162,7 +162,8 @@ configure<net.fabricmc.loom.api.LoomGradleExtensionAPI> {
             "-Dmixin.debug.export=true",
             "-Dfabric.addMods=mods/$modsFolder",
             "-Ddevauth.enabled=true",
-            "-Ddevauth.account=main"
+            "-Ddevauth.account=main",
+            "-Delementa.dev=true"
         )
         runDir = "../../run"
     }
