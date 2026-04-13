@@ -183,7 +183,8 @@ enum class SeaCreatures(
     @SerializedName("Ragnarok")
     RAGNAROK("Ragnarok", "The sky darkens and the air thickens. The end times are upon us: Ragnarok is here.", LAVA, HOTSPOT_LAVA, { h, _, _ -> h?.liquid?.isLava() == true });
 
-    val special: Boolean = SeaCreatureSettingsManager.isSpecial(scName)
+    val special: Boolean
+        get() = SeaCreatureSettingsManager.isSpecial(scName)
     fun toDataOption(): DataOption = DataOption(this, this.scName)
     fun getSingularNameWithArticle(): String = "${getArticle()} ${getNameWithoutArticle()}"
     fun getArticle(): String = SeaCreatureSettingsManager.getArticle(scName)
