@@ -8,14 +8,20 @@ import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerMyPartyChan
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyCreatedEvent
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
 import cloud.glitchdev.rfu.gui.components.UIButton
+import cloud.glitchdev.rfu.gui.components.colors
+import cloud.glitchdev.rfu.gui.components.partyfinder.UIFilterArea
 import cloud.glitchdev.rfu.utils.User
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.UIBlock
 import gg.essential.elementa.components.UIContainer
+import gg.essential.elementa.components.UIImage
 import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.components.UIText
 import gg.essential.elementa.components.inspector.Inspector
+import gg.essential.elementa.constraints.AspectConstraint
 import gg.essential.elementa.constraints.CenterConstraint
+import gg.essential.elementa.constraints.ChildBasedSizeConstraint
+import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.ScaledTextConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.TextAspectConstraint
@@ -34,13 +40,14 @@ object PartyFinderWindow : BaseWindow(false) {
     val primaryColor = UIScheme.pfWindowBackground.toConstraint()
 
     private val headerHeight = 30.pixels
-    private val filterHeight = 60.pixels
+    private val filterHeight = 50.pixels
     private val spacing = 10f
     private var filtersOpen = false
 
     lateinit var popup: UIPopup
     lateinit var createButton: UIButton
     lateinit var filterArea : UIContainer
+    lateinit var filterContainer : UIFilterArea
 
     init {
         create()
@@ -89,6 +96,7 @@ object PartyFinderWindow : BaseWindow(false) {
 
         createHeader(useableArea)
         createFilterArea(useableArea)
+        createPartyArea(useableArea)
 
         Inspector(window) childOf window
     }
@@ -118,33 +126,32 @@ object PartyFinderWindow : BaseWindow(false) {
             height = 100.percent - 5.pixels
         } childOf header
 
-        createButton = UIButton("Create", radius = 5f) {
+        val createImage = UIImage.ofResource("/assets/rfu/ui/edit.png")
+        createButton = UIButton.withImage(createImage, 5f) {
             //Open Party creation window (will be a new window)
         }.constrain {
-            x = SiblingConstraint(2f, alignOpposite = true)
+            x = SiblingConstraint(5f, alignOpposite = true)
             y = CenterConstraint()
             height = 100.percent
-            width = 45.percent
+            width = AspectConstraint(1f)
+        }.colors {
+            primaryColor = UIScheme.pfInputBg.toConstraint()
+            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf rightArea
 
-        createButton = UIButton("Filters", radius = 5f) {
+        val filterImage = UIImage.ofResource("/assets/rfu/ui/filter.png")
+        createButton = UIButton.withImage(filterImage, 5f) {
             filtersOpen = !filtersOpen
             onUpdate()
         }.constrain {
             x = SiblingConstraint(2f, alignOpposite = true)
             y = CenterConstraint()
             height = 100.percent
-            width = 45.percent
+            width = AspectConstraint(1f)
+        }.colors {
+            primaryColor = UIScheme.pfInputBg.toConstraint()
+            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf rightArea
-
-        //Separator
-        UIBlock().constrain {
-            x = CenterConstraint()
-            y = 0.pixels(true)
-            width = 100.percent - spacing.pixels
-            height = 1.pixels
-            color = UIScheme.pfWindowSeparator.toConstraint()
-        } childOf header
     }
 
     fun createFilterArea(background: UIComponent) {
@@ -152,8 +159,17 @@ object PartyFinderWindow : BaseWindow(false) {
             x = CenterConstraint()
             y = SiblingConstraint()
             width = 100.percent
-            height = filterHeight
+            height = 1.pixels
         } childOf background effect ScissorEffect()
+
+        filterContainer = UIFilterArea(filterHeight) {
+            println("Filter Changed")
+        }.constrain {
+            x = CenterConstraint()
+            y = 0.pixels
+            width = 100.percent
+            height = ChildBasedSizeConstraint()
+        } childOf filterArea
 
         //Separator
         UIBlock().constrain {
@@ -165,18 +181,23 @@ object PartyFinderWindow : BaseWindow(false) {
         } childOf filterArea
     }
 
-    fun createPartyArea() {
-
+    fun createPartyArea(background: UIComponent) {
+        val partiesContainer = UIContainer().constrain {
+            x = CenterConstraint()
+            y = SiblingConstraint()
+            width = 100.percent
+            height = FillConstraint()
+        } childOf background
     }
 
     fun onUpdate() {
         if(filtersOpen) {
             filterArea.animate {
-                setHeightAnimation(Animations.OUT_EXP, 0.5f, filterHeight)
+                setHeightAnimation(Animations.OUT_EXP, 0.5f, ChildBasedSizeConstraint())
             }
         } else {
             filterArea.animate {
-                setHeightAnimation(Animations.OUT_EXP, 0.5f, 0.pixels)
+                setHeightAnimation(Animations.OUT_EXP, 0.5f, 1.pixels)
             }
         }
     }

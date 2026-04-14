@@ -12,6 +12,8 @@ import gg.essential.elementa.dsl.toConstraint
 import gg.essential.universal.UMatrixStack
 import cloud.glitchdev.rfu.gui.components.Colorable
 import gg.essential.elementa.dsl.animate
+import gg.essential.elementa.dsl.minus
+import gg.essential.elementa.dsl.pixels
 
 class UIDecoratedTextInput(
     val placeholder: String,
@@ -51,8 +53,8 @@ class UIDecoratedTextInput(
         textInput = (UISpecialTextInput(placeholder).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
-            width = 90.percent()
-            height = 90.percent()
+            width = 100.percent() - 4.pixels
+            height = 100.percent() - 2.pixels
             color = textColor
         }.onMouseClick {
             grabWindowFocus()

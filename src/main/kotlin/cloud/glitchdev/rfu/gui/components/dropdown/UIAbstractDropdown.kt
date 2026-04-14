@@ -16,6 +16,7 @@ import gg.essential.elementa.dsl.*
 import gg.essential.universal.UKeyboard
 import gg.essential.universal.UMatrixStack
 import cloud.glitchdev.rfu.gui.components.Colorable
+import cloud.glitchdev.rfu.utils.gui.isHidden
 import java.awt.Color
 import kotlin.math.min
 
@@ -89,7 +90,6 @@ abstract class UIAbstractDropdown(
     }
 
     open fun create() {
-
         background = UIRoundedRectangle(radiusProps).constrain {
             y = 0.pixels()
             x = CenterConstraint()
@@ -149,7 +149,7 @@ abstract class UIAbstractDropdown(
         listContainer = UIContainer().constrain {
             x = CenterConstraint()
             y = SiblingConstraint(padding)
-            width = 90.percent()
+            width = 100.percent() - 5.pixels
             height = 0.pixels()
         } childOf background
 
@@ -167,7 +167,7 @@ abstract class UIAbstractDropdown(
             height = 100.percent()
         } childOf listContainer
 
-        scrollComponent.setScrollBarComponent(scrollbar, false, false)
+        scrollComponent.setScrollBarComponent(scrollbar, hideWhenUseless = true, isHorizontal = false)
 
         for ((index, option) in values.withIndex()) {
             createOptionUI(option, index)
@@ -291,6 +291,12 @@ abstract class UIAbstractDropdown(
         if (lastHeight != currentHeight) {
             lastHeight = currentHeight
             updateHeight()
+        }
+        if (scrollbar.isHidden()) {
+            scrollComponent.constrain {
+                x = CenterConstraint()
+                width = 100.percent() - 5.pixels
+            }
         }
         super.draw(matrixStack)
     }

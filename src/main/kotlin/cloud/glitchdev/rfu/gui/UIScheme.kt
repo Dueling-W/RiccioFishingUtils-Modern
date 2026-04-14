@@ -57,6 +57,9 @@ object UIScheme {
     val pfWindowBackground = Color(30, 30, 30, 220)
     val pfWindowSeparator = Color(45, 75, 200)
     val pfTitleText = pfWindowSeparator
+    val pfInputBg = Color(100, 100, 100, 200)
+    val pfInputBgHovered = Color(45, 75, 200, 100)
+    val pfDropdownSelected = Color(45, 75, 200, 200)
 
     const val HOVER_EFFECT_DURATION = 0.1f
 
