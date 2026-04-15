@@ -67,7 +67,7 @@ object PartyFinderWindow : BaseWindow(false) {
     private var parties : List<FishingParty> = PartyFinderEvents.parties
     private var partyCards : MutableList<UIPartyCard> = mutableListOf()
 
-    lateinit var popup: UIPopup
+    val popup: UIPopup = UIPopup(5f, "") childOf window
     lateinit var filterArea : UIContainer
     lateinit var filterContainer : UIFilterArea
     lateinit var scrollArea : ScrollComponent
@@ -119,8 +119,6 @@ object PartyFinderWindow : BaseWindow(false) {
         createHeader(useableArea)
         createFilterArea(useableArea)
         createPartyArea(useableArea)
-
-        popup = UIPopup(5f, "") childOf window
 
         Inspector(window) childOf window
     }

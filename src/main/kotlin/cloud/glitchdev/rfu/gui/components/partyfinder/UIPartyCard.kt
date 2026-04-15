@@ -58,7 +58,7 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
 
         this.constrain {
             color = UIScheme.pfCardBorder.toConstraint()
-            height = BoundingBoxConstraint() + (borderWidth * 2).pixels
+            height = BoundingBoxConstraint() + borderWidth.pixels //Not 2x because bounding box accounts for padding
         }.onMouseEnter {
             animate {
                 setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardBorderHovered.toConstraint())
