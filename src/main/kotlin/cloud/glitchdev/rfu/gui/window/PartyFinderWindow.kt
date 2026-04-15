@@ -64,7 +64,7 @@ object PartyFinderWindow : BaseWindow(false) {
     private val spacing = 10f
     private val smallSpacing = 4f
     private var filtersOpen = false
-    private var parties : List<FishingParty> = PartyFinderEvents.parties
+    private var parties : List<FishingParty> = listOf(FishingParty.blankParty().apply { user = "ricciow"; title = "Title"; description = "Description"; level = 1 })
     private var partyCards : MutableList<UIPartyCard> = mutableListOf()
 
     val popup: UIPopup = UIPopup(5f, "") childOf window

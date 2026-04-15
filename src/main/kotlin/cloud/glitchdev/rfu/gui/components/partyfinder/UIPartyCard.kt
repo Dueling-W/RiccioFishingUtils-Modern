@@ -45,8 +45,8 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
     val innerPadding = UIScheme.pfCardInnerPadding
     lateinit var titleText : UIText
     lateinit var innerContainer : UIContainer
-    lateinit var levelBorder : UIRoundedRectangle
-    lateinit var levelText : UIText
+    lateinit var levelBadge : UIPartyBadge
+    lateinit var memberBadge : UIPartyBadge
     lateinit var descriptionSeparator : UIBlock
 
     init {
@@ -66,12 +66,8 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
             titleText.animate {
                 setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardTitleHoverColor.toConstraint())
             }
-            levelText.animate {
-                setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardTitleHoverColor.toConstraint())
-            }
-            levelBorder.animate {
-                setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardLevelBorderHoveredColor.toConstraint())
-            }
+            levelBadge.animateHover()
+            memberBadge.animateHover()
             descriptionSeparator.animate {
                 setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardSeparatorHover.toConstraint())
             }
@@ -82,12 +78,8 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
             titleText.animate {
                 setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardTitleColor.toConstraint())
             }
-            levelText.animate {
-                setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardTitleColor.toConstraint())
-            }
-            levelBorder.animate {
-                setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardLevelBorderColor.toConstraint())
-            }
+            levelBadge.animateNormal()
+            memberBadge.animateNormal()
             descriptionSeparator.animate {
                 setColorAnimation(Animations.IN_EXP, UIScheme.HOVER_EFFECT_DURATION, UIScheme.pfCardSeparator.toConstraint())
             }
@@ -167,39 +159,23 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
             color = UIScheme.pfCardUserColor.toConstraint()
         }
 
-        levelBorder = UIRoundedRectangle(5f).constrain {
-            x = 0.pixels(true)
+        memberBadge = UIPartyBadge("PARTY", party.players.getString(), titleText).constrain {
             y = 0.pixels
+            x = 0.pixels(true)
             width = AspectConstraint(1f)
             height = CopyComponentSizeConstraint(textContainer)
-            color = UIScheme.pfCardLevelBorderColor.toConstraint()
         } childOf header
 
-        val levelContainer = UIRoundedRectangle(4f).constrain {
-            x = CenterConstraint()
-            y = CenterConstraint()
-            width = 100.percent - 2.pixels
-            height = 100.percent - 2.pixels
-            color = UIScheme.pfCardLevelBgColor.toConstraint()
-        } childOf levelBorder
+        levelBadge = UIPartyBadge("LEVEL", "${party.level}", titleText).constrain {
+            y = 0.pixels
+            x = SiblingConstraint(UIScheme.pfCardSmallPadding, alignOpposite = true)
+            width = AspectConstraint(1f)
+            height = CopyComponentSizeConstraint(textContainer)
+        } childOf header
 
-        UIText("LVL").constrain {
-            x = CenterConstraint()
-            y = SiblingConstraint() + 2.pixels
-            width = TextAspectConstraint()
-            height = CopyComponentSizeConstraint(titleText) * 0.75
-            color = UIScheme.pfCardLevelLabelColor.toConstraint()
-        } childOf levelContainer
-
-        levelText = UIText("${party.level}").constrain {
-            x = CenterConstraint()
-            y = SiblingConstraint() + 1.pixels
-            width = TextAspectConstraint()
-            height = CopyComponentSizeConstraint(titleText) * 0.85
-        } childOf levelContainer
 
         if(party.level == 0) {
-            levelBorder.hide()
+            levelBadge.hide()
         }
     }
 
