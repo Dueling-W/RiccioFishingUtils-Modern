@@ -99,8 +99,7 @@ object PartyFinderWindow : BaseWindow(false) {
         registerErrorMessageEvent { message, origin ->
             if (mc.screen == this && (origin == "/app/party/join" || origin == "/app/party/report" || origin == "/app/party/delete")) {
                 if (message == "Target user is not currently connected to the WebSocket.") return@registerErrorMessageEvent
-                popup.setText(message)
-                popup.showPopup()
+                popup.show(message)
             }
         }
     }

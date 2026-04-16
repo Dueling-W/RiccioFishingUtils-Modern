@@ -9,21 +9,19 @@ import gg.essential.elementa.components.UIWrappedText
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.FillConstraint
 import gg.essential.elementa.constraints.RelativeWindowConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
 import gg.essential.elementa.dsl.minus
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
-import gg.essential.elementa.dsl.times
 import gg.essential.elementa.dsl.toConstraint
 import java.awt.Color
 
 class UIPopup(
     val radiusPopup: Float,
-    val text: String,
+    var text: String,
     val isBordered: Boolean = false,
-    val onConfirm: (() -> Unit)? = null
+    var onConfirm: (() -> Unit)? = null
 ) : UIBlock(), Colorable {
     var backgroundColor = Color.BLACK.increaseOpacity(127).toConstraint()
     var textColor = UIScheme.primaryTextColor.toConstraint()
@@ -40,14 +38,29 @@ class UIPopup(
     lateinit var popupContainer : UIRoundedRectangle
     lateinit var innerBg : UIRoundedRectangle
     private val buttons = mutableListOf<UIButton>()
+    private lateinit var okButton: UIButton
+    private lateinit var confirmCancelContainer: UIContainer
 
     init {
         this.hide()
         create()
     }
 
-    fun setText(text : String) {
-        uiText.setText(text)
+    fun show(text: String, onConfirm: (() -> Unit)? = null) {
+        this.text = text
+        if (::uiText.isInitialized) uiText.setText(text)
+
+        this.onConfirm = onConfirm
+
+        if (onConfirm == null) {
+            okButton.unhide()
+            confirmCancelContainer.hide()
+        } else {
+            okButton.hide()
+            confirmCancelContainer.unhide()
+        }
+
+        unhide()
     }
 
     fun create() {
@@ -92,53 +105,52 @@ class UIPopup(
             height = 90.percent()
         } childOf contentParent
 
+        okButton = UIButton("Ok", 5f, isBordered = isBordered){
+            this@UIPopup.hide()
+        }.constrain {
+            x = CenterConstraint()
+            y = 100.percent() - 20.pixels()
+            width = 100.percent()
+            height = 20.pixels()
+        } childOf container
+        buttons.add(okButton)
+
+        confirmCancelContainer = UIContainer().constrain {
+            x = CenterConstraint()
+            y = 100.percent() - 20.pixels()
+            width = 100.percent()
+            height = 20.pixels()
+        } childOf container
+
+        val confirmButton = UIButton("Confirm", 5f, isBordered = isBordered) {
+            this@UIPopup.hide()
+            this@UIPopup.onConfirm?.invoke()
+        }.constrain {
+            x = 0.pixels()
+            y = CenterConstraint()
+            width = 45.percent()
+            height = 100.percent()
+        } childOf confirmCancelContainer
+        buttons.add(confirmButton)
+
+        val cancelButton = UIButton("Cancel", 5f, isBordered = isBordered) {
+            this@UIPopup.hide()
+        }.constrain {
+            x = 0.pixels(true)
+            y = CenterConstraint()
+            width = 45.percent()
+            height = 100.percent()
+        } childOf confirmCancelContainer
+        buttons.add(cancelButton)
+
         uiText = UIWrappedText(text).constrain {
             x = CenterConstraint()
-            y = SiblingConstraint()
+            y = 0.pixels()
             width = 100.percent()
-            height = FillConstraint()
+            height = FillConstraint() - 25.pixels()
             color = textColor
         } childOf container
 
-        if (onConfirm == null) {
-            val okButton = UIButton("Ok", 5f, isBordered = isBordered) {
-                this.hide()
-            }.constrain {
-                x = CenterConstraint()
-                y = SiblingConstraint()
-                width = 100.percent()
-                height = 20.pixels()
-            } childOf container
-            buttons.add(okButton)
-        } else {
-            val buttonContainer = UIContainer().constrain {
-                x = CenterConstraint()
-                y = SiblingConstraint()
-                width = 100.percent()
-                height = 20.pixels()
-            } childOf container
-
-            val confirmButton = UIButton("Confirm", 5f, isBordered = isBordered) {
-                onConfirm.invoke()
-                this.hide()
-            }.constrain {
-                x = 0.pixels()
-                y = CenterConstraint()
-                width = 45.percent()
-                height = 100.percent()
-            } childOf buttonContainer
-            buttons.add(confirmButton)
-
-            val cancelButton = UIButton("Cancel", 5f, isBordered = isBordered) {
-                this.hide()
-            }.constrain {
-                x = 0.pixels(true)
-                y = CenterConstraint()
-                width = 45.percent()
-                height = 100.percent()
-            } childOf buttonContainer
-            buttons.add(cancelButton)
-        }
         refreshButtonColors()
     }
 
@@ -151,10 +163,6 @@ class UIPopup(
                 hoverTextColor = this@UIPopup.buttonHoverTextColor
             }
         }
-    }
-
-    fun showPopup() {
-        this.unhide()
     }
 
     override fun refreshColors() {

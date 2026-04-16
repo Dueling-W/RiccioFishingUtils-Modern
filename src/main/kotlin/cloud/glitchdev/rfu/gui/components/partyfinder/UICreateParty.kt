@@ -65,8 +65,7 @@ class UICreateParty(radius: Float) : UIRoundedRectangle(radius) {
 
         registerErrorMessageEvent { message, origin ->
             if (!this.isHidden() && (origin == "/app/party/publish" || origin == "/app/party/edit")) {
-                popup.setText(message)
-                popup.showPopup()
+                popup.show(message)
             }
         }
 
@@ -267,14 +266,12 @@ class UICreateParty(radius: Float) : UIRoundedRectangle(radius) {
 
         createButton.onClick = {
             if (!WebSocketClient.isConnected) {
-                popup.setText("Not connected to RFU Backend!")
-                popup.showPopup()
+                popup.show("Not connected to RFU Backend!")
             } else {
                 if (Party.isLeader || !Party.inParty) {
                     PartyWebSocket.submitParty(party)
                 } else {
-                    popup.setText("You must be the party leader to create a party!")
-                    popup.showPopup()
+                    popup.show("You must be the party leader to create a party!")
                 }
             }
         }

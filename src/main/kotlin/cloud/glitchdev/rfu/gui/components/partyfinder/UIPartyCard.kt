@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.gui.components.partyfinder
 
 import cloud.glitchdev.rfu.constants.LiquidTypes
+import cloud.glitchdev.rfu.constants.text.TextColor
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.UIButton
 import cloud.glitchdev.rfu.gui.components.colors
@@ -12,7 +13,9 @@ import cloud.glitchdev.rfu.gui.components.elementa.CopyComponentSizeConstraint
 import cloud.glitchdev.rfu.gui.components.elementa.GroupMaxSizeConstraint
 import cloud.glitchdev.rfu.gui.components.elementa.TextWrappingConstraint
 import cloud.glitchdev.rfu.model.party.Requisite
+import cloud.glitchdev.rfu.utils.Chat
 import cloud.glitchdev.rfu.utils.Party
+import cloud.glitchdev.rfu.utils.TextUtils
 import cloud.glitchdev.rfu.utils.dsl.isUser
 import cloud.glitchdev.rfu.utils.network.PartyWebSocket
 import cloud.glitchdev.rfu.utils.network.WebSocketClient
@@ -91,21 +94,16 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
             overlayButton.hide()
         }.onMouseClick {
             if (!WebSocketClient.isConnected) {
-                joinErrorPopup.setText("Not connected to RFU Backend!")
-                joinErrorPopup.showPopup()
+                joinErrorPopup.show("Not connected to RFU Backend!")
                 return@onMouseClick
             } else if (party.user.isUser()) {
-                joinErrorPopup.setText("You are already the leader of this party!")
-                joinErrorPopup.showPopup()
+                joinErrorPopup.show("You are already the leader of this party!")
             } else if (Party.members.contains(party.user)) {
-                joinErrorPopup.setText("You are already in this party!")
-                joinErrorPopup.showPopup()
+                joinErrorPopup.show("You are already in this party!")
             } else if (party.players.current >= party.players.max) {
-                joinErrorPopup.setText("This party is full!")
-                joinErrorPopup.showPopup()
+                joinErrorPopup.show("This party is full!")
             } else if (PartyWebSocket.myParty != null) {
-                joinErrorPopup.setText("You are already hosting a party! Please delete your current party listing before joining another.")
-                joinErrorPopup.showPopup()
+                joinErrorPopup.show("You are already hosting a party! Please delete your current party listing before joining another.")
             } else {
                 PartyWebSocket.joinParty(party.user)
             }
@@ -259,7 +257,15 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
         val icon = if(isUser) "delete" else "report"
         val image = UIImage.ofResource("/assets/rfu/ui/$icon.png")
         overlayButton = UIButton.withImage(image, 5f, isBordered = true) {
-            println("Clicked")
+            val action = if (isUser) "delete your party" else "report ${party.user}'s party"
+            PartyFinderWindow.popup.show("Are you sure you want to $action?") {
+                if (isUser) {
+                    PartyWebSocket.deleteParty(party.user)
+                } else {
+                    PartyWebSocket.reportParty(party.user)
+                    PartyFinderWindow.popup.show("Party reported")
+                }
+            }
         }.constrain {
             x = CenteredPixelConstraint(0f, true)
             y = CenteredPixelConstraint(0f)
