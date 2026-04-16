@@ -48,6 +48,8 @@ object UIScheme {
     val veryHardDifficultyColor = Color(120, 7, 7)
     val impossibleDifficultyColor = Color(90, 0, 0)
 
+    val postConfirmationColor = Color(23, 209, 51)
+    
     //Sea Creatures Window
     val windowBackground = Color(30, 30, 30, 220)
     val sidebarBackground = Color(20, 20, 20, 180)

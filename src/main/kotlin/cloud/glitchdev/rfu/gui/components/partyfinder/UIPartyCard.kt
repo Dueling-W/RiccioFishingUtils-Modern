@@ -46,7 +46,11 @@ import gg.essential.elementa.dsl.plus
 import gg.essential.elementa.dsl.times
 import gg.essential.elementa.dsl.toConstraint
 
-class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRectangle(radiusProps) {
+class UIPartyCard(
+    val party: FishingParty,
+    val radiusProps: Float,
+    var postConfirmationText: String? = null
+) : UIRoundedRectangle(radiusProps) {
     val borderWidth = UIScheme.pfCardBorderWidth
     val innerPadding = UIScheme.pfCardInnerPadding
     lateinit var titleText : UIText
@@ -258,12 +262,12 @@ class UIPartyCard(val party: FishingParty, val radiusProps: Float) : UIRoundedRe
         val image = UIImage.ofResource("/assets/rfu/ui/$icon.png")
         overlayButton = UIButton.withImage(image, 5f, isBordered = true) {
             val action = if (isUser) "delete your party" else "report ${party.user}'s party"
-            PartyFinderWindow.popup.show("Are you sure you want to $action?") {
+            val pcText = postConfirmationText ?: if (isUser) null else "Party reported"
+            PartyFinderWindow.popup.show("Are you sure you want to $action?", pcText) {
                 if (isUser) {
                     PartyWebSocket.deleteParty(party.user)
                 } else {
                     PartyWebSocket.reportParty(party.user)
-                    PartyFinderWindow.popup.show("Party reported")
                 }
             }
         }.constrain {

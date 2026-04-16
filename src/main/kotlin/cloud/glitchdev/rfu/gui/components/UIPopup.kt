@@ -25,6 +25,7 @@ class UIPopup(
 ) : UIBlock(), Colorable {
     var backgroundColor = Color.BLACK.increaseOpacity(127).toConstraint()
     var textColor = UIScheme.primaryTextColor.toConstraint()
+    var postConfirmationTextColor = UIScheme.postConfirmationColor.toConstraint()
     var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
     var innerColor = Color.BLACK.toConstraint()
     var borderWidth = 1f
@@ -40,15 +41,20 @@ class UIPopup(
     private val buttons = mutableListOf<UIButton>()
     private lateinit var okButton: UIButton
     private lateinit var confirmCancelContainer: UIContainer
+    var postConfirmationText: String? = null
 
     init {
         this.hide()
         create()
     }
 
-    fun show(text: String, onConfirm: (() -> Unit)? = null) {
+    fun show(text: String, postConfirmationText: String? = null, onConfirm: (() -> Unit)? = null) {
         this.text = text
-        if (::uiText.isInitialized) uiText.setText(text)
+        this.postConfirmationText = postConfirmationText
+        if (::uiText.isInitialized) {
+            uiText.setText(text)
+            uiText.constrain { color = textColor }
+        }
 
         this.onConfirm = onConfirm
 
@@ -123,8 +129,15 @@ class UIPopup(
         } childOf container
 
         val confirmButton = UIButton("Confirm", 5f, isBordered = isBordered) {
-            this@UIPopup.hide()
             this@UIPopup.onConfirm?.invoke()
+            if (this@UIPopup.postConfirmationText != null) {
+                this@UIPopup.uiText.setText(this@UIPopup.postConfirmationText!!)
+                this@UIPopup.uiText.constrain { color = postConfirmationTextColor }
+                this@UIPopup.confirmCancelContainer.hide()
+                this@UIPopup.okButton.unhide()
+            } else {
+                this@UIPopup.hide()
+            }
         }.constrain {
             x = 0.pixels()
             y = CenterConstraint()
@@ -169,7 +182,13 @@ class UIPopup(
         this.constrain { color = backgroundColor }
         if (::popupContainer.isInitialized) popupContainer.constrain { color = primaryColor }
         if (isBordered && ::innerBg.isInitialized) innerBg.constrain { color = innerColor }
-        if (::uiText.isInitialized) uiText.constrain { color = textColor }
+        if (::uiText.isInitialized) {
+            if (postConfirmationText != null && uiText.getText() == postConfirmationText) {
+                uiText.constrain { color = postConfirmationTextColor }
+            } else {
+                uiText.constrain { color = textColor }
+            }
+        }
         refreshButtonColors()
     }
 }
