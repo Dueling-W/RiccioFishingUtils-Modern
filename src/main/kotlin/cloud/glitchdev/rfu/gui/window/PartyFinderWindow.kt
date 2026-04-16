@@ -22,10 +22,12 @@ import cloud.glitchdev.rfu.model.party.FishingParty
 import cloud.glitchdev.rfu.model.party.Players
 import cloud.glitchdev.rfu.model.party.Requisite
 import cloud.glitchdev.rfu.utils.Chat
+import cloud.glitchdev.rfu.utils.Coroutines
 import cloud.glitchdev.rfu.utils.RFULogger
 import cloud.glitchdev.rfu.utils.User
 import cloud.glitchdev.rfu.utils.command.Command
 import cloud.glitchdev.rfu.utils.command.SimpleCommand
+import cloud.glitchdev.rfu.utils.network.PartyWebSocket
 import com.mojang.brigadier.context.CommandContext
 import gg.essential.elementa.UIComponent
 import gg.essential.elementa.components.ScrollComponent
@@ -53,6 +55,7 @@ import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.elementa.effects.ScissorEffect
+import kotlinx.coroutines.delay
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import net.minecraft.network.chat.Component
 
@@ -75,6 +78,8 @@ object PartyFinderWindow : BaseWindow(false) {
         buttonHoverColor = UIScheme.pfCardBorderHovered.toConstraint()
         buttonHoverTextColor = UIScheme.pfCardTitleHoverColor.toConstraint()
     }
+
+    lateinit var refreshButton : UIButton
     lateinit var filterArea : UIContainer
     lateinit var filterContainer : UIFilterArea
     lateinit var scrollArea : ScrollComponent
@@ -171,6 +176,24 @@ object PartyFinderWindow : BaseWindow(false) {
         UIButton.withImage(filterImage, 5f) {
             filtersOpen = !filtersOpen
             onUpdate()
+        }.constrain {
+            x = SiblingConstraint(2f, alignOpposite = true)
+            y = CenterConstraint()
+            height = 100.percent
+            width = AspectConstraint(1f)
+        }.colors {
+            primaryColor = UIScheme.pfInputBg.toConstraint()
+            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
+        } childOf rightArea
+
+        val refreshImage = UIImage.ofResource("/assets/rfu/ui/refresh.png")
+        refreshButton = UIButton.withImage(refreshImage, 5f) {
+            PartyWebSocket.syncParties()
+            refreshButton.disabled = true
+            Coroutines.launch {
+                delay(1000)
+                refreshButton.disabled = false
+            }
         }.constrain {
             x = SiblingConstraint(2f, alignOpposite = true)
             y = CenterConstraint()

@@ -167,16 +167,16 @@ class UIButton(
             }
         }
         .onMouseEnter {
+            isButtonHovered = true
             if(!disabled) {
-                isButtonHovered = true
                 this.animate {
                     setColorAnimation(Animations.IN_EXP, hoverDuration, hoverColor)
                 }
             }
         }
         .onMouseLeave {
+            isButtonHovered = false
             if(!disabled) {
-                isButtonHovered = false
                 this.animate {
                     setColorAnimation(Animations.IN_EXP, hoverDuration, primaryColor)
                 }
