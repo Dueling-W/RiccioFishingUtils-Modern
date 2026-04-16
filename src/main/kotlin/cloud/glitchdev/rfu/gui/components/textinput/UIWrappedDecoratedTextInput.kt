@@ -15,6 +15,7 @@ import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.universal.UMatrixStack
 import cloud.glitchdev.rfu.gui.components.Colorable
+import cloud.glitchdev.rfu.gui.components.elementa.UISpecialMultilineTextInput
 import gg.essential.elementa.dsl.animate
 import java.awt.Color
 
@@ -27,11 +28,14 @@ class UIWrappedDecoratedTextInput(
     var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
     var hoverColor = UIScheme.secondaryColor.toConstraint()
     var textColor = UIScheme.primaryTextColor.toConstraint()
+    var unselectedTextColor = UIScheme.placeholderTextColor.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
+    var isFocused = false
+        private set
 
     private var textChanged = false
 
-    lateinit var textInput : UIMultilineTextInput
+    lateinit var textInput : UISpecialMultilineTextInput
 
     init {
         create()
@@ -51,17 +55,22 @@ class UIWrappedDecoratedTextInput(
             }
         }
 
-        textInput = (UIMultilineTextInput(placeholder).constrain {
+        textInput = (UISpecialMultilineTextInput(placeholder).constrain {
             x = CenterConstraint()
             y = CenterConstraint()
             width = max(90.percent(), 100.percent() - 5.pixels())
             height = max(90.percent(), 100.percent() - 5.pixels())
-            color = textColor
         }.onMouseClick {
             grabWindowFocus()
         }.onKeyType { _, _ ->
             textChanged = true
-        } childOf this) as UIMultilineTextInput
+        }.onFocus {
+            isFocused = true
+            updateTextColor()
+        }.onFocusLost {
+            isFocused = false
+            updateTextColor()
+        } childOf this) as UISpecialMultilineTextInput
     }
 
     override fun draw(matrixStack: UMatrixStack) {
@@ -80,12 +89,29 @@ class UIWrappedDecoratedTextInput(
     fun setText(text : String) {
         textInput.setText(text)
         textChanged = true
+        updateTextColor()
+    }
+
+    fun getText() : String {
+        return textInput.getText()
+    }
+
+    fun updateTextColor() {
+        if (::textInput.isInitialized) {
+            if(!isFocused && getText().isEmpty()) {
+                textInput.constrain {
+                    color = unselectedTextColor
+                }
+            } else {
+                textInput.constrain {
+                    color = textColor
+                }
+            }
+        }
     }
 
     override fun refreshColors() {
         this.constrain { color = primaryColor }
-        if (::textInput.isInitialized) {
-            textInput.constrain { color = textColor }
-        }
+        updateTextColor()
     }
 }

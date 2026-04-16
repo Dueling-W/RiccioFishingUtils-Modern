@@ -15,6 +15,7 @@ object UIScheme {
 
     val primaryTextColor = Color(255, 255, 255)
     val secondaryTextColor = Color(180, 180, 180)
+    val placeholderTextColor = Color(150, 150, 150)
 
     val denyColor = Color(209, 23, 23)
     val allowColor = Color(23, 209, 51)
@@ -83,6 +84,13 @@ object UIScheme {
     val pfCardLevelLabelColor = Color(180, 180, 180)
     val pfCardDescriptionColor = Color(150, 150, 150)
     val pfCardOverlayHoverColor = Color(255, 85, 85)
+    //Pf Layout
+    val pfInputHeight = 18f
+    val pfDescriptionHeight = 30f
+    val pfLabelScale = 0.6f
+    val pfLabelSpacing = 2f
+    val pfSectionSpacing = 10f
+    val pfAnimationDuration = 0.25f
     //ConditionCard
     val pfConditionCardWidth = 1f
     val pfConditionCardPadding = 2f

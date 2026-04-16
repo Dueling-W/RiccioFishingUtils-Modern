@@ -308,12 +308,16 @@ object PartyFinderWindow : BaseWindow(false) {
             }
             creationArea.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.5f, 100.percent)
+                onComplete {
+                    partiesContainer.hide()
+                }
             }
         } else {
             if(wasFilterOpen) {
                 filtersOpen = true
                 wasFilterOpen = false
             }
+            partiesContainer.unhide()
             creationArea.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.5f, 0.pixels)
             }

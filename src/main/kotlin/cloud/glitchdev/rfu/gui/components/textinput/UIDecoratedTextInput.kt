@@ -25,8 +25,10 @@ class UIDecoratedTextInput(
     var primaryColor = UIScheme.secondaryColorOpaque.toConstraint()
     var hoverColor = UIScheme.secondaryColor.toConstraint()
     var textColor = UIScheme.primaryTextColor.toConstraint()
+    var unselectedTextColor = UIScheme.placeholderTextColor.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
-
+    var isFocused = false
+        private set
     private var textChanged = false
     private val numberRegex = "[^0-9]".toRegex()
 
@@ -60,6 +62,12 @@ class UIDecoratedTextInput(
             grabWindowFocus()
         }.onKeyType { _, _ ->
             textChanged = true
+        }.onFocus {
+            isFocused = true
+            updateTextColor()
+        }.onFocusLost {
+            isFocused = false
+            updateTextColor()
         } childOf this) as UISpecialTextInput
     }
 
@@ -82,16 +90,29 @@ class UIDecoratedTextInput(
     fun setText(text : String) {
         textInput.setText(text)
         textChanged = true
+        updateTextColor()
     }
 
     fun getText() : String {
         return textInput.getText()
     }
 
+    fun updateTextColor() {
+        if(!isFocused && getText().isEmpty()) {
+            textInput.constrain {
+                color = unselectedTextColor
+            }
+        } else {
+            textInput.constrain {
+                color = textColor
+            }
+        }
+    }
+
     override fun refreshColors() {
         this.constrain { color = primaryColor }
         if (::textInput.isInitialized) {
-            textInput.constrain { color = textColor }
+            updateTextColor()
         }
     }
 }
