@@ -67,7 +67,7 @@ class UIDecoratedTextInput(
             y = CenterConstraint()
             width = 100.percent() - 4.pixels
             height = 100.percent() - 2.pixels
-            color = if (isEnabled) textColor else UIScheme.disabledTextColor.toConstraint()
+            color = if (isEnabled) unselectedTextColor else UIScheme.disabledTextColor.toConstraint()
         }.onMouseClick {
             if (!isEnabled) return@onMouseClick
             grabWindowFocus()

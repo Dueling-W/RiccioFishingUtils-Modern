@@ -11,6 +11,8 @@ import cloud.glitchdev.rfu.constants.text.TextColor.GRAY
 import cloud.glitchdev.rfu.constants.text.TextColor.WHITE
 import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
 import cloud.glitchdev.rfu.constants.text.TextEffects.BOLD
+import cloud.glitchdev.rfu.gui.components.elementa.BoundingBoxConstraint
+import cloud.glitchdev.rfu.gui.components.elementa.group.GroupMaxSizeConstraint
 import cloud.glitchdev.rfu.utils.dsl.toMcCodes
 import cloud.glitchdev.rfu.utils.gui.addHoverColoring
 import gg.essential.elementa.UIComponent
@@ -18,6 +20,7 @@ import gg.essential.elementa.components.ScrollComponent
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIRoundedRectangle
 import gg.essential.elementa.components.UIText
+import gg.essential.elementa.components.inspector.Inspector
 import gg.essential.elementa.constraints.*
 import gg.essential.elementa.constraints.animation.Animations
 import gg.essential.elementa.dsl.*
@@ -68,9 +71,9 @@ class SeaCreatureEditWindow : BaseWindow(true) {
         } childOf mainContainer
 
         searchBar = UIDecoratedTextInput("Search...", 2f).constrain {
-            x = CenterConstraint()
+            x = 0.pixels
             y = 5.pixels()
-            width = 90.percent()
+            width = 100.percent() - 5.pixels
             height = 18.pixels()
         } childOf sidebar
         
@@ -167,7 +170,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             x = CenterConstraint()
             y = 0.pixels()
             width = 100.percent()
-            height = 400.pixels() // Increased height for more fields
+            height = BoundingBoxConstraint()
             color = UIScheme.contentBackground.toConstraint()
         } childOf editScrollArea
 
@@ -178,48 +181,64 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             color = UIScheme.primaryTextColor.toConstraint()
         } childOf content
 
-        fun addField(label: String, yPos: YConstraint): UIDecoratedTextInput {
-            UIText(label).constrain {
-                x = 15.pixels()
-                y = yPos
-                color = UIScheme.secondaryTextColor.toConstraint()
+        fun addField(label: String, topPadding: Float = 5f): UIDecoratedTextInput {
+            val container = UIContainer().constrain {
+                x = 0.pixels()
+                y = SiblingConstraint(topPadding)
+                width = 100.percent()
+                height = ChildBasedMaxSizeConstraint()
             } childOf content
+
+            val textContainer = UIContainer().constrain {
+                x = 15.pixels()
+                y = CenterConstraint()
+                width = GroupMaxSizeConstraint("SCEditWindowField", ChildBasedMaxSizeConstraint())
+                height = ChildBasedSizeConstraint()
+            } childOf container
+
+            UIText(label).constrain {
+                x = 0.pixels
+                y = CenterConstraint()
+                width = ScaledTextConstraint(1f)
+                height = TextAspectConstraint()
+                color = UIScheme.secondaryTextColor.toConstraint()
+            } childOf textContainer
             
             return UIDecoratedTextInput("", 2f).constrain {
-                x = 80.pixels()
-                y = yPos
-                width = 100.percent() - 95.pixels()
+                x = SiblingConstraint(2f)
+                y = CenterConstraint()
+                width = FillConstraint() - 32.pixels
                 height = 16.pixels()
-            } childOf content
+            } childOf container
         }
 
-        nameInput = addField("Name:", 30.pixels())
-        pluralInput = addField("Plural:", 50.pixels())
-        articleInput = addField("Article:", 70.pixels())
-        styleInput = addField("Style:", 90.pixels())
+        nameInput = addField("Name:", 10f)
+        pluralInput = addField("Plural:")
+        articleInput = addField("Article:")
+        styleInput = addField("Catch Color:")
 
         // Preview Section
         previewNormal = UIText("Preview: ").constrain {
             x = 15.pixels()
-            y = 115.pixels()
+            y = SiblingConstraint(10f)
         } childOf content
 
         previewDouble = UIText("Preview: ").constrain {
             x = 15.pixels()
-            y = 135.pixels()
+            y = SiblingConstraint(5f)
         } childOf content
 
-        scDisplayColorInput = addField("Display Color:", 155.pixels())
+        scDisplayColorInput = addField("Display Color:", 10f)
         
-        previewDisplay = UIText("Display Preview: ").constrain {
+        previewDisplay = UIText("Preview: ").constrain {
             x = 15.pixels()
-            y = 180.pixels()
+            y = SiblingConstraint(10f)
         } childOf content
 
         // Settings Section
         UIText("Settings").constrain {
             x = 10.pixels()
-            y = 205.pixels()
+            y = SiblingConstraint(15f)
             color = UIScheme.primaryTextColor.toConstraint()
         } childOf content
 
@@ -232,35 +251,35 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             saveCurrent() 
         }.constrain {
             x = 15.pixels()
-            y = 225.pixels()
+            y = SiblingConstraint(10f)
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
 
         lsRangeCheckbox = UICheckbox("Lootshare Range", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 245.pixels()
+            y = SiblingConstraint(5f)
             width = 150.pixels()
             height = 15.pixels()
         } childOf content
 
         bossbarCheckbox = UICheckbox("Bossbar", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 265.pixels()
+            y = SiblingConstraint(5f)
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
 
         gdragAlertCheckbox = UICheckbox("Gdrag Alert", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 285.pixels()
+            y = SiblingConstraint(5f)
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
 
         rareSCAlertCheckbox = UICheckbox("Rare Alert", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 305.pixels()
+            y = SiblingConstraint(5f)
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
@@ -390,7 +409,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
                 }
             }
         }
-        previewDisplay.setText("Display Preview: $displayPreviewLine")
+        previewDisplay.setText("Preview: $displayPreviewLine")
     }
 
     private fun saveCurrent() {
