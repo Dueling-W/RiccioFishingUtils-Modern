@@ -1,7 +1,6 @@
 package cloud.glitchdev.rfu.gui.components.partyfinder
 
 import cloud.glitchdev.rfu.gui.UIScheme
-import cloud.glitchdev.rfu.gui.components.elementa.CopyComponentSizeConstraint
 import cloud.glitchdev.rfu.model.data.DataOption
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.components.UIImage
@@ -19,12 +18,10 @@ import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.TextAspectConstraint
 import gg.essential.elementa.dsl.childOf
 import gg.essential.elementa.dsl.constrain
-import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
 import gg.essential.elementa.dsl.plus
 import gg.essential.elementa.dsl.times
 import gg.essential.elementa.dsl.toConstraint
-import java.awt.Color
 
 class UIConditionCard(
     val option: DataOption

@@ -1,6 +1,5 @@
 package cloud.glitchdev.rfu.gui.components.partyfinder
 
-import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.constants.LiquidTypes
 import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.textinput.UIDecoratedTextInput
@@ -10,7 +9,6 @@ import cloud.glitchdev.rfu.model.data.DataOption
 import cloud.glitchdev.rfu.model.party.FishingParty
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.ChildBasedSizeConstraint
 import gg.essential.elementa.constraints.CramSiblingConstraint
 import gg.essential.elementa.constraints.SiblingConstraint
 import gg.essential.elementa.constraints.YConstraint
@@ -20,7 +18,6 @@ import gg.essential.elementa.dsl.div
 import gg.essential.elementa.dsl.minus
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
-import gg.essential.elementa.dsl.times
 import gg.essential.elementa.dsl.toConstraint
 
 class UIFilterArea(private val filterHeight : YConstraint, var onFilterChange: () -> Unit = {}) : UIContainer() {
