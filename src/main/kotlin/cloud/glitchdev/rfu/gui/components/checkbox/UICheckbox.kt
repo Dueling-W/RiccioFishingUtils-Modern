@@ -41,6 +41,16 @@ class UICheckbox(
             checkmark.setHidden(!value)
             field = value
         }
+    var isEnabled = true
+        set(value) {
+            field = value
+            checkbox.constrain {
+                color = (if (value) primaryColor else UIScheme.disabledColor.toConstraint())
+            }
+            textComponent.constrain {
+                color = (if (value) textColor else UIScheme.disabledTextColor.toConstraint())
+            }
+        }
     lateinit var checkmark : UIText
     lateinit var checkbox : UIRoundedRectangle
     lateinit var textComponent : UIText
@@ -55,7 +65,7 @@ class UICheckbox(
             y = CenterConstraint()
             width = AspectConstraint(1f)
             height = min(80.percent(), 10.pixels())
-            color = primaryColor
+            color = if (isEnabled) primaryColor else UIScheme.disabledColor.toConstraint()
         } childOf this
 
         checkmark = UIText("✔").constrain {
@@ -69,14 +79,17 @@ class UICheckbox(
         checkmark.setHidden(!state)
 
         this.onMouseClick {
+            if (!isEnabled) return@onMouseClick
             if(!allowDisabling && state) return@onMouseClick
             state = !state
             onChange(state)
         }.onMouseEnter {
+            if (!isEnabled) return@onMouseEnter
             checkbox.animate {
                 setColorAnimation(Animations.IN_EXP, animationDuration, hoverColor)
             }
         }.onMouseLeave {
+            if (!isEnabled) return@onMouseLeave
             checkbox.animate {
                 setColorAnimation(Animations.IN_EXP, animationDuration, primaryColor)
             }
@@ -87,7 +100,7 @@ class UICheckbox(
             y = CenterConstraint()
             width = TextAspectConstraint()
             height = ScaledTextConstraint(1f)
-            color = textColor
+            color = if (isEnabled) textColor else UIScheme.disabledTextColor.toConstraint()
         } childOf this
     }
 

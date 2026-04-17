@@ -27,6 +27,14 @@ class UIDecoratedTextInput(
     var textColor = UIScheme.primaryTextColor.toConstraint()
     var unselectedTextColor = UIScheme.placeholderTextColor.toConstraint()
     val hoverDuration = UIScheme.HOVER_EFFECT_DURATION
+    var isEnabled = true
+        set(value) {
+            field = value
+            this.constrain {
+                color = (if (value) primaryColor else UIScheme.disabledColor.toConstraint())
+            }
+            updateTextColor()
+        }
     var isFocused = false
         private set
     private var textChanged = false
@@ -40,13 +48,15 @@ class UIDecoratedTextInput(
 
     fun create() {
         this.constrain {
-            color = primaryColor
+            color = if (isEnabled) primaryColor else UIScheme.disabledColor.toConstraint()
         }
         this.onMouseEnter {
+            if (!isEnabled) return@onMouseEnter
             this.animate {
                 setColorAnimation(Animations.IN_EXP, hoverDuration, hoverColor)
             }
         }.onMouseLeave {
+            if (!isEnabled) return@onMouseLeave
             this.animate {
                 setColorAnimation(Animations.IN_EXP, hoverDuration, primaryColor)
             }
@@ -57,10 +67,12 @@ class UIDecoratedTextInput(
             y = CenterConstraint()
             width = 100.percent() - 4.pixels
             height = 100.percent() - 2.pixels
-            color = textColor
+            color = if (isEnabled) textColor else UIScheme.disabledTextColor.toConstraint()
         }.onMouseClick {
+            if (!isEnabled) return@onMouseClick
             grabWindowFocus()
         }.onKeyType { _, _ ->
+            if (!isEnabled) return@onKeyType
             textChanged = true
         }.onFocus {
             isFocused = true
@@ -98,14 +110,13 @@ class UIDecoratedTextInput(
     }
 
     fun updateTextColor() {
-        if(!isFocused && getText().isEmpty()) {
-            textInput.constrain {
-                color = unselectedTextColor
-            }
-        } else {
-            textInput.constrain {
-                color = textColor
-            }
+        val targetColor = when {
+            !isEnabled -> UIScheme.disabledTextColor.toConstraint()
+            !isFocused && getText().isEmpty() -> unselectedTextColor
+            else -> textColor
+        }
+        textInput.constrain {
+            color = targetColor
         }
     }
 

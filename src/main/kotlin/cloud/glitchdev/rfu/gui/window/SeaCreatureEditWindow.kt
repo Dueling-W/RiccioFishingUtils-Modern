@@ -6,6 +6,11 @@ import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.checkbox.UICheckbox
 import cloud.glitchdev.rfu.gui.components.textinput.UIDecoratedTextInput
 import cloud.glitchdev.rfu.config.categories.SeaCreatureConfig
+import cloud.glitchdev.rfu.constants.RareScDisplayDataType
+import cloud.glitchdev.rfu.constants.text.TextColor.GRAY
+import cloud.glitchdev.rfu.constants.text.TextColor.WHITE
+import cloud.glitchdev.rfu.constants.text.TextColor.YELLOW
+import cloud.glitchdev.rfu.constants.text.TextEffects.BOLD
 import cloud.glitchdev.rfu.utils.dsl.toMcCodes
 import cloud.glitchdev.rfu.utils.gui.addHoverColoring
 import gg.essential.elementa.UIComponent
@@ -33,12 +38,16 @@ class SeaCreatureEditWindow : BaseWindow(true) {
     
     // Settings checkboxes
     private val specialCheckbox: UICheckbox
-    private val excludeLsCheckbox: UICheckbox
+    private val lsRangeCheckbox: UICheckbox
     private val bossbarCheckbox: UICheckbox
+    private val gdragAlertCheckbox: UICheckbox
+    private val rareSCAlertCheckbox: UICheckbox
+    private val scDisplayColorInput: UIDecoratedTextInput
 
     // Preview texts
     private val previewNormal: UIText
     private val previewDouble: UIText
+    private val previewDisplay: UIText
 
     init {
         mainContainer = UIRoundedRectangle(5f).constrain {
@@ -58,7 +67,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             color = UIScheme.sidebarBackground.toConstraint()
         } childOf mainContainer
 
-        searchBar = UIDecoratedTextInput("", 2f).constrain {
+        searchBar = UIDecoratedTextInput("Search...", 2f).constrain {
             x = CenterConstraint()
             y = 5.pixels()
             width = 90.percent()
@@ -158,7 +167,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             x = CenterConstraint()
             y = 0.pixels()
             width = 100.percent()
-            height = 300.pixels() // Fixed height or can use a larger relative height to ensure scrollability
+            height = 400.pixels() // Increased height for more fields
             color = UIScheme.contentBackground.toConstraint()
         } childOf editScrollArea
 
@@ -200,30 +209,58 @@ class SeaCreatureEditWindow : BaseWindow(true) {
             y = 135.pixels()
         } childOf content
 
+        scDisplayColorInput = addField("Display Color:", 155.pixels())
+        
+        previewDisplay = UIText("Display Preview: ").constrain {
+            x = 15.pixels()
+            y = 180.pixels()
+        } childOf content
+
         // Settings Section
         UIText("Settings").constrain {
             x = 10.pixels()
-            y = 165.pixels()
+            y = 205.pixels()
             color = UIScheme.primaryTextColor.toConstraint()
         } childOf content
 
-        specialCheckbox = UICheckbox("Rare", false) { saveCurrent() }.constrain {
+        specialCheckbox = UICheckbox("Rare", false) { isRare ->
+            lsRangeCheckbox.state = isRare
+            bossbarCheckbox.state = isRare
+            gdragAlertCheckbox.state = isRare
+            rareSCAlertCheckbox.state = isRare
+            refreshEnabledStates()
+            saveCurrent() 
+        }.constrain {
             x = 15.pixels()
-            y = 185.pixels()
+            y = 225.pixels()
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
 
-        excludeLsCheckbox = UICheckbox("Exclude LS Range", false) { saveCurrent() }.constrain {
+        lsRangeCheckbox = UICheckbox("Lootshare Range", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 205.pixels()
+            y = 245.pixels()
             width = 150.pixels()
             height = 15.pixels()
         } childOf content
 
         bossbarCheckbox = UICheckbox("Bossbar", false) { saveCurrent() }.constrain {
             x = 15.pixels()
-            y = 225.pixels()
+            y = 265.pixels()
+            width = 100.pixels()
+            height = 15.pixels()
+        } childOf content
+
+        gdragAlertCheckbox = UICheckbox("Gdrag Alert", false) { saveCurrent() }.constrain {
+            x = 15.pixels()
+            y = 285.pixels()
+            width = 100.pixels()
+            height = 15.pixels()
+        } childOf content
+
+        rareSCAlertCheckbox = UICheckbox("Rare Alert", false) { saveCurrent() }.constrain {
+            x = 15.pixels()
+            y = 305.pixels()
             width = 100.pixels()
             height = 15.pixels()
         } childOf content
@@ -233,6 +270,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
         pluralInput.onChange = { saveCurrent() }
         articleInput.onChange = { saveCurrent() }
         styleInput.onChange = { saveCurrent() }
+        scDisplayColorInput.onChange = { saveCurrent() }
 
         refreshList("")
         
@@ -294,10 +332,22 @@ class SeaCreatureEditWindow : BaseWindow(true) {
         styleInput.setText(sc.getStyleCode().replace("§", "&"))
         
         specialCheckbox.state = sc.special
-        excludeLsCheckbox.state = sc.lsRangeExcluded
+        lsRangeCheckbox.state = sc.lsRangeEnabled
         bossbarCheckbox.state = sc.bossbar
+        gdragAlertCheckbox.state = sc.gdragAlert
+        rareSCAlertCheckbox.state = sc.rareSCAlert
+        scDisplayColorInput.setText(sc.scDisplayColor.replace("§", "&"))
         
+        refreshEnabledStates()
         updatePreviews()
+    }
+
+    private fun refreshEnabledStates() {
+        val isRare = specialCheckbox.state
+        lsRangeCheckbox.isEnabled = isRare
+        bossbarCheckbox.isEnabled = isRare
+        gdragAlertCheckbox.isEnabled = isRare
+        rareSCAlertCheckbox.isEnabled = isRare
     }
 
     private fun updatePreviews() {
@@ -308,6 +358,7 @@ class SeaCreatureEditWindow : BaseWindow(true) {
         val article = articleInput.getText()
         val articleUpper = article.replaceFirstChar { it.uppercaseChar() }
         val mob = if (article.isNotEmpty()) "$article $name" else name
+        val displayColor = scDisplayColorInput.getText().toMcCodes().ifEmpty { WHITE }
 
         val normalTemplate = SeaCreatureConfig.catchMessageTemplate
         val doubleTemplate = SeaCreatureConfig.doubleHookCatchMessageTemplate
@@ -326,6 +377,20 @@ class SeaCreatureEditWindow : BaseWindow(true) {
 
         previewNormal.setText("Preview: ${style(normalTemplate)}")
         previewDouble.setText("Preview: ${style(doubleTemplate)}")
+
+        val dataOrder = SeaCreatureConfig.rareScDisplayDataOrder
+        val displayPreviewLine = buildString {
+            append("$displayColor${BOLD}$name:")
+            dataOrder.forEach { dataType ->
+                when (dataType) {
+                    RareScDisplayDataType.STREAK -> append(" ${YELLOW}5")
+                    RareScDisplayDataType.AVERAGE -> append(" ${GRAY}(${YELLOW}20$GRAY)")
+                    RareScDisplayDataType.TOTAL -> append(" $displayColor[${YELLOW}10$displayColor]")
+                    RareScDisplayDataType.TIME_SINCE -> append(" ${WHITE}10s")
+                }
+            }
+        }
+        previewDisplay.setText("Display Preview: $displayPreviewLine")
     }
 
     private fun saveCurrent() {
@@ -338,8 +403,11 @@ class SeaCreatureEditWindow : BaseWindow(true) {
                 article = articleInput.getText(),
                 style = styleInput.getText().toMcCodes(),
                 special = specialCheckbox.state,
-                lsRangeExcluded = excludeLsCheckbox.state,
-                bossbar = bossbarCheckbox.state
+                lsRangeEnabled = lsRangeCheckbox.state,
+                bossbar = bossbarCheckbox.state,
+                gdragAlert = gdragAlertCheckbox.state,
+                rareSCAlert = rareSCAlertCheckbox.state,
+                scDisplayColor = scDisplayColorInput.getText().toMcCodes()
             )
         }
         

@@ -112,8 +112,8 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
 
                 // Building the customized line
                 val line = buildString {
-                    val style = sc.getStyleCode()
-                    append("$style${BOLD}${sc.scName}:")
+                    val color = sc.scDisplayColor.ifEmpty { WHITE }
+                    append("$color${BOLD}${sc.scName}:")
 
                     dataOrder.forEach { dataType ->
                         when (dataType) {
@@ -125,7 +125,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
                                 append(" $GRAY($YELLOW$avg$GRAY)")
                             }
                             RareScDisplayDataType.TOTAL -> {
-                                append(" $style[$YELLOW${record.total}$style]")
+                                append(" $color[$YELLOW${record.total}$color]")
                             }
                             RareScDisplayDataType.TIME_SINCE -> {
                                 val lastTime = if (record.total > 0) {
@@ -148,8 +148,8 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
                 scsInCategory.forEach { sc ->
                     val record = catchHistory.getOrAdd(sc)
                     val line = buildString {
-                        val style = sc.getStyleCode()
-                        append("$style${BOLD}${sc.scName}:")
+                        val color = sc.scDisplayColor
+                        append("$color${BOLD}${sc.scName}:")
                         dataOrder.forEach { dataType ->
                             when (dataType) {
                                 RareScDisplayDataType.STREAK -> {
@@ -160,7 +160,7 @@ object RareSCDisplay : AbstractTextHudElement("rareSCDisplay") {
                                     append(" $GRAY($YELLOW$avg$GRAY)")
                                 }
                                 RareScDisplayDataType.TOTAL -> {
-                                    append(" $style[$YELLOW${record.total}$style]")
+                                    append(" $color[$YELLOW${record.total}$color]")
                                 }
                                 RareScDisplayDataType.TIME_SINCE -> {
                                     val lastTime = if (record.total > 0) {

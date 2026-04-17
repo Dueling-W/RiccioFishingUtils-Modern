@@ -17,9 +17,12 @@ data class SeaCreatureSetting(
     val catchMessage: String?,
     val liquidType: String?,
     val category: String?,
-    val lsRangeExcluded: Boolean?,
+    val lsRangeEnabled: Boolean?,
     val conditions: SeaCreatureConditions?,
-    val bossbar: Boolean?
+    val bossbar: Boolean?,
+    val gdragAlert: Boolean?,
+    val rareSCAlert: Boolean?,
+    val scDisplayColor: String?
 )
 
 data class SeaCreatureConditions(

@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.feature.mob
 
 import cloud.glitchdev.rfu.config.categories.SeaCreatureConfig
+import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.data.mob.SkyblockEntity
 import cloud.glitchdev.rfu.events.managers.PetEvents.PetUpdateEventManager
 import cloud.glitchdev.rfu.events.managers.MobEvents.registerMobDetectEvent
@@ -23,7 +24,8 @@ object GdragAlert : Feature {
             val hasGdrag = petName == "Golden Dragon"
 
             entities.forEach { entity ->
-                if (!SeaCreatureConfig.RARE_SC_REGEX.matches(entity.sbName)) return@forEach
+                val sc = SeaCreatures.get(entity.sbName) ?: return@forEach
+                if (!sc.gdragAlert) return@forEach
                 if (alertedEntities.contains(entity)) return@forEach
 
                 val health = entity.health.parseHealthValue()

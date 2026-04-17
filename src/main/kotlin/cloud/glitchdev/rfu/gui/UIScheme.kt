@@ -23,6 +23,9 @@ object UIScheme {
     val darkBackground = Color(0, 0, 0, 128)
     val transparent = Color(0, 0, 0, 0)
 
+    val disabledColor = Color(60, 60, 60, 128)
+    val disabledTextColor = Color(100, 100, 100)
+
     //Boss Bar
     val barHighHP = Color(85, 255, 85)
     val barMediumHP = Color(255, 255, 85)

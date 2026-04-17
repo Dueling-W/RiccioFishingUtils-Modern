@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.feature.mob
 
 import cloud.glitchdev.rfu.config.categories.SeaCreatureConfig
 import cloud.glitchdev.rfu.config.categories.SeaCreatureConfig.RARE_SC_REGEX
+import cloud.glitchdev.rfu.constants.SeaCreatures
 import cloud.glitchdev.rfu.events.managers.MobEvents.registerMobDetectEvent
 import cloud.glitchdev.rfu.feature.Feature
 import cloud.glitchdev.rfu.feature.RFUFeature
@@ -16,7 +17,7 @@ object RareAlert : Feature {
     override fun onInitialize() {
         registerMobDetectEvent { entities ->
             if(!SeaCreatureConfig.detectionAlert) return@registerMobDetectEvent
-            val entities = entities.filter { RARE_SC_REGEX.matches(it.sbName) }.toSet()
+            val entities = entities.filter { SeaCreatures.get(it.sbName)?.rareSCAlert == true }.toSet()
             val newEntities = entities.minus(lastEntities)
             lastEntities = entities
 

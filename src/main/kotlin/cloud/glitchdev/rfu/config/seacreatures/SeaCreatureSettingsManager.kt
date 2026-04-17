@@ -33,6 +33,10 @@ object SeaCreatureSettingsManager : InstantRegisteredEvent {
     fun getArticle(scName: String): String = resolve(scName) { it.article }
     fun getStyle(scName: String): String = resolve(scName) { it.style }
     fun isSpecial(scName: String): Boolean = resolve(scName) { it.special }
+    fun isLsRangeEnabled(scName: String): Boolean = resolve(scName) { it.lsRangeEnabled }
+    fun isGdragAlert(scName: String): Boolean = resolve(scName) { it.gdragAlert }
+    fun isRareSCAlert(scName: String): Boolean = resolve(scName) { it.rareSCAlert }
+    fun getScDisplayColor(scName: String): String = resolve(scName) { it.scDisplayColor }
 
     fun save() {
         seaCreatureConfigFile.save()
@@ -64,8 +68,11 @@ object SeaCreatureSettingsManager : InstantRegisteredEvent {
             liquidType = LiquidTypes.valueOf(updated.liquidType ?: defaultConfig.creatures[scName]?.liquidType ?: "WATER"),
             category = SeaCreatureCategory.valueOf(updated.category ?: defaultConfig.creatures[scName]?.category ?: "GENERAL_WATER"),
             condition = buildCondition(updated.conditions ?: defaultConfig.creatures[scName]?.conditions),
-            lsRangeExcluded = updated.lsRangeExcluded ?: defaultConfig.creatures[scName]?.lsRangeExcluded ?: false,
-            bossbar = updated.bossbar ?: defaultConfig.creatures[scName]?.bossbar ?: false
+            lsRangeEnabled = updated.lsRangeEnabled ?: defaultConfig.creatures[scName]?.lsRangeEnabled ?: true,
+            bossbar = updated.bossbar ?: defaultConfig.creatures[scName]?.bossbar ?: false,
+            gdragAlert = updated.gdragAlert ?: defaultConfig.creatures[scName]?.gdragAlert ?: false,
+            rareSCAlert = updated.rareSCAlert ?: defaultConfig.creatures[scName]?.rareSCAlert ?: false,
+            scDisplayColor = updated.scDisplayColor ?: defaultConfig.creatures[scName]?.scDisplayColor ?: "§f"
         )
         SeaCreatures.register(sc)
         RFULogger.dev("Registered updated Sea Creature: $scName")
@@ -107,7 +114,11 @@ object SeaCreatureSettingsManager : InstantRegisteredEvent {
                             catchMessage = backendSc.catchMessage,
                             liquidType = backendSc.liquidType,
                             category = backendSc.category,
-                            conditions = backendSc.conditions
+                            conditions = backendSc.conditions,
+                            gdragAlert = backendSc.gdragAlert,
+                            rareSCAlert = backendSc.rareSCAlert,
+                            scDisplayColor = backendSc.scDisplayColor,
+                            lsRangeEnabled = backendSc.lsRangeEnabled
                         )
                         if (updatedSc != currentSc) {
                             mergedCreatures[scName] = updatedSc
@@ -135,8 +146,11 @@ object SeaCreatureSettingsManager : InstantRegisteredEvent {
                             liquidType = LiquidTypes.valueOf(setting.liquidType ?: "WATER"),
                             category = SeaCreatureCategory.valueOf(setting.category ?: "GENERAL_WATER"),
                             condition = buildCondition(setting.conditions),
-                            lsRangeExcluded = setting.lsRangeExcluded ?: false,
-                            bossbar = setting.bossbar ?: false
+                            lsRangeEnabled = setting.lsRangeEnabled ?: true,
+                            bossbar = setting.bossbar ?: false,
+                            gdragAlert = setting.gdragAlert ?: false,
+                            rareSCAlert = setting.rareSCAlert ?: false,
+                            scDisplayColor = setting.scDisplayColor ?: "§f"
                         )
                         SeaCreatures.register(sc)
                     }
@@ -168,8 +182,11 @@ object SeaCreatureSettingsManager : InstantRegisteredEvent {
                 liquidType = LiquidTypes.valueOf(setting.liquidType ?: "WATER"),
                 category = SeaCreatureCategory.valueOf(setting.category ?: "GENERAL_WATER"),
                 condition = buildCondition(setting.conditions),
-                lsRangeExcluded = setting.lsRangeExcluded ?: false,
-                bossbar = setting.bossbar ?: false
+                lsRangeEnabled = setting.lsRangeEnabled ?: true,
+                bossbar = setting.bossbar ?: false,
+                gdragAlert = setting.gdragAlert ?: false,
+                rareSCAlert = setting.rareSCAlert ?: false,
+                scDisplayColor = setting.scDisplayColor ?: "§f"
             )
             SeaCreatures.register(sc)
         }
