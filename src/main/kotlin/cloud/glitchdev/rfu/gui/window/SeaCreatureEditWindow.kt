@@ -45,8 +45,6 @@ object SeaCreatureEditWindow : BaseWindow(true) {
 
         createSidebar()
         createContentArea()
-
-        Inspector(window) childOf window
     }
 
     private fun createSidebar() {

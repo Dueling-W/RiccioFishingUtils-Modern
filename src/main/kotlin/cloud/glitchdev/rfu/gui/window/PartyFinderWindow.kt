@@ -141,8 +141,6 @@ object PartyFinderWindow : BaseWindow(false) {
 
         createPartyCreationArea(contentWrapper)
         createPartyArea(contentWrapper)
-
-        Inspector(window) childOf window
     }
 
     fun createHeader(background: UIComponent) {
