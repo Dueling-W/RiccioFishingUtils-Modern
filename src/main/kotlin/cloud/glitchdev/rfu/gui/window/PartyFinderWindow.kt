@@ -5,6 +5,7 @@ import cloud.glitchdev.rfu.gui.UIScheme
 import cloud.glitchdev.rfu.gui.components.UIPopup
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyListChangedEvent
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyCreatedEvent
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyUpdatedEvent
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
 import cloud.glitchdev.rfu.gui.components.UIButton
 import cloud.glitchdev.rfu.gui.components.colors
@@ -88,6 +89,13 @@ object PartyFinderWindow : BaseWindow(false) {
         }
 
         registerPartyCreatedEvent { party ->
+            if (party.user == User.getUsername()) {
+                creationOpen = false
+                onUpdate()
+            }
+        }
+
+        registerPartyUpdatedEvent { party ->
             if (party.user == User.getUsername()) {
                 creationOpen = false
                 onUpdate()

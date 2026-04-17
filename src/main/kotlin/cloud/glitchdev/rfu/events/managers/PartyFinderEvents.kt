@@ -30,6 +30,28 @@ object PartyFinderEvents {
         }
     }
 
+    object PartyUpdated : AbstractEventManager<(FishingParty) -> Unit, PartyUpdated.PartyUpdatedEvent>() {
+        override val runTasks: (FishingParty) -> Unit = { party ->
+            safeExecution {
+                tasks.forEach { task ->
+                    task.callback(party)
+                }
+            }
+        }
+
+        fun register(priority: Int = 20, callback: (FishingParty) -> Unit): PartyUpdatedEvent {
+            return PartyUpdatedEvent(priority, callback).register()
+        }
+
+        class PartyUpdatedEvent(
+            priority: Int = 20,
+            callback: (FishingParty) -> Unit
+        ) : ManagedTask<(FishingParty) -> Unit, PartyUpdatedEvent>(priority, callback) {
+            override fun register() = submitTask(this)
+            override fun unregister() = removeTask(this)
+        }
+    }
+
     object PartyJoined : AbstractEventManager<() -> Unit, PartyJoined.PartyJoinedEvent>() {
         override val runTasks: () -> Unit = {
             safeExecution {
@@ -113,6 +135,7 @@ object PartyFinderEvents {
         _parties.removeIf { it.user == party.user }
         _parties.add(party)
         PartyListChanged.runTasks(_parties.toList())
+        PartyUpdated.runTasks(party)
     }
 
     fun handleDelete(user: String) {
@@ -129,6 +152,10 @@ object PartyFinderEvents {
 
     fun registerPartyCreatedEvent(priority: Int = 20, callback: (FishingParty) -> Unit): PartyCreated.PartyCreatedEvent {
         return PartyCreated.register(priority, callback)
+    }
+
+    fun registerPartyUpdatedEvent(priority: Int = 20, callback: (FishingParty) -> Unit): PartyUpdated.PartyUpdatedEvent {
+        return PartyUpdated.register(priority, callback)
     }
 
     fun registerPartyJoinedEvent(priority: Int = 20, callback: () -> Unit): PartyJoined.PartyJoinedEvent {
