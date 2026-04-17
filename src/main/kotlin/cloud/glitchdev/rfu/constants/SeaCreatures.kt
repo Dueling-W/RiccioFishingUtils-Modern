@@ -3,8 +3,14 @@ package cloud.glitchdev.rfu.constants
 import cloud.glitchdev.rfu.config.seacreatures.SeaCreatureSettingsManager
 import cloud.glitchdev.rfu.model.data.DataOption
 import cloud.glitchdev.rfu.data.fishing.Hotspot
+import com.google.gson.TypeAdapter
+import com.google.gson.annotations.JsonAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonToken
+import com.google.gson.stream.JsonWriter
 import net.minecraft.world.phys.Vec3
 
+@JsonAdapter(SeaCreaturesAdapter::class)
 class SeaCreatures(
     val scName: String,
     val catchMessage: String,
@@ -81,5 +87,24 @@ class SeaCreatures(
             val scObj = get(sc) ?: return false
             return isInIslands(scObj, category)
         }
+    }
+}
+
+class SeaCreaturesAdapter : TypeAdapter<SeaCreatures>() {
+    override fun write(out: JsonWriter, value: SeaCreatures?) {
+        if (value == null) {
+            out.nullValue()
+        } else {
+            out.value(value.scName)
+        }
+    }
+
+    override fun read(`in`: JsonReader): SeaCreatures? {
+        if (`in`.peek() == JsonToken.NULL) {
+            `in`.nextNull()
+            return null
+        }
+        val name = `in`.nextString()
+        return SeaCreatures.get(name) ?: SeaCreatures(name, "", LiquidTypes.WATER, SeaCreatureCategory.GENERAL_WATER)
     }
 }
