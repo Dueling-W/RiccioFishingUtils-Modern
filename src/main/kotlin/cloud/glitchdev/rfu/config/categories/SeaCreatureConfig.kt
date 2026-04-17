@@ -21,7 +21,7 @@ object SeaCreatureConfig : Category("Sea Creatures") {
         }
 
         customButton(
-            { mc.setScreen(SeaCreatureEditWindow()) },
+            { mc.setScreen(SeaCreatureEditWindow) },
             "Edit Sea Creatures",
             "Open a window to edit sea creature properties (Name, Plural, Article, Special, etc.)",
             "Edit"
