@@ -18,7 +18,7 @@ enum class FishingIslands(val island: String, val availableLiquids : List<Liquid
     PARK("The Park", listOf(LiquidTypes.WATER), Color(170, 255, 170)),
 
     @SerializedName("Galatea")
-    GALATEA("Galatea", listOf(LiquidTypes.WATER, LiquidTypes.LAVA), Color(85, 255, 255)),
+    GALATEA("Galatea", listOf(LiquidTypes.WATER, LiquidTypes.LAVA), Color(10, 100, 0)),
 
     @SerializedName("The Farming Islands")
     DESERT("The Farming Islands", listOf(LiquidTypes.WATER), Color(255, 255, 85)),

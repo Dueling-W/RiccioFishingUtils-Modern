@@ -7,6 +7,7 @@ import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyListCh
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyCreatedEvent
 import cloud.glitchdev.rfu.events.managers.PartyFinderEvents.registerPartyUpdatedEvent
 import cloud.glitchdev.rfu.events.managers.ErrorEvents.registerErrorMessageEvent
+import cloud.glitchdev.rfu.events.managers.PartyFinderEvents
 import cloud.glitchdev.rfu.gui.components.UIButton
 import cloud.glitchdev.rfu.gui.components.colors
 import cloud.glitchdev.rfu.gui.components.elementa.BoundingBoxConstraint
@@ -57,12 +58,7 @@ object PartyFinderWindow : BaseWindow(false) {
     private var wasFilterOpen = false
     private var creationOpen = false
     private var reloadOnCooldown = false
-    private var parties : List<FishingParty> = listOf(
-        FishingParty.blankParty().apply { user = "ricciow"; title = "Title"; description = "Description"; level = 1 },
-        FishingParty.blankParty().apply { user = "ricciow"; title = "Title"; description = "Description"; level = 1 },
-        FishingParty.blankParty().apply { user = "ricciow"; title = "Title"; description = "Description"; level = 1 },
-        FishingParty.blankParty().apply { user = "ricciow"; title = "Title"; description = "Description"; level = 1 }
-    )
+    private var parties : List<FishingParty> = PartyFinderEvents.parties
     private var partyCards : MutableList<UIPartyCard> = mutableListOf()
 
     val popup: UIPopup = UIPopup(5f, "", isBordered = true).childOf(window).colors {
