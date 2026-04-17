@@ -59,13 +59,16 @@ object UIScheme {
 
     //Party Finder Window
     val pfWindowBackground = Color(30, 30, 30, 220)
-    val pfWindowSeparator = Color(45, 75, 200)
+    val pfWindowSeparator = Color(100, 128, 255)
     val pfTitleText = pfWindowSeparator
     val pfInputBg = Color(100, 100, 100, 200)
     val pfInputBgHovered = Color(45, 75, 200, 100)
     val pfScrollBar = pfWindowSeparator
     val pfSpacing = 10f
     val pfSmallSpacing = 4f
+    val pfFilterButtonSelected = pfWindowSeparator
+    val pfFilterButtonSelectedBg = Color(70, 70, 70, 200)
+    val pfDropdownSelected = pfWindowSeparator
     //Pf card
     val pfCardBg = pfWindowBackground
     val pfCardBorderWidth = 1.5f
@@ -75,7 +78,7 @@ object UIScheme {
     val pfCardBorderHovered = Color(45, 75, 200, 100)
     val pfCardUserColor = Color(100, 100, 100)
     val pfCardTitleColor = Color.WHITE
-    val pfCardTitleHoverColor = Color(45, 75, 200)
+    val pfCardTitleHoverColor = pfWindowSeparator
     val pfCardSeparator = Color(100, 100, 100)
     val pfCardSeparatorHover = pfWindowSeparator
     val pfCardLevelBorderColor = Color(100, 100, 100)
@@ -106,6 +109,8 @@ object UIScheme {
     val pfConditionCardEnderman9Border = Color(170, 0, 170)
     val pfConditionCardBrainFood = Color(128, 42, 128)
     val pfConditionCardBrainFoodBorder = Color(255, 85, 255)
+    val pfConditionCardCanJoin = Color(11, 104, 25)
+    val pfConditionCardCanJoinBorder = Color(23, 209, 51)
     val pfConditionCardIsland = Color(45, 45, 45)
     val pfConditionCardIslandBorder = Color(100, 100, 100)
 

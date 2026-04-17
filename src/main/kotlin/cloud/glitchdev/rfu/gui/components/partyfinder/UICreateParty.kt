@@ -158,6 +158,7 @@ class UICreateParty : UIContainer() {
         }.colors {
             primaryColor = UIScheme.pfInputBg.toConstraint()
             hoverColor = UIScheme.pfInputBgHovered.toConstraint()
+            selectedColor = UIScheme.pfDropdownSelected.toConstraint()
         } childOf islandGroup
         islandField.setSelected(party.island.toDataOption())
     }

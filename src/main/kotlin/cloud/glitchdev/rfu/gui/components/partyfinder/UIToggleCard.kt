@@ -49,6 +49,7 @@ class UIToggleCard(
                 "looting_5" -> UIScheme.pfConditionCardLooting5
                 "enderman_9" -> UIScheme.pfConditionCardEnderman9
                 "brain_food" -> UIScheme.pfConditionCardBrainFood
+                "can_join" -> UIScheme.pfConditionCardCanJoin
                 "location" -> UIScheme.getIslandColor(requisite.name)
                 else -> UIScheme.pfConditionCardUnknown
             }.toConstraint()
@@ -64,6 +65,7 @@ class UIToggleCard(
                 "looting_5" -> UIScheme.pfConditionCardLooting5Border
                 "enderman_9" -> UIScheme.pfConditionCardEnderman9Border
                 "brain_food" -> UIScheme.pfConditionCardBrainFoodBorder
+                "can_join" -> UIScheme.pfConditionCardCanJoinBorder
                 "location" -> UIScheme.getIslandBorderColor(requisite.name)
                 else -> UIScheme.pfConditionCardUnknownBorder
             }.toConstraint()
@@ -85,6 +87,7 @@ class UIToggleCard(
                 "looting_5" -> "/assets/rfu/ui/looting_5.png"
                 "enderman_9" -> "/assets/rfu/ui/enderman_9.png"
                 "brain_food" -> "/assets/rfu/ui/brain_food.png"
+                "can_join" -> "/assets/rfu/ui/can_join.png"
                 "location" -> "/assets/rfu/ui/location.png"
                 else -> "/assets/rfu/ui/unknown.png"
             }

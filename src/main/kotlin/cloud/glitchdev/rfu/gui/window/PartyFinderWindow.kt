@@ -41,6 +41,7 @@ import gg.essential.elementa.dsl.effect
 import gg.essential.elementa.dsl.minus
 import gg.essential.elementa.dsl.percent
 import gg.essential.elementa.dsl.pixels
+import gg.essential.elementa.dsl.plus
 import gg.essential.elementa.dsl.toConstraint
 import gg.essential.elementa.effects.ScissorEffect
 import kotlinx.coroutines.delay
@@ -225,7 +226,7 @@ object PartyFinderWindow : BaseWindow(false) {
             x = CenterConstraint()
             y = 0.pixels
             width = 100.percent
-            height = ChildBasedSizeConstraint()
+            height = ChildBasedSizeConstraint() + smallSpacing.pixels
         } childOf filterArea
 
         //Separator
@@ -329,10 +330,22 @@ object PartyFinderWindow : BaseWindow(false) {
         }
 
         if(filtersOpen) {
+            filterButton.colors {
+                textColor = UIScheme.pfFilterButtonSelected.toConstraint()
+                hoverTextColor = UIScheme.pfFilterButtonSelected.toConstraint()
+                primaryColor = UIScheme.pfFilterButtonSelectedBg.toConstraint()
+                hoverColor = UIScheme.pfInputBgHovered.toConstraint()
+            }
             filterArea.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.5f, ChildBasedSizeConstraint())
             }
         } else {
+            filterButton.colors {
+                textColor = UIScheme.primaryTextColor.toConstraint()
+                hoverTextColor = UIScheme.primaryTextColor.toConstraint()
+                primaryColor = UIScheme.pfInputBg.toConstraint()
+                hoverColor = UIScheme.pfInputBgHovered.toConstraint()
+            }
             filterArea.animate {
                 setHeightAnimation(Animations.OUT_EXP, 0.5f, 1.pixels)
             }

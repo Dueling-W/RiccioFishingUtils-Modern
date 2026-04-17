@@ -3,13 +3,11 @@ package cloud.glitchdev.rfu.gui.components.partyfinder
 import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.constants.LiquidTypes
 import cloud.glitchdev.rfu.gui.UIScheme
-import cloud.glitchdev.rfu.gui.components.checkbox.UICheckbox
 import cloud.glitchdev.rfu.gui.components.textinput.UIDecoratedTextInput
-import cloud.glitchdev.rfu.gui.components.checkbox.UIRadio
 import cloud.glitchdev.rfu.gui.components.colors
-import cloud.glitchdev.rfu.gui.components.dropdown.UIDropdown
 import cloud.glitchdev.rfu.gui.components.elementa.CramAwareMaxSizeConstraint
 import cloud.glitchdev.rfu.model.party.FishingParty
+import cloud.glitchdev.rfu.model.party.Requisite
 import gg.essential.elementa.components.UIContainer
 import gg.essential.elementa.constraints.CenterConstraint
 import gg.essential.elementa.constraints.ChildBasedSizeConstraint
@@ -28,12 +26,13 @@ import gg.essential.elementa.dsl.toConstraint
 class UIFilterArea(private val filterHeight : YConstraint, var onFilterChange: () -> Unit = {}) : UIContainer() {
     lateinit var searchField: UIDecoratedTextInput
     lateinit var levelField: UIDecoratedTextInput
-    lateinit var canJoinField: UICheckbox
-    lateinit var liquidField: UIRadio
-    lateinit var killerField: UICheckbox
-    lateinit var endermanField: UICheckbox
-    lateinit var lootingField: UICheckbox
-    lateinit var brainFoodField: UICheckbox
+    lateinit var canJoinToggle: UIToggleCard
+    lateinit var waterToggle: UIToggleCard
+    lateinit var lavaToggle: UIToggleCard
+    lateinit var killerToggle: UIToggleCard
+    lateinit var endermanToggle: UIToggleCard
+    lateinit var lootingToggle: UIToggleCard
+    lateinit var brainFoodToggle: UIToggleCard
 
     init {
         create()
@@ -75,64 +74,59 @@ class UIFilterArea(private val filterHeight : YConstraint, var onFilterChange: (
             height = CramAwareMaxSizeConstraint()
         } childOf this
 
-        canJoinField = UICheckbox("Can Join").constrain {
+        canJoinToggle = UIToggleCard(Requisite("can_join", "Can Join", true)) {
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = ChildBasedSizeConstraint()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf bottomArea
 
-        liquidField = UIRadio(LiquidTypes.toDataOptions(), 0).constrain {
+        waterToggle = UIToggleCard(Requisite("water", "Water", true), false) { selected ->
+            if (selected) {
+                lavaToggle.selected = false
+            }
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = 80.pixels()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf bottomArea
 
-        killerField = UICheckbox("Has Killer").constrain {
+        lavaToggle = UIToggleCard(Requisite("lava", "Lava", true), false) { selected ->
+            if (selected) {
+                waterToggle.selected = false
+            }
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = ChildBasedSizeConstraint()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf bottomArea
 
-        endermanField = UICheckbox("Enderman 9").constrain {
+        killerToggle = UIToggleCard(Requisite("has_killer", "Has Killer", true)) {
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = ChildBasedSizeConstraint()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf bottomArea
 
-        lootingField = UICheckbox("Looting 5").constrain {
+        endermanToggle = UIToggleCard(Requisite("enderman_9", "Enderman 9", true)) {
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = ChildBasedSizeConstraint()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
         } childOf bottomArea
 
-        brainFoodField = UICheckbox("Brain Food").constrain {
+        lootingToggle = UIToggleCard(Requisite("looting_5", "Looting 5", true)) {
+            onFilterChange()
+        }.constrain {
             x = CramSiblingConstraint(4f)
             y = CramSiblingConstraint()
-            width = ChildBasedSizeConstraint()
-            height = filterHeight * 0.4
-        }.colors {
-            primaryColor = UIScheme.pfInputBg.toConstraint()
-            hoverColor = UIScheme.pfInputBgHovered.toConstraint()
+        } childOf bottomArea
+
+        brainFoodToggle = UIToggleCard(Requisite("brain_food", "Brain Food", true)) {
+            onFilterChange()
+        }.constrain {
+            x = CramSiblingConstraint(4f)
+            y = CramSiblingConstraint()
         } childOf bottomArea
     }
 
@@ -141,21 +135,6 @@ class UIFilterArea(private val filterHeight : YConstraint, var onFilterChange: (
             onFilterChange()
         }
         levelField.onChange = {
-            onFilterChange()
-        }
-        liquidField.onChange = {
-            onFilterChange()
-        }
-        killerField.onChange = {
-            onFilterChange()
-        }
-        endermanField.onChange = {
-            onFilterChange()
-        }
-        lootingField.onChange = {
-            onFilterChange()
-        }
-        brainFoodField.onChange = {
             onFilterChange()
         }
     }
@@ -170,11 +149,16 @@ class UIFilterArea(private val filterHeight : YConstraint, var onFilterChange: (
                 party.description.lowercase().contains(text)
             )) return@filter false
             if (levelField.getText().isNotEmpty() && party.level < levelField.getText().toInt()) return@filter false
-            if (party.liquid != liquidField.getSelectedValue().value) return@filter false
-            if (killerField.state && !party.getRequisite("has_killer", "Has Killer").value) return@filter false
-            if (endermanField.state && !party.getRequisite("enderman_9", "Enderman 9").value) return@filter false
-            if (lootingField.state && !party.getRequisite("looting_5", "Looting 5").value) return@filter false
-            if (brainFoodField.state && !party.getRequisite("brain_food", "Brain Food").value) return@filter false
+
+            if (waterToggle.selected && party.liquid != LiquidTypes.WATER) return@filter false
+            if (lavaToggle.selected && party.liquid != LiquidTypes.LAVA) return@filter false
+
+            if (canJoinToggle.selected && party.players.current >= party.players.max) return@filter false
+
+            if (killerToggle.selected && !party.getRequisite("has_killer", "Has Killer").value) return@filter false
+            if (endermanToggle.selected && !party.getRequisite("enderman_9", "Enderman 9").value) return@filter false
+            if (lootingToggle.selected && !party.getRequisite("looting_5", "Looting 5").value) return@filter false
+            if (brainFoodToggle.selected && !party.getRequisite("brain_food", "Brain Food").value) return@filter false
 
             return@filter true
         } as MutableList<FishingParty>
