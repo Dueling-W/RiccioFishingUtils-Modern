@@ -1,9 +1,11 @@
-# v1.9.0 - ???
+# v1.9.0 - Partying Visuals
 
 ### Features:
 - Added 26.1.2 support
 - Added a littlefoot alert (Haven't tested it, thats Narga's job)
 - Added volume sliders to all sounds that were missing it
+- Added the ability to more deeply customize each sea creature
+- Redesigned the party finder UI
 
 ### Changes:
 - Added a stability check before resizing hotspots
