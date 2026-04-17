@@ -114,6 +114,14 @@ object Party : RegisteredEvent {
             hypixelModAPI.sendPacket(ServerboundPartyInfoPacket())
         }
 
+        registerGameEvent("""Party > ($PLAYER_REGEX): .*""".toExactRegex()) { _, _, matches ->
+            val matchGroups = matches?.groupValues ?: return@registerGameEvent
+            val username = matchGroups[1].removeRankTag()
+            if (!members.containsKey(username)) {
+                requestPartyInfo()
+            }
+        }
+
         registerGameEvent(
             ("You left the party\\." +
                     "|You have been kicked from the party by $PLAYER_REGEX" +
