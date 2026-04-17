@@ -210,20 +210,21 @@ class UISeaCreatureEditor : UIContainer() {
 
     fun loadSc(sc: SeaCreatures?) {
         if (sc == null) return
-        currentSc = sc
+        val current = SeaCreatures.get(sc.scName) ?: sc
+        currentSc = current
         
         // Load data
-        nameInput.setText(sc.scName)
-        pluralInput.setText(sc.getPluralName())
-        articleInput.setText(sc.getArticle())
-        styleInput.setText(sc.getStyleCode().replace("§", "&"))
+        nameInput.setText(current.getNameWithoutArticle())
+        pluralInput.setText(current.getPluralName())
+        articleInput.setText(current.getArticle())
+        styleInput.setText(current.getStyleCode().replace("§", "&"))
         
-        specialCheckbox.state = sc.special
-        lsRangeCheckbox.state = sc.lsRangeEnabled
-        bossbarCheckbox.state = sc.bossbar
-        gdragAlertCheckbox.state = sc.gdragAlert
-        rareSCAlertCheckbox.state = sc.rareSCAlert
-        scDisplayColorInput.setText(sc.scDisplayColor.replace("§", "&"))
+        specialCheckbox.state = current.special
+        lsRangeCheckbox.state = current.lsRangeEnabled
+        bossbarCheckbox.state = current.bossbar
+        gdragAlertCheckbox.state = current.gdragAlert
+        rareSCAlertCheckbox.state = current.rareSCAlert
+        scDisplayColorInput.setText(current.scDisplayColor.replace("§", "&"))
         
         refreshEnabledStates()
         updatePreviews()
