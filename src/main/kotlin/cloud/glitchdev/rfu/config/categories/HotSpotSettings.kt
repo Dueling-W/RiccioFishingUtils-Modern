@@ -1,6 +1,7 @@
 package cloud.glitchdev.rfu.config.categories
 
 import cloud.glitchdev.rfu.config.Category
+import cloud.glitchdev.rfu.constants.HotspotType
 
 object HotSpotSettings : Category("Hot Spots") {
     init {
@@ -13,6 +14,26 @@ object HotSpotSettings : Category("Hot Spots") {
     var highlightHotSpots by boolean(true) {
         name = Literal("Highlight Hot Spots")
         description = Literal("Makes hotspots highlighted and hides the particles")
+    }
+
+    var hotspotPointer by observable(boolean(false) {
+        name = Literal("Hotspot Pointer")
+        description = Literal(
+            "Points a line to the best hotspot when hotspot fishing.\n" +
+                "Only points to hotspots that have had their HOTSPOT text previously seen on screen.\n" +
+                "Should be fine, but §cuse at your own risk!")
+    }) { _, _ -> reloadScreen() }
+
+    var hotspotPointerPriority by draggable(
+        HotspotType.DOUBLE_HOOK,
+        HotspotType.SEA_CREATURE,
+        HotspotType.FISHING_SPEED,
+        HotspotType.TROPHY_FISH,
+        HotspotType.TREASURE
+    ) {
+        name = Literal("Pointer Priority")
+        description = Literal("Drag to reorder the priority for the hotspot pointer.")
+        condition = { hotspotPointer }
     }
 
     init {

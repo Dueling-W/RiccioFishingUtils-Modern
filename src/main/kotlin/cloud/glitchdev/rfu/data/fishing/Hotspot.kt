@@ -2,6 +2,7 @@ package cloud.glitchdev.rfu.data.fishing
 
 import cloud.glitchdev.rfu.constants.FishingIslands
 import cloud.glitchdev.rfu.constants.HotSpotConstants
+import cloud.glitchdev.rfu.constants.HotspotType
 import cloud.glitchdev.rfu.constants.LiquidTypes
 import cloud.glitchdev.rfu.utils.World
 import net.minecraft.core.BlockPos
@@ -13,12 +14,13 @@ import kotlin.math.abs
 data class Hotspot(
     val uuid: UUID,
     val center: Vec3,
-    val buff: String,
+    var buff: String,
     var radius: Float = 0f,
-    val color: Color,
     val liquid: LiquidTypes,
     val startTime: Long = System.currentTimeMillis()
 ) {
+    val type: HotspotType get() = HotspotType.fromBuff(buff)
+    val color: Color get() = type.color
     val blockPos = BlockPos.containing(center.x, center.y, center.z)
     var island: FishingIslands? = World.island
     var lastUpdate = System.currentTimeMillis()

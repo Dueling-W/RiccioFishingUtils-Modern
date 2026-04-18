@@ -83,4 +83,10 @@ object HotspotCache {
             }
         }
     }
+
+    fun clearSessionBuffs() {
+        synchronized(cache) {
+            cache.values.forEach { it.clearSession() }
+        }
+    }
 }

@@ -38,7 +38,7 @@ object SeaCreatureConfig : Category("Sea Creatures") {
 
     var rareScGlow by boolean(false) {
         name = Literal("Rare SC Glow")
-        description = Literal("Makes rare sea creatures glow.")
+        description = Literal("Makes rare sea creatures glow.\n§cUse at your own risk!")
     }
 
     var timeToKill by boolean(true) {
