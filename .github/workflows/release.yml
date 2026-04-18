@@ -22,6 +22,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: true
 
       - name: Read version
         id: version
@@ -35,10 +37,11 @@ jobs:
           TITLE=$(head -n 1 CHANGELOG.md | sed 's/^# //')
           BODY=$(tail -n +2 CHANGELOG.md)
           echo "title=$TITLE" >> $GITHUB_OUTPUT
-          # Use a delimiter for multi-line body
-          echo "body<<EOF" >> $GITHUB_OUTPUT
+          
+          DELIMITER=$(openssl rand -hex 8)
+          echo "body<<$DELIMITER" >> $GITHUB_OUTPUT
           echo "$BODY" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "$DELIMITER" >> $GITHUB_OUTPUT
 
       - name: Build and Publish
         run: |
