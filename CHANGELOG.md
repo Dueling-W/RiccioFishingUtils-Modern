@@ -12,6 +12,7 @@
 
 ### Fixes:
 - Made party tracking also work with /stream command and upon inviting someone
+- Moved party api requests to a different thread to prevent lag spikes
 
 ### Back-end:
 - Added line rendering
