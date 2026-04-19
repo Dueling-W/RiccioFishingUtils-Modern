@@ -7,6 +7,7 @@
 - Added hotspot sharing
 
 ### Changes: 
+- Made the report/delete button in rfupf last a little bit so it is easier to click
 
 ### Fixes:
 - Made party tracking also work with /stream command
