@@ -20,7 +20,7 @@ object HotSpotSettings : Category("Hot Spots") {
         name = Literal("Hotspot Pointer")
         description = Literal(
             "Points a line to the best hotspot when hotspot fishing.\n" +
-                "Only points to hotspots that have had their HOTSPOT text previously seen on screen.\n" +
+                "Only points to hotspots that have had their HOTSPOT text previously seen on screen or hotspots who have had their coordinates shared.\n" +
                 "Should be fine, but §cuse at your own risk!")
     }) { _, _ -> reloadScreen() }
 
@@ -62,5 +62,25 @@ object HotSpotSettings : Category("Hot Spots") {
         range = 0f..1f
         slider = true
         condition = { hotspotExpiredAlert && hotspotExpiredSound }
+    }
+
+    init {
+        dualSeparator {
+            title = "Sharing"
+            description = "Share hotspots with your party!"
+        }
+    }
+
+    var shareHotspotAlert by observable(boolean(false) {
+        name = Literal("Share Hotspot Alert")
+        description = Literal("Sends a clickable chat message to share the hotspot with your party!")
+    }) { _, _ ->
+        reloadScreen()
+    }
+
+    var autoShareHotspot by boolean(false) {
+        name = Literal("Auto Share Hotspot")
+        description = Literal("Automatically shares the hotspot with your party when you're nearby!")
+        condition = { shareHotspotAlert }
     }
 }

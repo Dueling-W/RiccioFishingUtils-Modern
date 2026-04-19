@@ -25,6 +25,7 @@ data class Hotspot(
     var island: FishingIslands? = World.island
     var lastUpdate = System.currentTimeMillis()
     var isNotified = false
+    var isExternal = false
     var virtualParticleCount = 0
     var rangeEntryTime: Long? = null
 
