@@ -14,6 +14,7 @@
 ### Fixes:
 - Made party tracking also work with /stream command and upon inviting someone
 - Moved party api requests to a different thread to prevent lag spikes
+- Fixed pet level up title triggering on normal chat messages
 
 ### Back-end:
 - Added line rendering
