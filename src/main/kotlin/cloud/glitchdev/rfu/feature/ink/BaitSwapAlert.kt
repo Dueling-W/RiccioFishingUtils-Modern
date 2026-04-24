@@ -14,7 +14,6 @@ import net.minecraft.network.chat.Component
 
 @RFUFeature
 object BaitSwapAlert : Feature {
-    private var alertSent = false
     private var isNightSwap = false
     private var isDaySwap = false
 
@@ -26,41 +25,30 @@ object BaitSwapAlert : Feature {
                 val currentHour = World.SBHour
                 val currentMinute = World.SBMinute
 
-                alertSent = false
                 isNightSwap = false
                 isDaySwap = false
 
 
                 if(currentHour == 18 && currentMinute == 50) { // right before it becomes night
-                    Chat.sendMessage(Component.literal("Night swap set to true!"))
                     isNightSwap = true
                 } else if(currentHour == 5 && currentMinute == 50) {
-                    Chat.sendMessage(Component.literal("Day swap set to true!"))
                     isDaySwap = true
                 } else {
                     return@registerTickEvent
                 }
 
-                if(!alertSent) {
-                    alertSent = true
+                if(isNightSwap) {
 
-                    if(isNightSwap) {
-                        Chat.sendMessage(Component.literal("Should show alert!"))
-
-                        Title.showTitle("§4§lNight Time!", "§7Swap to Dark Bait!", 10, 20, 10)
-                        if (InkFishing.baitAlertSound) {
-                            Sounds.playSound("rfu:rain_expired", 1f, InkFishing.baitAlertVolume)
-                        }
-                    } else {
-                        Chat.sendMessage(Component.literal("Should show alert!"))
-                        Title.showTitle("§e§lDay Time!", "§7Swap to Carrot Bait!", 10, 20, 10)
-                        if (InkFishing.baitAlertSound) {
-                            Sounds.playSound("rfu:rain_expired", 1f, InkFishing.baitAlertVolume)
-                        }
+                    Title.showTitle("§4§lNight Time!", "§7Swap to Dark Bait!", 10, 20, 10)
+                    if (InkFishing.baitAlertSound) {
+                        Sounds.playSound("rfu:rain_expired", 1f, InkFishing.baitAlertVolume)
+                    }
+                } else {
+                    Title.showTitle("§e§lDay Time!", "§7Swap to Carrot Bait!", 10, 20, 10)
+                    if (InkFishing.baitAlertSound) {
+                        Sounds.playSound("rfu:rain_expired", 1f, InkFishing.baitAlertVolume)
                     }
                 }
-
-
 
 
             }
